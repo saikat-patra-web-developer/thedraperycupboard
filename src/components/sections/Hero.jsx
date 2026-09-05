@@ -36,7 +36,6 @@ function Hero({
           loop
           playsInline
           preload="metadata"
-          poster="/images/hero-1672.webp"
           aria-hidden="true"
         >
           <source src={video} type="video/mp4" />
