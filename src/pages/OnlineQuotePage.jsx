@@ -122,7 +122,7 @@ export default function OnlineQuotePage() {
   return <>
     <section className="relative overflow-hidden bg-forest text-white">
       <Img name="dining" alt="Made-to-measure blinds in a light-filled dining room" priority sizes="100vw" className="absolute inset-0 h-full w-full object-[center_55%]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-forest via-forest/90 to-forest/35" />
+      <div className="hero-shade absolute inset-0" />
       <div className="wrap relative py-10 sm:py-14">
         <div className="eyebrow !text-lime">Your space. Your measurements.</div>
         <h1 className="max-w-xl !text-4xl sm:!text-5xl">Beautiful blinds.<br />A clearer idea of price.</h1>

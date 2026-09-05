@@ -18,13 +18,15 @@ function Hero({
           : "min-h-[640px] sm:min-h-[660px] lg:min-h-[700px]")
       }
     >
-      <Img
-        name={image}
-        priority
-        sizes="100vw"
-        className="absolute inset-0 z-0 h-full w-full object-[center_52%]"
-        alt="Custom blinds in a light-filled New Zealand home"
-      />
+      {image && (
+        <Img
+          name={image}
+          priority
+          sizes="100vw"
+          className="absolute inset-0 z-0 h-full w-full object-[center_52%]"
+          alt="Custom blinds in a light-filled New Zealand home"
+        />
+      )}
       {video && (
         <video
           key={video}

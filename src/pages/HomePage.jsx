@@ -13,6 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero
+        image={null}
         video="https://videos.pexels.com/video-files/4010512/4010512-hd_1280_720_50fps.mp4"
         label="New Zealand’s trusted"
         title={
