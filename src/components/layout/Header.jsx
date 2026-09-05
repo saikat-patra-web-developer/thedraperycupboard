@@ -22,7 +22,7 @@ function Header({ path }) {
       }
     >
       <div className="wrap flex h-[72px] items-center justify-between gap-3 md:h-[84px] md:gap-6">
-        <Brand footer={overlaysHero} />
+        <Brand footer={overlaysHero} compact={overlaysHero} />
         <nav
           aria-label="Main navigation"
           className={
@@ -44,7 +44,7 @@ function Header({ path }) {
             </a>
           ))}
         </nav>
-        <div className="hidden sm:block">
+        <div className={overlaysHero ? "hidden md:block" : "hidden sm:block"}>
           <Button dark to="/online-quote">
             Get Online Quote
           </Button>
@@ -64,14 +64,14 @@ function Header({ path }) {
       {open && (
         <nav
           aria-label="Mobile navigation"
-          className="absolute top-full z-50 w-full border-t bg-white px-5 py-4 text-ink shadow-xl lg:hidden"
+          className="absolute top-full z-50 w-full border-t border-black/10 bg-white px-5 py-4 text-[#17241f] shadow-xl lg:hidden"
         >
           {nav.map(([name, url]) => (
             <a onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3.5 text-base font-semibold hover:bg-neutral-50" key={url} href={url}>
               {name}
             </a>
           ))}
-          <div className="mt-2 sm:hidden">
+          <div className={overlaysHero ? "mt-2 md:hidden" : "mt-2 sm:hidden"}>
             <Button dark to="/online-quote">
               Get Online Quote
             </Button>
