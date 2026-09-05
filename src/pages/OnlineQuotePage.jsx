@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { quoteRates, calculateWindow } from "../data/quoteRates.js";
 import { findProduct } from "../data/products.js";
 import Img from "../components/ui/Image.jsx";
 import Icon from "../components/ui/Icon.jsx";
@@ -8,6 +7,29 @@ import { contact } from "../data/contact.js";
 
 const money = amount => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(amount);
 const newWindow = id => ({ id, product: "roller-blinds", width: "", drop: "" });
+const priceApiUrl = "https://quotemyblinds.com/api/api/p/price";
+const webApiKey = "pmfQCWPkw1q";
+const quoteProducts = [
+  { slug: "roller-blinds", name: "Roller Blinds", apiType: "roller" },
+  { slug: "sunfilter-blinds", name: "Sunfilter Blinds", apiType: "sunfilter" },
+  { slug: "vertical-blinds", name: "Vertical Blinds", apiType: "vertical" },
+  { slug: "venetian-blinds", name: "Venetian Blinds", apiType: "venetian" },
+  { slug: "curtains", name: "Curtains", apiType: "curtains" },
+  { slug: "roman-curtains", name: "Roman Curtains", apiType: "roman_curtains" },
+  { slug: "zebra-blinds", name: "Zebra Blinds", apiType: "zebra" },
+  { slug: "honeycomb-blinds", name: "Honeycomb Blinds", apiType: "honeycomb" },
+  { slug: "verishade", name: "Verishade", apiType: "verishade" },
+  { slug: "roman-shades", name: "Roman Shades", apiType: "roman_shades" },
+  { slug: "shutters", name: "Shutters", apiType: "shutters" },
+  { slug: "pergola", name: "Pergola", apiType: "pergola" },
+  { slug: "outdoor-shades", name: "Outdoor Shades", apiType: "outdoor" },
+];
+
+function hasMeasurements(window) {
+  const width = Number(window.width);
+  const drop = Number(window.drop);
+  return Number.isFinite(width) && Number.isFinite(drop) && width > 0 && drop > 0;
+}
 
 function MeasurementGuide() {
   return <details className="rounded-xl border border-[#dedfd7] bg-white p-5 sm:p-6">
@@ -25,6 +47,7 @@ function MeasurementGuide() {
 
 export default function OnlineQuotePage() {
   const [windows, setWindows] = useState([newWindow(1)]);
+  const [pricing, setPricing] = useState({});
   const [showEnquiry, setShowEnquiry] = useState(false);
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "", address: "", note: "" });
   useEffect(() => {
@@ -40,11 +63,49 @@ export default function OnlineQuotePage() {
       document.removeEventListener("keydown", closeOnEscape);
     };
   }, [showEnquiry]);
-  const results = windows.map(calculateWindow);
-  const complete = results.filter(Boolean).length;
-  const ready = complete === windows.length;
+  useEffect(() => {
+    const controller = new AbortController();
+    const validWindows = windows.filter(hasMeasurements);
+
+    const timer = setTimeout(() => {
+      setPricing(current => ({
+        ...current,
+        ...Object.fromEntries(validWindows.map(window => [window.id, { status: "loading" }])),
+      }));
+      validWindows.forEach(async window => {
+        const product = quoteProducts.find(item => item.slug === window.product);
+        const params = new URLSearchParams({
+          web_api_key: webApiKey,
+          width: window.width,
+          drop: window.drop,
+          blinds_type: product.apiType,
+        });
+
+        try {
+          const response = await fetch(`${priceApiUrl}?${params}`, { signal: controller.signal });
+          if (!response.ok) throw new Error(`Pricing request failed (${response.status})`);
+          const data = await response.json();
+          const price = Number(data.price);
+          if (!Number.isFinite(price) || price < 0) throw new Error("Invalid pricing response");
+          setPricing(current => ({ ...current, [window.id]: { status: "success", total: price } }));
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            setPricing(current => ({ ...current, [window.id]: { status: "error" } }));
+          }
+        }
+      });
+    }, 350);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [windows]);
+  const results = windows.map(window => pricing[window.id]?.status === "success" ? pricing[window.id] : null);
+  const ready = windows.every(window => pricing[window.id]?.status === "success");
   const total = results.reduce((sum, result) => sum + Math.round((result?.total || 0) * 100), 0) / 100;
   function update(id, field, value) {
+    setPricing(current => ({ ...current, [id]: { status: "idle" } }));
     setWindows(current => current.map(window => window.id === id ? { ...window, [field]: value } : window));
   }
   function addWindow(copy) {
@@ -55,7 +116,7 @@ export default function OnlineQuotePage() {
   }
   const summary = windows.map((window, index) => `${`Window ${index + 1}`}: ${findProduct(window.product).name}, ${window.width} mm wide × ${window.drop} mm drop, estimate ${money(results[index]?.total || 0)}`).join("\n");
   const customerDetails = `Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone}\nAddress: ${customer.address}\nNote: ${customer.note}`;
-  const emailHref = `${contact.emailHref}?subject=${encodeURIComponent("Online blinds estimate enquiry")}&body=${encodeURIComponent("Customer details:\n" + customerDetails + "\n\nPlease confirm my blinds estimate:\n\n" + summary + "\n\nEstimated total: " + money(total) + " NZD\nBased on temporary online area rates. Please confirm final options, charges and measurements.")}`;
+  const emailHref = `${contact.emailHref}?subject=${encodeURIComponent("Online blinds estimate enquiry")}&body=${encodeURIComponent("Customer details:\n" + customerDetails + "\n\nPlease confirm my blinds estimate:\n\n" + summary + "\n\nEstimated total: " + money(total) + " NZD\nPlease confirm final options, charges and measurements.")}`;
 
   return <>
     <section className="relative overflow-hidden bg-forest text-white">
@@ -86,7 +147,7 @@ export default function OnlineQuotePage() {
                 <div className="grid items-center gap-4 rounded-xl bg-[#f7f7f3] p-3 sm:grid-cols-[100px_minmax(0,1fr)] sm:p-4">
                   <Img name={product.image} alt={product.name} sizes="(max-width: 639px) 100vw, 100px" className="h-36 w-full rounded-lg sm:h-24" />
                   <div className="grid min-w-0 gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(110px,.7fr)_minmax(110px,.7fr)]">
-                    <div className="min-w-0"><label htmlFor={`product-${window.id}`} className="font-semibold">Choose your product</label><select id={`product-${window.id}`} className="mt-2 !text-base" value={window.product} onChange={event => update(window.id,'product',event.target.value)}>{quoteRates.map(item => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select><p className="mt-2 text-xs text-moss">{money(quoteRates.find(item => item.slug === window.product).rate)} per m² · temporary rate</p></div>
+                    <div className="min-w-0"><label htmlFor={`product-${window.id}`} className="font-semibold">Choose your product</label><select id={`product-${window.id}`} className="mt-2 !text-base" value={window.product} onChange={event => update(window.id,'product',event.target.value)}>{quoteProducts.map(item => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select><p className="mt-2 text-xs text-moss">Live product pricing</p></div>
                     {[['width','Width','e.g. 1500'],['drop','Drop / height','e.g. 2000']].map(([field,label,placeholder]) => {
                       const value = Number(window[field]);
                       const invalid = window[field] !== '' && (!Number.isFinite(value) || value <= 0);
@@ -96,7 +157,7 @@ export default function OnlineQuotePage() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e9ede3] bg-[#f4f7ef] px-5 py-4 sm:px-6"><div><p className="text-xs font-semibold text-forest">Window estimate</p><p className="mt-1 text-xs text-neutral-500">{result ? `${result.area.toLocaleString('en-NZ',{maximumFractionDigits:4})} m² × ${money(result.rate)}/m²` : 'Add your measurements to calculate.'}</p></div><span className="text-xl font-semibold tabular-nums text-forest">{result ? money(result.total) : '—'}</span></div>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e9ede3] bg-[#f4f7ef] px-5 py-4 sm:px-6"><div><p className="text-xs font-semibold text-forest">Window estimate</p><p className={`mt-1 text-xs ${pricing[window.id]?.status === 'error' ? 'text-red-700' : 'text-neutral-500'}`}>{pricing[window.id]?.status === 'loading' ? 'Calculating live price…' : pricing[window.id]?.status === 'error' ? 'Price unavailable. Check your connection or measurements.' : result ? `${window.width} × ${window.drop} mm · Live price` : 'Add your measurements to calculate.'}</p></div><span className="text-xl font-semibold tabular-nums text-forest">{pricing[window.id]?.status === 'loading' ? '…' : result ? money(result.total) : '—'}</span></div>
             </fieldset>;
           })}
           <button type="button" className="flex min-h-16 w-full items-center justify-center gap-3 rounded-xl border border-dashed border-moss/40 bg-white px-5 py-4 text-sm font-semibold text-moss transition hover:border-moss hover:bg-[#f0f2e9]" onClick={() => addWindow()}><span className="text-xl" aria-hidden="true">+</span>Add Another Window</button>
