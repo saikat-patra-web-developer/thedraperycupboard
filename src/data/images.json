@@ -1,0 +1,200 @@
+{
+  "cellular": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/cellular-1536.webp",
+    "srcSet": "/images/cellular-480.webp 480w, /images/cellular-800.webp 800w, /images/cellular-1200.webp 1200w, /images/cellular-1536.webp 1536w"
+  },
+  "cleaning": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/cleaning-1536.webp",
+    "srcSet": "/images/cleaning-480.webp 480w, /images/cleaning-800.webp 800w, /images/cleaning-1200.webp 1200w, /images/cleaning-1536.webp 1536w"
+  },
+  "curtains": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/curtains-1536.webp",
+    "srcSet": "/images/curtains-480.webp 480w, /images/curtains-800.webp 800w, /images/curtains-1200.webp 1200w, /images/curtains-1536.webp 1536w"
+  },
+  "dining": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/dining-1536.webp",
+    "srcSet": "/images/dining-480.webp 480w, /images/dining-800.webp 800w, /images/dining-1200.webp 1200w, /images/dining-1536.webp 1536w"
+  },
+  "hero": {
+    "width": 1672,
+    "height": 941,
+    "src": "/images/hero-1672.webp",
+    "srcSet": "/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1672.webp 1672w"
+  },
+  "maintenance": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/maintenance-1536.webp",
+    "srcSet": "/images/maintenance-480.webp 480w, /images/maintenance-800.webp 800w, /images/maintenance-1200.webp 1200w, /images/maintenance-1536.webp 1536w"
+  },
+  "map": {
+    "width": 1254,
+    "height": 1254,
+    "src": "/images/map-1254.webp",
+    "srcSet": "/images/map-480.webp 480w, /images/map-800.webp 800w, /images/map-1200.webp 1200w, /images/map-1254.webp 1254w"
+  },
+  "motorisation": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/motorisation-1536.webp",
+    "srcSet": "/images/motorisation-480.webp 480w, /images/motorisation-800.webp 800w, /images/motorisation-1200.webp 1200w, /images/motorisation-1536.webp 1536w"
+  },
+  "pergola": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/pergola-1536.webp",
+    "srcSet": "/images/pergola-480.webp 480w, /images/pergola-800.webp 800w, /images/pergola-1200.webp 1200w, /images/pergola-1536.webp 1536w"
+  },
+  "project2": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/project2-1536.webp",
+    "srcSet": "/images/project2-480.webp 480w, /images/project2-800.webp 800w, /images/project2-1200.webp 1200w, /images/project2-1536.webp 1536w"
+  },
+  "project3": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/project3-1536.webp",
+    "srcSet": "/images/project3-480.webp 480w, /images/project3-800.webp 800w, /images/project3-1200.webp 1200w, /images/project3-1536.webp 1536w"
+  },
+  "project4": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/project4-1536.webp",
+    "srcSet": "/images/project4-480.webp 480w, /images/project4-800.webp 800w, /images/project4-1200.webp 1200w, /images/project4-1536.webp 1536w"
+  },
+  "roller": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/roller-1536.webp",
+    "srcSet": "/images/roller-480.webp 480w, /images/roller-800.webp 800w, /images/roller-1200.webp 1200w, /images/roller-1536.webp 1536w"
+  },
+  "roman-curtains": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/roman-curtains-1536.webp",
+    "srcSet": "/images/roman-curtains-480.webp 480w, /images/roman-curtains-800.webp 800w, /images/roman-curtains-1200.webp 1200w, /images/roman-curtains-1536.webp 1536w"
+  },
+  "roman": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/roman-1536.webp",
+    "srcSet": "/images/roman-480.webp 480w, /images/roman-800.webp 800w, /images/roman-1200.webp 1200w, /images/roman-1536.webp 1536w"
+  },
+  "shutters": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/shutters-1536.webp",
+    "srcSet": "/images/shutters-480.webp 480w, /images/shutters-800.webp 800w, /images/shutters-1200.webp 1200w, /images/shutters-1536.webp 1536w"
+  },
+  "sunscreen": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/sunscreen-1536.webp",
+    "srcSet": "/images/sunscreen-480.webp 480w, /images/sunscreen-800.webp 800w, /images/sunscreen-1200.webp 1200w, /images/sunscreen-1536.webp 1536w"
+  },
+  "team1": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/team1-1536.webp",
+    "srcSet": "/images/team1-480.webp 480w, /images/team1-800.webp 800w, /images/team1-1200.webp 1200w, /images/team1-1536.webp 1536w"
+  },
+  "team2": {
+    "width": 1606,
+    "height": 979,
+    "src": "/images/team2-1606.webp",
+    "srcSet": "/images/team2-480.webp 480w, /images/team2-800.webp 800w, /images/team2-1200.webp 1200w, /images/team2-1606.webp 1606w"
+  },
+  "team3": {
+    "width": 1643,
+    "height": 957,
+    "src": "/images/team3-1643.webp",
+    "srcSet": "/images/team3-480.webp 480w, /images/team3-800.webp 800w, /images/team3-1200.webp 1200w, /images/team3-1643.webp 1643w"
+  },
+  "venetian": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/venetian-1536.webp",
+    "srcSet": "/images/venetian-480.webp 480w, /images/venetian-800.webp 800w, /images/venetian-1200.webp 1200w, /images/venetian-1536.webp 1536w"
+  },
+  "verishade": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/verishade-1536.webp",
+    "srcSet": "/images/verishade-480.webp 480w, /images/verishade-800.webp 800w, /images/verishade-1200.webp 1200w, /images/verishade-1536.webp 1536w"
+  },
+  "vertical": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/vertical-1536.webp",
+    "srcSet": "/images/vertical-480.webp 480w, /images/vertical-800.webp 800w, /images/vertical-1200.webp 1200w, /images/vertical-1536.webp 1536w"
+  },
+  "vision": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/vision-1536.webp",
+    "srcSet": "/images/vision-480.webp 480w, /images/vision-800.webp 800w, /images/vision-1200.webp 1200w, /images/vision-1536.webp 1536w"
+  },
+  "sunfilter": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/sunscreen-1536.webp",
+    "srcSet": "/images/sunscreen-480.webp 480w, /images/sunscreen-800.webp 800w, /images/sunscreen-1200.webp 1200w, /images/sunscreen-1536.webp 1536w"
+  },
+  "zebra": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/vision-1536.webp",
+    "srcSet": "/images/vision-480.webp 480w, /images/vision-800.webp 800w, /images/vision-1200.webp 1200w, /images/vision-1536.webp 1536w"
+  },
+  "honeycomb": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/cellular-1536.webp",
+    "srcSet": "/images/cellular-480.webp 480w, /images/cellular-800.webp 800w, /images/cellular-1200.webp 1200w, /images/cellular-1536.webp 1536w"
+  },
+  "roman-shades": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/roman-1536.webp",
+    "srcSet": "/images/roman-480.webp 480w, /images/roman-800.webp 800w, /images/roman-1200.webp 1200w, /images/roman-1536.webp 1536w"
+  },
+  "outdoor-shades": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/project4-1536.webp",
+    "srcSet": "/images/project4-480.webp 480w, /images/project4-800.webp 800w, /images/project4-1200.webp 1200w, /images/project4-1536.webp 1536w"
+  },
+  "story": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/dining-1536.webp",
+    "srcSet": "/images/dining-480.webp 480w, /images/dining-800.webp 800w, /images/dining-1200.webp 1200w, /images/dining-1536.webp 1536w"
+  },
+  "installation": {
+    "width": 1672,
+    "height": 941,
+    "src": "/images/hero-1672.webp",
+    "srcSet": "/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1672.webp 1672w"
+  },
+  "automation": {
+    "width": 1536,
+    "height": 1024,
+    "src": "/images/motorisation-1536.webp",
+    "srcSet": "/images/motorisation-480.webp 480w, /images/motorisation-800.webp 800w, /images/motorisation-1200.webp 1200w, /images/motorisation-1536.webp 1536w"
+  },
+  "project1": {
+    "width": 1672,
+    "height": 941,
+    "src": "/images/hero-1672.webp",
+    "srcSet": "/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1672.webp 1672w"
+  }
+}
