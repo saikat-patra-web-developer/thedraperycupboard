@@ -18,7 +18,7 @@ export default function ProductsPage() {
         </div>
       </Hero>
       <section className="wrap section">
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="eyebrow">Our complete collection</div>
           <h2>Possibilities for Every Space.</h2>
         </div>

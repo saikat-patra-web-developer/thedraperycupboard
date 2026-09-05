@@ -3,7 +3,7 @@ function Faq({ items }) {
     <div>
       {items.map(([q, a]) => (
         <details className="border-b border-neutral-200" key={q}>
-          <summary className="flex items-center justify-between gap-5 py-4 text-xs font-semibold">
+          <summary className="flex min-h-14 items-center justify-between gap-5 py-4 text-sm font-semibold">
             {q}
             <span className="plus text-lg font-normal transition">+</span>
           </summary>

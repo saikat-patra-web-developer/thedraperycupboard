@@ -33,16 +33,16 @@ function Process() {
   return (
     <section className="wrap section text-center">
       <Heading label="Our process" title="Simple. Seamless. Stress-Free." />
-      <div className="mt-7 grid grid-cols-2 gap-7 md:grid-cols-5">
+      <div className="mt-10 grid grid-cols-1 gap-9 sm:grid-cols-2 lg:grid-cols-5">
         {steps.map(([icon, title, description], index) => (
           <div key={title}>
             <span className="mx-auto mb-4 flex size-14 items-center justify-center rounded-full border border-moss/30 bg-white text-moss">
               <Icon name={icon} />
             </span>
-            <b className="text-xs">
+            <b className="text-sm">
               {index + 1}. {title}
             </b>
-            <p className="muted mx-auto mt-2 max-w-40 !text-xs">
+            <p className="muted mx-auto mt-2 max-w-48 !text-sm">
               {description}
             </p>
           </div>

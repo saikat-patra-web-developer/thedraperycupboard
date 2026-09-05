@@ -15,7 +15,7 @@ export default function ResourcesPage() {
         description="Helpful guidance to choose, measure and care for your blinds."
       />
       <section className="wrap section">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {[
             [
               "Measuring Guide",
@@ -30,7 +30,7 @@ export default function ResourcesPage() {
               "Contact our team with your order reference for warranty support or delivery updates. Warranty coverage and delivery timing depend on the product and your location.",
             ],
           ].map(([t, d]) => (
-            <article className="card p-7" key={t}>
+            <article className="card p-6 sm:p-7" key={t}>
               <Icon name="blinds" className="mb-5 text-moss" />
               <h3>{t}</h3>
               <p className="muted mt-4">{d}</p>
@@ -40,7 +40,7 @@ export default function ResourcesPage() {
             </article>
           ))}
         </div>
-        <div id="faq" className="mt-9">
+        <div id="faq" className="mt-12 md:mt-16">
           <h2>Frequently Asked Questions</h2>
           <div className="mt-5">
             <Faq items={faqs} />

@@ -12,7 +12,7 @@ export default function ProjectsPage() {
         title="Real Spaces. Beautiful Results."
         description="Explore spaces transformed with premium blinds, made for the way you live."
       />
-      <section className="wrap section grid gap-8 md:grid-cols-2">
+      <section className="wrap section grid gap-8 sm:grid-cols-2">
         {[
           "Modern Coastal Home",
           "Luxury Apartment",
@@ -25,7 +25,7 @@ export default function ProjectsPage() {
               alt={t}
               className="aspect-[1.8] w-full"
             />
-            <div className="p-6">
+            <div className="p-6 sm:p-7">
               <h3>{t}</h3>
               <p className="muted mt-3">
                 Natural light, effortless privacy and a finish tailored to the

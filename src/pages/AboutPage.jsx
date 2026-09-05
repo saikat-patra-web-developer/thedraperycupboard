@@ -28,7 +28,7 @@ export default function AboutPage() {
           <Button outline>Get in Touch</Button>
         </div>
       </Hero>
-      <section className="wrap section grid gap-12 md:grid-cols-[.85fr_1.15fr] md:items-center">
+      <section className="wrap section grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
         <div>
           <Heading
             label="Our story"
@@ -59,8 +59,8 @@ export default function AboutPage() {
         />
       </section>
       <Process />
-      <section className="grid sm:grid-cols-2 md:grid-cols-3">
-        <div className="bg-[#f0efeb] p-10">
+      <section className="grid sm:grid-cols-2 lg:grid-cols-3">
+        <div className="bg-[#f0efeb] p-7 sm:p-10">
           <Heading
             label="Our values"
             title={
@@ -90,14 +90,14 @@ export default function AboutPage() {
               <div className="feature" key={a}>
                 <Icon name="leaf" className="text-moss" />
                 <div>
-                  <b className="text-xs">{a}</b>
-                  <p className="muted !text-xs">{b}</p>
+                  <b className="text-sm">{a}</b>
+                  <p className="muted !text-sm">{b}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="bg-[#e9e8e2] p-10">
+        <div className="bg-[#e9e8e2] p-7 sm:p-10">
           <Heading label="Quality & warranty" title="Confidence Built In." />
           <p className="muted my-5">
             We stand behind our blinds with warranties and a commitment to
@@ -108,8 +108,8 @@ export default function AboutPage() {
               <div className="feature mb-7" key={t}>
                 <Icon className="text-moss" name="shield" />
                 <div>
-                  <b className="text-xs">{t}</b>
-                  <p className="muted !text-xs">Quality you can count on.</p>
+                  <b className="text-sm">{t}</b>
+                  <p className="muted !text-sm">Quality you can count on.</p>
                 </div>
               </div>
             ),
@@ -118,7 +118,7 @@ export default function AboutPage() {
         <Img
           name="shutters"
           alt="Quality white plantation shutters"
-          className="h-full min-h-72 w-full"
+          className="h-full min-h-80 w-full sm:col-span-2 lg:col-span-1"
         />
       </section>
       <Coverage />
@@ -143,9 +143,9 @@ export default function AboutPage() {
               alt={n}
               className="aspect-[1.8] w-full"
             />
-            <div className="p-4">
-              <b className="text-xs">{n}</b>
-              <p className="muted !text-xs">{r}</p>
+            <div className="p-5">
+              <b className="text-sm">{n}</b>
+              <p className="muted !text-sm">{r}</p>
               <a href="/contact" className="text-link mt-3">
                 Get in touch <Arrow />
               </a>
@@ -153,7 +153,7 @@ export default function AboutPage() {
           </article>
         ))}
       </section>
-      <section className="bg-forest py-7 text-white">
+      <section className="bg-forest py-10 text-white md:py-12">
         <div className="wrap grid grid-cols-1 gap-6 sm:grid-cols-3">
           {[
             ["250,000+", "Blinds Supplied Across NZ"],
@@ -164,7 +164,7 @@ export default function AboutPage() {
               <Icon name="shield" size={35} className="text-lime" />
               <div>
                 <h3 className="!text-3xl">{n}</h3>
-                <p className="mt-2 text-xs">{t}</p>
+                <p className="mt-2 text-sm">{t}</p>
               </div>
             </div>
           ))}

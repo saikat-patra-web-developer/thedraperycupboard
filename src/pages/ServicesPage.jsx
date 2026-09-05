@@ -38,11 +38,11 @@ export default function ServicesPage() {
         <div className="mb-7 text-center">
           <Heading label="Our services" title="Solutions for Every Space" />
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           {services.map(([t, id, d, ic]) => (
             <article className="card scroll-mt-6" key={id} id={id}>
               <Img name={id} alt={t} className="h-44 w-full" />
-              <div className="relative p-5 pt-8">
+              <div className="relative p-6 pt-9">
                 <div className="absolute -top-6 flex size-12 items-center justify-center rounded-full bg-forest text-lime">
                   <Icon name={ic} />
                 </div>
@@ -58,7 +58,7 @@ export default function ServicesPage() {
       </section>
       <Process />
       <div className="grid bg-white md:grid-cols-2">
-        <div className="p-8 md:p-14">
+        <div className="p-7 sm:p-10 lg:p-14">
           <Heading
             label="Why choose The Drapery Cupboard"
             title={
@@ -82,8 +82,8 @@ export default function ServicesPage() {
               <div className="feature" key={t}>
                 <Icon name={ic} className="text-moss" />
                 <div>
-                  <b className="text-xs">{t}</b>
-                  <p className="muted mt-2 !text-[11px]">{d}</p>
+                  <b className="text-sm">{t}</b>
+                  <p className="muted mt-2 !text-sm">{d}</p>
                 </div>
               </div>
             ))}

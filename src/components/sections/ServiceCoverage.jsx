@@ -6,7 +6,7 @@ import Heading from "../ui/SectionHeading.jsx";
 function Coverage() {
   return (
     <section className="bg-[#eeefe8]">
-      <div className="wrap grid gap-8 py-10 md:grid-cols-[1fr_1fr_1fr] md:items-center">
+      <div className="wrap grid gap-10 py-12 md:py-16 lg:grid-cols-[1fr_1fr_1fr] lg:items-center">
         <div>
           <Heading
             label="Proudly serving New Zealand"
@@ -26,7 +26,7 @@ function Coverage() {
             className="h-60 w-full object-contain mix-blend-multiply"
           />
         </div>
-        <div className="grid grid-cols-2 gap-3 rounded-lg bg-white p-6 text-xs">
+        <div className="grid grid-cols-2 gap-4 rounded-xl bg-white p-6 text-sm shadow-sm sm:p-8">
           {[
             "Northland",
             "Auckland",

@@ -34,9 +34,9 @@ export default function EnquiryForm() {
     }
   }
   return (
-    <form onSubmit={submit} className="card min-w-0 p-5 sm:p-6 md:p-8">
+    <form onSubmit={submit} className="card min-w-0 p-5 sm:p-7 lg:p-9">
       <h2 className="!text-3xl">Request a Quote</h2>
-      <p className="mt-2 text-[11px] text-neutral-500">
+      <p className="mt-2 text-xs text-neutral-500">
         Fields marked * are required
       </p>
       <p className="mb-4 mt-6 text-xs font-semibold text-moss">Your Details</p>
@@ -164,7 +164,7 @@ export default function EnquiryForm() {
           }}
           className="border-dashed"
         />
-        <span className="mt-2 block text-[10px] text-neutral-500">
+        <span className="mt-2 block text-xs text-neutral-500">
           {files.length
             ? files.join(", ")
             : "PDF, JPG or PNG up to 10MB. Attach files separately when emailing your enquiry."}
@@ -202,7 +202,7 @@ export default function EnquiryForm() {
           </a>
         </div>
       )}
-      <p className="mt-4 text-[10px] text-neutral-500">
+      <p className="mt-4 text-xs text-neutral-500">
         Prepare your enquiry here, then send it using your email app.
       </p>
     </form>

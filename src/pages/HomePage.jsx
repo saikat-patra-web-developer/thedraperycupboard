@@ -39,7 +39,7 @@ export default function HomePage() {
             Get a Free Quote
           </Button>
         </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-6">
+        <div className="mt-9 grid gap-5 sm:grid-cols-3 sm:gap-7">
           {[
             ["leaf", "NZ Owned &", "Operated"],
             ["shield", "Premium Quality", "Guaranteed"],
@@ -47,7 +47,7 @@ export default function HomePage() {
           ].map(([icon, a, b]) => (
             <div className="flex items-center gap-3" key={a}>
               <Icon name={icon} size={25} />
-              <span className="text-[11px] leading-4">
+              <span className="text-sm leading-5">
                 {a}
                 <br />
                 {b}
@@ -57,7 +57,7 @@ export default function HomePage() {
         </div>
       </Hero>
       <section className="wrap section">
-        <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+        <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <Heading
               label="Our range"
@@ -73,7 +73,7 @@ export default function HomePage() {
         </div>
       </section>
       <Features />
-      <section className="wrap grid gap-9 py-7 md:grid-cols-[.85fr_1.15fr] md:items-center">
+      <section className="wrap section grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
         <div>
           <Heading
             label="About The Drapery Cupboard"
@@ -91,7 +91,7 @@ export default function HomePage() {
             Our focus is simple: premium products, competitive pricing, and
             personalised service from start to finish.
           </Heading>
-          <div className="my-5 flex flex-wrap gap-4 text-[10px]">
+          <div className="my-6 flex flex-wrap gap-4 text-sm">
             {[
               "NZ Owned & Operated",
               "Made to Measure",
@@ -110,12 +110,12 @@ export default function HomePage() {
         <Img
           name="dining"
           alt="Dining room with custom roller blinds overlooking a New Zealand bay"
-          className="h-[240px] w-full rounded-xl sm:h-[300px]"
+          className="h-[280px] w-full rounded-xl sm:h-[360px]"
         />
       </section>
-      <section className="bg-forest py-7 text-white">
+      <section className="bg-forest py-12 text-white md:py-16">
         <div className="wrap">
-          <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+          <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
             <div>
               <Heading
                 label="Projects & inspiration"
@@ -126,7 +126,7 @@ export default function HomePage() {
               View all projects <Arrow />
             </a>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {[
               "Modern Coastal Home",
               "Luxury Apartment",
@@ -137,9 +137,9 @@ export default function HomePage() {
                 <Img
                   name={"project" + (i + 1)}
                   alt={t}
-                  className="h-[155px] w-full rounded-lg"
+                  className="h-[220px] w-full rounded-xl"
                 />
-                <div className="mt-2 flex justify-between text-xs">
+                <div className="mt-3 flex justify-between text-sm font-medium">
                   {t}
                   <Arrow />
                 </div>
@@ -148,11 +148,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="wrap py-7">
+      <section className="wrap section">
         <div className="text-center">
           <Heading label="Our services" title="More Than Just Blinds" />
         </div>
-        <div className="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid grid-cols-1 gap-7 sm:grid-cols-2 xl:grid-cols-4">
           {[
             [
               "tools",
@@ -178,8 +178,8 @@ export default function HomePage() {
             <a href="/services" className="feature" key={t}>
               <Icon name={icon} className="text-moss" />
               <div>
-                <b className="text-xs">{t}</b>
-                <p className="mt-1 max-w-36 text-[11px] text-neutral-600">
+                <b className="text-sm">{t}</b>
+                <p className="mt-1 max-w-48 text-sm leading-relaxed text-neutral-600">
                   {d}
                 </p>
               </div>

@@ -12,7 +12,7 @@ function Hero({
     <section
       className={
         "relative overflow-hidden bg-forest text-white " +
-        (compact ? "min-h-[340px] md:min-h-[380px]" : "min-h-[440px] md:min-h-[495px]")
+        (compact ? "min-h-[380px] md:min-h-[430px]" : "min-h-[500px] md:min-h-[550px]")
       }
     >
       <Img
@@ -23,11 +23,11 @@ function Hero({
         alt="Custom blinds in a light-filled New Zealand home"
       />
       <div className="hero-shade absolute inset-0" />
-      <div className={"wrap relative " + (compact ? "py-10 md:py-14" : "py-10 md:py-12")}>
+      <div className={"wrap relative flex min-h-[inherit] items-center " + (compact ? "py-12 md:py-16" : "py-12 md:py-16")}>
         <div className="max-w-[560px]">
           <div className="eyebrow !text-lime">{label}</div>
           <h1>{title}</h1>
-          <p className="mt-5 max-w-[405px] text-sm leading-relaxed text-white/90">
+          <p className="mt-5 max-w-[440px] text-base leading-relaxed text-white/90">
             {description}
           </p>
           {children}

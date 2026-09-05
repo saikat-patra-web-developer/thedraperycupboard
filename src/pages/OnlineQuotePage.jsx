@@ -32,17 +32,18 @@ function hasMeasurements(window) {
 }
 
 function MeasurementGuide() {
-  return <details className="rounded-xl border border-[#dedfd7] bg-white p-5 sm:p-6">
-    <summary className="flex min-h-11 items-center justify-between gap-4 text-sm font-semibold"><span className="flex items-center gap-3"><Icon name="blinds" size={22} className="text-moss" />How to measure your window</span><span className="plus text-xl" aria-hidden="true">+</span></summary>
+  return <section className="rounded-xl border border-[#dedfd7] bg-white p-5 sm:p-6" aria-labelledby="measurement-guide-title">
+    <div id="measurement-guide-title" className="flex min-h-11 items-center gap-3 text-sm font-semibold"><Icon name="blinds" size={22} className="text-moss" />How to measure your window</div>
     <div className="mt-5 grid items-center gap-6 border-t border-neutral-100 pt-5 sm:grid-cols-[150px_1fr]">
       <svg viewBox="0 0 180 180" role="img" aria-label="Measure width horizontally and drop vertically" className="mx-auto w-40 text-moss" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M30 45h100v110H30zM35 52h90M35 60h90M35 68h90M35 76h90M35 84h90M35 92h90M80 96v54" />
         <path d="M30 30h100m-94-5-6 5 6 5m88-10 6 5-6 5M148 45v110m-5-104 5-6 5 6m-10 98 5 6 5-6" />
-        <text x="80" y="18" textAnchor="middle" fill="currentColor" stroke="none" fontSize="11">WIDTH</text><text x="170" y="102" textAnchor="middle" fill="currentColor" stroke="none" fontSize="10" transform="rotate(90 170 102)">DROP</text>
+        <text x="80" y="18" textAnchor="middle" fill="currentColor" stroke="none" fontSize="11">WIDTH</text>
+        <text x="166" y="100" textAnchor="middle" dominantBaseline="middle" fill="currentColor" stroke="none" fontSize="10" letterSpacing="0.6" transform="rotate(-90 166 100)">DROP</text>
       </svg>
       <div className="space-y-3 text-sm leading-relaxed text-neutral-600"><p><strong className="text-forest">Width:</strong> measure from left to right. <strong className="text-forest">Drop:</strong> measure from top to bottom.</p><p>Enter millimetres: 1,000 mm = 1 metre. Use your approximate dimensions for this estimate; we’ll confirm the final measurements and mounting position before ordering.</p><p className="text-xs">For outdoor products, use the proposed opening dimensions and ask our team to confirm the configuration.</p></div>
     </div>
-  </details>;
+  </section>;
 }
 
 export default function OnlineQuotePage() {
@@ -125,14 +126,14 @@ export default function OnlineQuotePage() {
       <div className="wrap relative py-10 sm:py-14">
         <div className="eyebrow !text-lime">Your space. Your measurements.</div>
         <h1 className="max-w-xl !text-4xl sm:!text-5xl">Beautiful blinds.<br />A clearer idea of price.</h1>
-        <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/80">Build your estimate in a few simple steps. Choose your style, add your measurements and see your price instantly.</p>
-        <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-xs text-white/90">{["Instant estimate", "Made to measure", "No obligation"].map(text => <span key={text} className="flex items-center gap-2"><Icon size={16} className="text-lime" />{text}</span>)}</div>
+        <p className="mt-5 max-w-lg text-base leading-relaxed text-white/80">Build your estimate in a few simple steps. Choose your style, add your measurements and see your price instantly.</p>
+        <div className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-sm text-white/90">{["Instant estimate", "Made to measure", "No obligation"].map(text => <span key={text} className="flex items-center gap-2"><Icon size={17} className="text-lime" />{text}</span>)}</div>
       </div>
     </section>
     <section className="wrap py-8 sm:py-12">
       <div className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#e2e3da] bg-[#f0f2e9] px-5 py-4">
-        <p className="flex items-start gap-3 text-xs leading-relaxed text-neutral-600"><Icon name="shield" size={20} className="text-moss" /><span><strong className="text-forest">Preview pricing.</strong> Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</span></p>
-        <span className="shrink-0 text-xs font-semibold text-moss">All prices in NZD</span>
+        <p className="flex items-start gap-3 text-sm leading-relaxed text-neutral-600"><Icon name="shield" size={20} className="text-moss" /><span><strong className="text-forest">Preview pricing.</strong> Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</span></p>
+        <span className="shrink-0 text-sm font-semibold text-moss">All prices in NZD</span>
       </div>
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:gap-9">
         <div className="min-w-0 space-y-5">
@@ -153,7 +154,7 @@ export default function OnlineQuotePage() {
                       const invalid = window[field] !== '' && (!Number.isFinite(value) || value <= 0);
                       return <label key={field} htmlFor={`${field}-${window.id}`}>{label} (mm)<input id={`${field}-${window.id}`} aria-invalid={invalid} aria-describedby={invalid ? `error-${field}-${window.id}` : undefined} className="!text-base aria-invalid:border-red-600" type="number" inputMode="decimal" min="0" step="any" value={window[field]} placeholder={placeholder} onChange={event => update(window.id,field,event.target.value)} />{invalid && <span id={`error-${field}-${window.id}`} className="mt-2 block text-xs text-red-700">Enter a measurement greater than zero.</span>}</label>;
                     })}
-                    <p className="text-[11px] leading-relaxed text-neutral-500 md:col-span-3 md:whitespace-nowrap">Includes tube, bottom rail, end caps, brackets, chain, and standard fittings.</p>
+                    <p className="text-xs leading-relaxed text-neutral-500 md:col-span-3">Includes tube, bottom rail, end caps, brackets, chain, and standard fittings.</p>
                   </div>
                 </div>
               </div>
@@ -170,7 +171,7 @@ export default function OnlineQuotePage() {
               <div className="max-h-72 space-y-4 overflow-y-auto pr-1">{windows.map((window,index) => <div key={window.id} className="flex items-start justify-between gap-4 border-b border-neutral-100 pb-4 text-sm"><div className="min-w-0"><p className="break-words font-semibold">{`Window ${index + 1}`}</p><p className="mt-1 text-xs text-neutral-500">{findProduct(window.product).name}</p><p className="mt-1 text-xs text-neutral-500">{results[index] ? `${window.width} × ${window.drop} mm` : 'Measurements needed'}</p></div><span className="shrink-0 font-semibold tabular-nums">{results[index] ? money(results[index].total) : '—'}</span></div>)}</div>
               <div className="py-6" aria-live="polite" aria-atomic="true"><p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">Estimated total</p><p className="text-4xl font-semibold tracking-tight text-forest tabular-nums">{ready ? money(total) : '—'} <span className="text-xs font-normal tracking-normal text-neutral-500">NZD</span></p><p className="mt-2 text-xs text-neutral-500">{ready ? 'Based on your selected products and measurements.' : 'Complete all measurements to see your total.'}</p></div>
               {ready ? <button className="btn w-full" type="button" onClick={() => setShowEnquiry(true)}>Enquire About This Quote <Arrow /></button> : <button type="button" disabled className="btn w-full cursor-not-allowed opacity-50">Enquire About This Quote <Arrow /></button>}
-              <p className="mt-3 text-center text-[11px] leading-relaxed text-neutral-500">Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</p>
+              <p className="mt-3 text-center text-xs leading-relaxed text-neutral-500">Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</p>
             </div>
           </div>
           <div className="flex items-start gap-4 rounded-xl bg-[#edf0e7] p-5"><Icon name="headset" className="text-moss" /><div><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">A little help from our team?</h3><p className="mt-2 text-xs leading-relaxed text-neutral-600">We can help with product choices and measurements.</p><a href={contact.phones[0].href} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-moss">{contact.phones[0].label} <Arrow /></a></div></div>
