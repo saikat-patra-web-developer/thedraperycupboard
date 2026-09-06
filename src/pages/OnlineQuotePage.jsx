@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { findProduct } from "../data/products.js";
 import Img from "../components/ui/Image.jsx";
 import Icon from "../components/ui/Icon.jsx";
@@ -7,9 +7,10 @@ import { contact } from "../data/contact.js";
 
 const money = amount => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(amount);
 const newWindow = id => ({ id, product: "roller-blinds", width: "", drop: "" });
-const priceApiUrl = "https://quotemyblinds.com/api/api/p/price";
-const enquiryApiUrl = "https://quotemyblinds.com/api/api/p/enquiry";
-const webApiKey = "pmfQCWPkw1q";
+const apiBaseUrl = (import.meta.env.VITE_QMB_API_URL || "https://quotemyblinds.com/api/api/p").replace(/\/+$/, "");
+const priceApiUrl = `${apiBaseUrl}/price`;
+const enquiryApiUrl = `${apiBaseUrl}/enquiry`;
+const webApiKey = (import.meta.env.VITE_QMB_WEB_API_KEY || "pmfQCWPkw1q").trim();
 const quoteProducts = [
   { slug: "roller-blinds", name: "Roller Blinds", apiType: "roller" },
   { slug: "sunfilter-blinds", name: "Sunfilter Blinds", apiType: "sunfilter" },
@@ -55,8 +56,11 @@ export default function OnlineQuotePage() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [honeypot, setHoneypot] = useState("");
+  const modalOpenedAtRef = useRef(0);
   useEffect(() => {
     if (!showEnquiry) return;
+    modalOpenedAtRef.current = typeof performance !== "undefined" ? performance.now() : 0;
     const closeOnEscape = event => {
       if (event.key === "Escape") setShowEnquiry(false);
     };
@@ -125,14 +129,26 @@ export default function OnlineQuotePage() {
     setSubmitting(true);
     setSubmitError("");
 
+    // Anti-bot defense: check honeypot or sub-second submission
+    const openedAt = modalOpenedAtRef.current;
+    const elapsed = openedAt > 0 && event.timeStamp ? event.timeStamp - openedAt : 2000;
+    if (honeypot || (elapsed > 0 && elapsed < 1200)) {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setSubmitted(true);
+      setSubmitting(false);
+      return;
+    }
+
     const payload = {
       web_api_key: webApiKey,
-      customer_email: customer.email,
-      customer_name: customer.name,
-      customer_phone: customer.phone,
+      website_hp_key: honeypot,
+      _sub_time: Math.round(event.timeStamp || 0),
+      customer_email: customer.email.trim().toLowerCase(),
+      customer_name: customer.name.trim(),
+      customer_phone: customer.phone.trim(),
       customer_data: {
-        address: customer.address,
-        note: customer.note,
+        address: customer.address.trim(),
+        note: customer.note.trim(),
       },
       enquiry_data: {
         total,
@@ -141,7 +157,7 @@ export default function OnlineQuotePage() {
           product: quoteWindow.product,
           width: Number(quoteWindow.width),
           drop: Number(quoteWindow.drop),
-          price: results[index].total,
+          price: results[index]?.total || 0,
         })),
       },
       source_url: window.location.href,
@@ -260,6 +276,31 @@ export default function OnlineQuotePage() {
           </div>
         ) : (
           <form className="p-5 sm:p-6" onSubmit={handleEnquirySubmit}>
+            {/* Anti-bot honeypot field - invisible to human visitors */}
+            <div
+              style={{
+                position: "absolute",
+                left: "-9999px",
+                width: "1px",
+                height: "1px",
+                opacity: 0,
+                pointerEvents: "none",
+                overflow: "hidden",
+              }}
+              aria-hidden="true"
+            >
+              <label htmlFor="website_hp_key">Leave empty</label>
+              <input
+                type="text"
+                id="website_hp_key"
+                name="website_hp_key"
+                value={honeypot}
+                onChange={event => setHoneypot(event.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             {submitError && (
               <div role="alert" className="mb-5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-800">
                 <p className="font-semibold">{submitError}</p>
