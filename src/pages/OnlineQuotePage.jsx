@@ -8,6 +8,7 @@ import { contact } from "../data/contact.js";
 const money = amount => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(amount);
 const newWindow = id => ({ id, product: "roller-blinds", width: "", drop: "" });
 const priceApiUrl = "https://quotemyblinds.com/api/api/p/price";
+const enquiryApiUrl = "https://quotemyblinds.com/api/api/p/enquiry";
 const webApiKey = "pmfQCWPkw1q";
 const quoteProducts = [
   { slug: "roller-blinds", name: "Roller Blinds", apiType: "roller" },
@@ -51,6 +52,9 @@ export default function OnlineQuotePage() {
   const [pricing, setPricing] = useState({});
   const [showEnquiry, setShowEnquiry] = useState(false);
   const [customer, setCustomer] = useState({ name: "", email: "", phone: "", address: "", note: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   useEffect(() => {
     if (!showEnquiry) return;
     const closeOnEscape = event => {
@@ -115,9 +119,57 @@ export default function OnlineQuotePage() {
   function updateCustomer(field, value) {
     setCustomer(current => ({ ...current, [field]: value }));
   }
-  const summary = windows.map((window, index) => `${`Window ${index + 1}`}: ${findProduct(window.product).name}, ${window.width} mm wide × ${window.drop} mm drop, estimate ${money(results[index]?.total || 0)}`).join("\n");
-  const customerDetails = `Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone}\nAddress: ${customer.address}\nNote: ${customer.note}`;
-  const emailHref = `${contact.emailHref}?subject=${encodeURIComponent("Online blinds estimate enquiry")}&body=${encodeURIComponent("Customer details:\n" + customerDetails + "\n\nPlease confirm my blinds estimate:\n\n" + summary + "\n\nEstimated total: " + money(total) + " NZD\nPlease confirm final options, charges and measurements.")}`;
+
+  async function handleEnquirySubmit(event) {
+    event.preventDefault();
+    setSubmitting(true);
+    setSubmitError("");
+
+    const payload = {
+      web_api_key: webApiKey,
+      customer_email: customer.email,
+      customer_name: customer.name,
+      customer_phone: customer.phone,
+      customer_data: {
+        address: customer.address,
+        note: customer.note,
+      },
+      enquiry_data: {
+        total,
+        currency: "NZD",
+        windows: windows.map((quoteWindow, index) => ({
+          product: quoteWindow.product,
+          width: Number(quoteWindow.width),
+          drop: Number(quoteWindow.drop),
+          price: results[index].total,
+        })),
+      },
+      source_url: window.location.href,
+    };
+
+    try {
+      const response = await fetch(enquiryApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.message || `Submission failed (status: ${response.status})`);
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Enquiry submission failed:", err);
+      setSubmitError(err.message || "We couldn’t submit your enquiry. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return <>
     <section className="relative overflow-hidden bg-forest text-white">
@@ -148,17 +200,16 @@ export default function OnlineQuotePage() {
                 <div className="grid items-center gap-4 rounded-xl bg-[#f7f7f3] p-3 sm:grid-cols-[100px_minmax(0,1fr)] sm:p-4">
                   <Img name={product.image} alt={product.name} sizes="(max-width: 639px) 100vw, 100px" className="h-36 w-full rounded-lg sm:h-24" />
                   <div className="grid min-w-0 gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(110px,.7fr)_minmax(110px,.7fr)]">
-                    <div className="min-w-0"><label htmlFor={`product-${window.id}`} className="font-semibold">Choose your product</label><select id={`product-${window.id}`} className="mt-2 !text-base" value={window.product} onChange={event => update(window.id,'product',event.target.value)}>{quoteProducts.map(item => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select><p className="mt-2 text-xs text-moss">Live product pricing</p></div>
+                    <div className="min-w-0"><label htmlFor={`product-${window.id}`} className="font-semibold">Choose your product</label><select id={`product-${window.id}`} className="mt-2 !text-base" value={window.product} onChange={event => update(window.id,'product',event.target.value)}>{quoteProducts.map(item => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></div>
                     {[['width','Width','e.g. 1500'],['drop','Drop / height','e.g. 2000']].map(([field,label,placeholder]) => {
                       const value = Number(window[field]);
                       const invalid = window[field] !== '' && (!Number.isFinite(value) || value <= 0);
                       return <label key={field} htmlFor={`${field}-${window.id}`}>{label} (mm)<input id={`${field}-${window.id}`} aria-invalid={invalid} aria-describedby={invalid ? `error-${field}-${window.id}` : undefined} className="!text-base aria-invalid:border-red-600" type="number" inputMode="decimal" min="0" step="any" value={window[field]} placeholder={placeholder} onChange={event => update(window.id,field,event.target.value)} />{invalid && <span id={`error-${field}-${window.id}`} className="mt-2 block text-xs text-red-700">Enter a measurement greater than zero.</span>}</label>;
                     })}
-                    <p className="text-xs leading-relaxed text-neutral-500 md:col-span-3">Includes tube, bottom rail, end caps, brackets, chain, and standard fittings.</p>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e9ede3] bg-[#f4f7ef] px-5 py-4 sm:px-6"><div><p className="text-xs font-semibold text-forest">Window estimate</p><p className={`mt-1 text-xs ${pricing[window.id]?.status === 'error' ? 'text-red-700' : 'text-neutral-500'}`}>{pricing[window.id]?.status === 'loading' ? 'Calculating live price…' : pricing[window.id]?.status === 'error' ? 'Price unavailable. Check your connection or measurements.' : result ? `${window.width} × ${window.drop} mm · Live price` : 'Add your measurements to calculate.'}</p></div><span className="text-xl font-semibold tabular-nums text-forest">{pricing[window.id]?.status === 'loading' ? '…' : result ? money(result.total) : '—'}</span></div>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e9ede3] bg-[#f4f7ef] px-5 py-4 sm:px-6"><p className={`max-w-md text-xs leading-relaxed ${pricing[window.id]?.status === 'error' ? 'text-red-700' : 'text-neutral-500'}`}>{pricing[window.id]?.status === 'loading' ? 'Calculating live price…' : pricing[window.id]?.status === 'error' ? 'Price unavailable. Check your connection or measurements.' : result ? 'Includes tube, bottom rail, end caps, brackets, chain, and standard fittings.' : 'Add your measurements to calculate.'}</p><span className="text-xl font-semibold tabular-nums text-forest">{pricing[window.id]?.status === 'loading' ? '…' : result ? money(result.total) : '—'}</span></div>
             </fieldset>;
           })}
           <button type="button" className="flex min-h-16 w-full items-center justify-center gap-3 rounded-xl border border-dashed border-moss/40 bg-white px-5 py-4 text-sm font-semibold text-moss transition hover:border-moss hover:bg-[#f0f2e9]" onClick={() => addWindow()}><span className="text-xl" aria-hidden="true">+</span>Add Another Window</button>
@@ -170,7 +221,7 @@ export default function OnlineQuotePage() {
             <div className="p-6 sm:p-7">
               <div className="max-h-72 space-y-4 overflow-y-auto pr-1">{windows.map((window,index) => <div key={window.id} className="flex items-start justify-between gap-4 border-b border-neutral-100 pb-4 text-sm"><div className="min-w-0"><p className="break-words font-semibold">{`Window ${index + 1}`}</p><p className="mt-1 text-xs text-neutral-500">{findProduct(window.product).name}</p><p className="mt-1 text-xs text-neutral-500">{results[index] ? `${window.width} × ${window.drop} mm` : 'Measurements needed'}</p></div><span className="shrink-0 font-semibold tabular-nums">{results[index] ? money(results[index].total) : '—'}</span></div>)}</div>
               <div className="py-6" aria-live="polite" aria-atomic="true"><p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neutral-500">Estimated total</p><p className="text-4xl font-semibold tracking-tight text-forest tabular-nums">{ready ? money(total) : '—'} <span className="text-xs font-normal tracking-normal text-neutral-500">NZD</span></p><p className="mt-2 text-xs text-neutral-500">{ready ? 'Based on your selected products and measurements.' : 'Complete all measurements to see your total.'}</p></div>
-              {ready ? <button className="btn w-full" type="button" onClick={() => setShowEnquiry(true)}>Enquire About This Quote <Arrow /></button> : <button type="button" disabled className="btn w-full cursor-not-allowed opacity-50">Enquire About This Quote <Arrow /></button>}
+              {ready ? <button className="btn w-full" type="button" onClick={() => { setSubmitted(false); setSubmitError(""); setShowEnquiry(true); }}>Enquire About This Quote <Arrow /></button> : <button type="button" disabled className="btn w-full cursor-not-allowed opacity-50">Enquire About This Quote <Arrow /></button>}
               <p className="mt-3 text-center text-xs leading-relaxed text-neutral-500">Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</p>
             </div>
           </div>
@@ -178,26 +229,58 @@ export default function OnlineQuotePage() {
         </aside>
       </div>
     </section>
-    {showEnquiry && ready && <div className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 p-4 backdrop-blur-sm" role="presentation" onMouseDown={() => setShowEnquiry(false)}>
+    {showEnquiry && ready && <div className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 p-4 backdrop-blur-sm" role="presentation" onMouseDown={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>
       <div className="max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="enquiry-title" onMouseDown={event => event.stopPropagation()}>
         <div className="flex items-center justify-between gap-4 border-b border-neutral-100 bg-[#f7f8f4] px-5 py-4 sm:px-6">
-          <h2 id="enquiry-title" className="!text-2xl">Confirm your enquiry</h2>
-          <button type="button" className="flex size-11 shrink-0 items-center justify-center rounded-full text-2xl text-neutral-500 hover:bg-neutral-100" aria-label="Close enquiry form" onClick={() => setShowEnquiry(false)}>×</button>
+          <h2 id="enquiry-title" className="!text-2xl">{submitted ? "Enquiry Sent" : "Confirm your enquiry"}</h2>
+          <button type="button" className="flex size-11 shrink-0 items-center justify-center rounded-full text-2xl text-neutral-500 hover:bg-neutral-100" aria-label="Close enquiry form" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>×</button>
         </div>
-        <form className="p-5 sm:p-6" onSubmit={event => { event.preventDefault(); window.location.href = emailHref; }}>
-          <div className="grid gap-5 sm:grid-cols-2">
-            <label className="font-semibold text-forest">Name <span aria-hidden="true" className="text-moss">*</span><input autoFocus required autoComplete="name" placeholder="Your full name" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.name} onChange={event => updateCustomer('name', event.target.value)} /></label>
-            <label className="font-semibold text-forest">Email <span aria-hidden="true" className="text-moss">*</span><input required type="email" autoComplete="email" placeholder="you@example.com" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.email} onChange={event => updateCustomer('email', event.target.value)} /></label>
-            <label className="font-semibold text-forest">Phone <span aria-hidden="true" className="text-moss">*</span><input required type="tel" autoComplete="tel" placeholder="e.g. 021 123 4567" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.phone} onChange={event => updateCustomer('phone', event.target.value)} /></label>
-            <label className="font-semibold text-forest">Address <span aria-hidden="true" className="text-moss">*</span><input required autoComplete="street-address" placeholder="Installation address" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.address} onChange={event => updateCustomer('address', event.target.value)} /></label>
-            <label className="font-semibold text-forest sm:col-span-2"><span className="flex items-center justify-between gap-3"><span>Note</span><span className="text-[10px] font-normal uppercase tracking-wider text-neutral-400">Optional</span></span><textarea rows={3} placeholder="Add access details, preferences, or questions for our team" className="!mt-2 resize-y font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.note} onChange={event => updateCustomer('note', event.target.value)} /></label>
+        {submitted ? (
+          <div className="p-6 sm:p-8 text-center space-y-4">
+            <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-[#edf2e7] text-moss text-2xl font-bold">
+              ✓
+            </div>
+            <h3 className="!text-2xl font-bold text-forest">Thank you, {customer.name || "there"}!</h3>
+            <p className="text-sm leading-relaxed text-neutral-600">
+              Your quote enquiry for <strong>{money(total)} NZD</strong> has been sent directly to our team. We’ll review your window details and contact you at <strong>{customer.email}</strong> shortly.
+            </p>
+            <div className="pt-4">
+              <button
+                type="button"
+                className="btn w-full sm:w-auto min-w-40"
+                onClick={() => {
+                  setShowEnquiry(false);
+                  setSubmitted(false);
+                  setSubmitError("");
+                }}
+              >
+                Done
+              </button>
+            </div>
           </div>
-          <div className="mt-6 rounded-xl bg-[#f4f7ef] p-4 text-xs leading-relaxed text-neutral-600"><strong className="text-forest">Estimated total: {money(total)} NZD</strong><br />We’ll review your measurements and confirm the final price with you.</div>
-          <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
-            <button type="button" className="min-h-11 px-5 text-xs font-semibold text-neutral-500 hover:text-forest" onClick={() => setShowEnquiry(false)}>Cancel</button>
-            <button className="btn sm:min-w-48" type="submit">Confirm Enquiry <Arrow /></button>
-          </div>
-        </form>
+        ) : (
+          <form className="p-5 sm:p-6" onSubmit={handleEnquirySubmit}>
+            {submitError && (
+              <div role="alert" className="mb-5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-800">
+                <p className="font-semibold">{submitError}</p>
+              </div>
+            )}
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="font-semibold text-forest">Name <span aria-hidden="true" className="text-moss">*</span><input autoFocus required autoComplete="name" placeholder="Your full name" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.name} onChange={event => updateCustomer('name', event.target.value)} /></label>
+              <label className="font-semibold text-forest">Email <span aria-hidden="true" className="text-moss">*</span><input required type="email" autoComplete="email" placeholder="you@example.com" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.email} onChange={event => updateCustomer('email', event.target.value)} /></label>
+              <label className="font-semibold text-forest">Phone <span aria-hidden="true" className="text-moss">*</span><input required type="tel" autoComplete="tel" placeholder="e.g. 021 123 4567" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.phone} onChange={event => updateCustomer('phone', event.target.value)} /></label>
+              <label className="font-semibold text-forest">Address <span aria-hidden="true" className="text-moss">*</span><input required autoComplete="street-address" placeholder="Installation address" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.address} onChange={event => updateCustomer('address', event.target.value)} /></label>
+              <label className="font-semibold text-forest sm:col-span-2"><span className="flex items-center justify-between gap-3"><span>Note</span><span className="text-[10px] font-normal uppercase tracking-wider text-neutral-400">Optional</span></span><textarea rows={3} placeholder="Add access details, preferences, or questions for our team" className="!mt-2 resize-y font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.note} onChange={event => updateCustomer('note', event.target.value)} /></label>
+            </div>
+            <div className="mt-6 rounded-xl bg-[#f4f7ef] p-4 text-xs leading-relaxed text-neutral-600"><strong className="text-forest">Estimated total: {money(total)} NZD</strong><br />We’ll review your measurements and confirm the final price with you.</div>
+            <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
+              <button type="button" className="min-h-11 px-5 text-xs font-semibold text-neutral-500 hover:text-forest" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>Cancel</button>
+              <button className="btn sm:min-w-48 disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={submitting}>
+                {submitting ? "Submitting..." : <>Confirm Enquiry <Arrow /></>}
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>}
   </>;
