@@ -1,6 +1,5 @@
 import Icon from "../components/ui/Icon.jsx";
 import Img from "../components/ui/Image.jsx";
-import Arrow from "../components/ui/Arrow.jsx";
 import Button from "../components/ui/Button.jsx";
 import Heading from "../components/ui/SectionHeading.jsx";
 import Hero from "../components/sections/Hero.jsx";
@@ -48,9 +47,6 @@ export default function ServicesPage() {
                 </div>
                 <h3>{t}</h3>
                 <p className="muted mt-4">{d}</p>
-                <a href={"/contact?service=" + id} className="text-link mt-5">
-                  Learn More <Arrow />
-                </a>
               </div>
             </article>
           ))}
