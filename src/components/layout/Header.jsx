@@ -6,6 +6,7 @@ import { products } from "../../data/products.js";
 
 function Header({ path }) {
   const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   const overlaysHero = path === "/";
   const nav = [
     ["Home", "/"],
@@ -84,7 +85,10 @@ function Header({ path }) {
         <button
           aria-label="Toggle navigation"
           aria-expanded={open}
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            setOpen(!open);
+            if (open) setProductsOpen(false);
+          }}
           className={
             "flex size-12 items-center justify-center rounded-full text-2xl transition lg:hidden " +
             (overlaysHero ? "hover:bg-white/10" : "hover:bg-neutral-100")
@@ -100,11 +104,34 @@ function Header({ path }) {
         >
           {nav.map(([name, url]) => (
             <div key={url}>
-              <a onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3.5 text-base font-semibold hover:bg-neutral-50" href={url}>
-                {name}
-              </a>
-              {url === "/products" && (
-                <div className="mb-2 grid grid-cols-2 gap-1 border-y border-black/5 py-2 pl-3">
+              {url === "/products" ? (
+                <button
+                  type="button"
+                  aria-expanded={productsOpen}
+                  aria-controls="mobile-products"
+                  onClick={() => setProductsOpen(!productsOpen)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-3.5 text-left text-base font-semibold hover:bg-neutral-50"
+                >
+                  Products
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    className={`size-5 shrink-0 transition-transform duration-200 ${productsOpen ? "rotate-180" : ""}`}
+                  >
+                    <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              ) : (
+                <a onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3.5 text-base font-semibold hover:bg-neutral-50" href={url}>
+                  {name}
+                </a>
+              )}
+              {url === "/products" && productsOpen && (
+                <div id="mobile-products" className="mb-2 grid grid-cols-2 gap-1 border-y border-black/5 py-2 pl-3">
+                  <a onClick={() => setOpen(false)} className="col-span-2 flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-forest hover:bg-[#f4f7ef]" href="/products">
+                    View all products <span aria-hidden="true">→</span>
+                  </a>
                   {products.map((product) => (
                     <a onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest" key={product.slug} href={`/products/${product.slug}`}>
                       <Img name={product.image} alt="" sizes="40px" className="size-10 shrink-0 rounded-md bg-neutral-100" />
