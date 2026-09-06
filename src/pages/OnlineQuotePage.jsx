@@ -12,19 +12,19 @@ const priceApiUrl = `${apiBaseUrl}/price`;
 const enquiryApiUrl = `${apiBaseUrl}/enquiry`;
 const webApiKey = (import.meta.env.VITE_QMB_WEB_API_KEY || "pmfQCWPkw1q").trim();
 const quoteProducts = [
-  { slug: "roller-blinds", name: "Roller Blinds", apiType: "roller" },
-  { slug: "sunfilter-blinds", name: "Sunfilter Blinds", apiType: "sunfilter" },
-  { slug: "vertical-blinds", name: "Vertical Blinds", apiType: "vertical" },
-  { slug: "venetian-blinds", name: "Venetian Blinds", apiType: "venetian" },
-  { slug: "curtains", name: "Curtains", apiType: "curtains" },
-  { slug: "roman-curtains", name: "Roman Curtains", apiType: "roman_curtains" },
-  { slug: "zebra-blinds", name: "Zebra Blinds", apiType: "zebra" },
-  { slug: "honeycomb-blinds", name: "Honeycomb Blinds", apiType: "honeycomb" },
-  { slug: "verishade", name: "Verishade", apiType: "verishade" },
-  { slug: "roman-shades", name: "Roman Shades", apiType: "roman_shades" },
-  { slug: "shutters", name: "Shutters", apiType: "shutters" },
-  { slug: "pergola", name: "Pergola", apiType: "pergola" },
-  { slug: "outdoor-shades", name: "Outdoor Shades", apiType: "outdoor" },
+  { slug: "roller-blinds", name: "Roller Blinds", apiType: "roller", blindsType: "Roller" },
+  { slug: "sunfilter-blinds", name: "Sunfilter Blinds", apiType: "sunfilter", blindsType: "Sunfilter" },
+  { slug: "vertical-blinds", name: "Vertical Blinds", apiType: "vertical", blindsType: "Vertical" },
+  { slug: "venetian-blinds", name: "Venetian Blinds", apiType: "venetian", blindsType: "Venetian" },
+  { slug: "curtains", name: "Curtains", apiType: "curtains", blindsType: "Curtain" },
+  { slug: "roman-curtains", name: "Roman Curtains", apiType: "roman_curtains", blindsType: "Roman Curtains" },
+  { slug: "zebra-blinds", name: "Zebra Blinds", apiType: "zebra", blindsType: "Zebra" },
+  { slug: "honeycomb-blinds", name: "Honeycomb Blinds", apiType: "honeycomb", blindsType: "Honeycomb" },
+  { slug: "verishade", name: "Verishade", apiType: "verishade", blindsType: "Verishade" },
+  { slug: "roman-shades", name: "Roman Shades", apiType: "roman_shades", blindsType: "Roman Shades" },
+  { slug: "shutters", name: "Shutters", apiType: "shutters", blindsType: "Shutters" },
+  { slug: "pergola", name: "Pergola", apiType: "pergola", blindsType: "Pergola" },
+  { slug: "outdoor-shades", name: "Outdoor Shades", apiType: "outdoor", blindsType: "Outdoor Shades" },
 ];
 
 function hasMeasurements(window) {
@@ -153,12 +153,19 @@ export default function OnlineQuotePage() {
       enquiry_data: {
         total,
         currency: "NZD",
-        windows: windows.map((quoteWindow, index) => ({
-          product: quoteWindow.product,
-          width: Number(quoteWindow.width),
-          drop: Number(quoteWindow.drop),
-          price: results[index]?.total || 0,
-        })),
+        windows: windows.map((quoteWindow, index) => {
+          const productDef = quoteProducts.find((item) => item.slug === quoteWindow.product);
+          const blindsType = productDef?.blindsType || "Roller";
+          return {
+            product: blindsType,
+            product_name: productDef?.name || blindsType,
+            product_slug: quoteWindow.product,
+            blinds_type: blindsType,
+            width: Number(quoteWindow.width),
+            drop: Number(quoteWindow.drop),
+            price: results[index]?.total || 0,
+          };
+        }),
       },
       source_url: window.location.href,
     };
