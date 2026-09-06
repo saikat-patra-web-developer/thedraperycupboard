@@ -181,11 +181,10 @@ export default function OnlineQuotePage() {
     {showEnquiry && ready && <div className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 p-4 backdrop-blur-sm" role="presentation" onMouseDown={() => setShowEnquiry(false)}>
       <div className="max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="enquiry-title" onMouseDown={event => event.stopPropagation()}>
         <div className="flex items-center justify-between gap-4 border-b border-neutral-100 bg-[#f7f8f4] px-5 py-4 sm:px-6">
-          <div><p className="mb-1 text-[10px] font-bold uppercase tracking-[.14em] text-moss">Almost there</p><h2 id="enquiry-title" className="!text-2xl">Confirm your enquiry</h2><p className="mt-1 text-xs text-neutral-500">Tell us where to send your personalised quote.</p></div>
+          <h2 id="enquiry-title" className="!text-2xl">Confirm your enquiry</h2>
           <button type="button" className="flex size-11 shrink-0 items-center justify-center rounded-full text-2xl text-neutral-500 hover:bg-neutral-100" aria-label="Close enquiry form" onClick={() => setShowEnquiry(false)}>×</button>
         </div>
         <form className="p-5 sm:p-6" onSubmit={event => { event.preventDefault(); window.location.href = emailHref; }}>
-          <p className="mb-5 text-xs text-neutral-500"><span className="font-semibold text-forest">*</span> Required information</p>
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="font-semibold text-forest">Name <span aria-hidden="true" className="text-moss">*</span><input autoFocus required autoComplete="name" placeholder="Your full name" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.name} onChange={event => updateCustomer('name', event.target.value)} /></label>
             <label className="font-semibold text-forest">Email <span aria-hidden="true" className="text-moss">*</span><input required type="email" autoComplete="email" placeholder="you@example.com" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.email} onChange={event => updateCustomer('email', event.target.value)} /></label>
