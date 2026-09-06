@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <>
       <Hero
-        image="hero"
+        image={null}
         video="/videos/hero-background.mp4"
         label="New Zealand’s trusted"
         title={
