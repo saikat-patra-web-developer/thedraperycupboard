@@ -137,7 +137,7 @@ export default function OnlineQuotePage() {
       </div>
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)] lg:gap-9">
         <div className="min-w-0 space-y-5">
-          <div className="mb-6 flex items-end justify-between gap-4"><div><h2 className="!text-3xl">Let’s find your perfect fit.</h2></div><span className="shrink-0 rounded-full bg-white px-3 py-2 text-xs text-neutral-500">{windows.length} {windows.length === 1 ? 'window' : 'windows'}</span></div>
+          <div className="mb-6"><h2 className="!text-3xl">Let’s find your perfect fit.</h2></div>
           {windows.map((window, index) => {
             const result = results[index];
             const product = findProduct(window.product);
