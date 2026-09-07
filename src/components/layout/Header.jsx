@@ -24,12 +24,12 @@ function Header({ path }) {
           : "relative border-black/5 bg-white")
       }
     >
-      <div className="wrap flex h-[72px] items-center justify-between gap-3 md:h-[84px] md:gap-6">
+      <div className="wrap flex h-[72px] items-center justify-between gap-3 md:h-[84px] md:gap-6 2xl:h-[96px]">
         <Brand footer={overlaysHero} compact={overlaysHero} />
         <nav
           aria-label="Main navigation"
           className={
-            "hidden items-center gap-7 lg:flex xl:gap-9 " +
+            "hidden items-center gap-7 lg:flex xl:gap-9 2xl:gap-12 " +
             (overlaysHero ? "[text-shadow:0_1px_8px_rgba(0,0,0,0.4)]" : "")
           }
         >

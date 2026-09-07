@@ -14,8 +14,8 @@ function Hero({
       className={
         "relative isolate overflow-hidden bg-forest text-white " +
         (compact
-          ? "min-h-[380px] md:min-h-[430px]"
-          : "min-h-[640px] sm:min-h-[660px] lg:min-h-[700px]")
+          ? "min-h-[380px] md:min-h-[430px] 2xl:min-h-[500px]"
+          : "min-h-[640px] sm:min-h-[660px] lg:min-h-[700px] 2xl:min-h-[820px]")
       }
     >
       {image && (
@@ -50,10 +50,10 @@ function Hero({
             : "pb-12 pt-32 sm:pt-36 md:pb-16 md:pt-40")
         }
       >
-        <div className="max-w-[560px]">
+        <div className="max-w-[560px] 2xl:max-w-[680px]">
           <div className="eyebrow !text-lime">{label}</div>
           <h1>{title}</h1>
-          <p className="mt-5 max-w-[440px] text-base leading-relaxed text-white/90">
+          <p className="mt-5 max-w-[440px] text-base leading-relaxed text-white/90 2xl:max-w-[540px] 2xl:text-lg">
             {description}
           </p>
           {children}

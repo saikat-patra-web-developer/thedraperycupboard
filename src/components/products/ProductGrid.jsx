@@ -4,7 +4,7 @@ import { products } from "../../data/products.js";
 
 export default function ProductGrid({ full = false, items = products }) {
   return (
-    <div className={"grid gap-5 md:gap-6 md:grid-cols-3 lg:grid-cols-4 " + (full ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2")}>
+    <div className={"grid gap-5 md:gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 2xl:gap-7 " + (full ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2")}>
       {items.map(product => (
         <a key={product.slug} href={"/products/" + product.slug}
           className={full ? "card group flex h-full flex-col" : "group"}>

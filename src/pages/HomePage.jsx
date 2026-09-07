@@ -70,12 +70,12 @@ export default function HomePage() {
             View all products <Arrow />
           </a>
         </div>
-        <div className="[&>div>a:nth-child(n+9)]:hidden max-md:[&>div>a:nth-child(n+5)]:hidden md:max-lg:[&>div>a:nth-child(n+7)]:hidden">
+        <div className="[&>div>a:nth-child(n+9)]:hidden max-md:[&>div>a:nth-child(n+5)]:hidden md:max-lg:[&>div>a:nth-child(n+7)]:hidden 2xl:[&>div>a:nth-child(n+9)]:block">
           <ProductGrid />
         </div>
       </section>
       <Features />
-      <section className="wrap section grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
+      <section className="wrap section grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center 2xl:gap-20">
         <div>
           <Heading
             label="About The Drapery Cupboard"
@@ -112,7 +112,7 @@ export default function HomePage() {
         <Img
           name="dining"
           alt="Dining room with custom roller blinds overlooking a New Zealand bay"
-          className="h-[280px] w-full rounded-xl sm:h-[360px]"
+          className="h-[280px] w-full rounded-xl sm:h-[360px] 2xl:h-[460px]"
         />
       </section>
       <section className="bg-forest py-12 text-white md:py-16">
@@ -139,7 +139,7 @@ export default function HomePage() {
                 <Img
                   name={"project" + (i + 1)}
                   alt={t}
-                  className="h-[220px] w-full rounded-xl"
+                  className="h-[220px] w-full rounded-xl 2xl:h-[280px]"
                 />
                 <div className="mt-3 flex justify-between text-sm font-medium">
                   {t}

@@ -59,8 +59,9 @@ export default function AboutPage() {
         />
       </section>
       <Process />
-      <section className="grid sm:grid-cols-2 lg:grid-cols-3">
-        <div className="bg-[#f0efeb] p-7 sm:p-10">
+      <section className="bg-[#f0efeb]">
+        <div className="wrap grid items-stretch sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.05fr]">
+        <div className="py-10 pr-7 sm:py-12 sm:pr-10 lg:py-16 2xl:py-20 2xl:pr-16">
           <Heading
             label="Our values"
             title={
@@ -97,7 +98,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-        <div className="bg-[#e9e8e2] p-7 sm:p-10">
+        <div className="bg-[#e9e8e2] px-7 py-10 sm:px-10 sm:py-12 lg:py-16 2xl:px-16 2xl:py-20">
           <Heading label="Quality & warranty" title="Confidence Built In." />
           <p className="muted my-5">
             We stand behind our blinds with warranties and a commitment to
@@ -120,6 +121,7 @@ export default function AboutPage() {
           alt="Quality white plantation shutters"
           className="h-full min-h-80 w-full sm:col-span-2 lg:col-span-1"
         />
+        </div>
       </section>
       <Coverage />
       <section className="wrap section grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

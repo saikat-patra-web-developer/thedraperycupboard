@@ -962,7 +962,7 @@ export default function LivePreviewPage() {
             </div>
           </div>
 
-          <div className="grid items-start gap-6 lg:grid-cols-[290px_1fr]">
+          <div className="grid items-start gap-6 lg:grid-cols-[290px_1fr] 2xl:grid-cols-[330px_1fr] 2xl:gap-8">
             {/* Left Column: Control Options */}
             <div className="space-y-4 rounded-2xl border border-[#deded8] bg-white p-5 shadow-sm">
               {/* 1. Fabric / Colour */}
