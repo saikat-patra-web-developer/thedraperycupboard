@@ -2,16 +2,16 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Arrow from "../components/ui/Arrow.jsx";
 
 const PRODUCTS = [
-  { id: "roller", name: "Roller Blinds", image: "/images/roller-480.webp", defaultCoverage: 70, quoteSlug: "roller-blinds" },
-  { id: "sunfilter", name: "Sunfilter", image: "/images/sunscreen-480.webp", defaultCoverage: 85, quoteSlug: "sunfilter-blinds" },
-  { id: "vertical", name: "Vertical Blinds", image: "/images/vertical-480.webp", defaultCoverage: 95, quoteSlug: "vertical-blinds" },
-  { id: "venetian", name: "Venetian Blinds", image: "/images/venetian-480.webp", defaultCoverage: 90, quoteSlug: "venetian-blinds" },
-  { id: "roman_shades", name: "Roman Shades", image: "/images/roman-480.webp", defaultCoverage: 65, quoteSlug: "roman-shades" },
-  { id: "zebra", name: "Zebra Blinds", image: "/images/vision-480.webp", defaultCoverage: 80, quoteSlug: "zebra-blinds" },
-  { id: "honeycomb", name: "Honeycomb", image: "/images/cellular-480.webp", defaultCoverage: 75, quoteSlug: "honeycomb-blinds" },
-  { id: "curtains", name: "Curtains", image: "/images/curtains-480.webp", defaultCoverage: 60, quoteSlug: "curtains" },
-  { id: "shutters", name: "Shutters", image: "/images/shutters-480.webp", defaultCoverage: 100, quoteSlug: "shutters" },
-  { id: "outdoor", name: "Outdoor Shades", image: "/images/pergola-480.webp", defaultCoverage: 85, quoteSlug: "outdoor-shades" },
+  { id: "roller", name: "Roller Blinds", image: "/images/roller-480.webp", treatmentImage: "/images/products/roller-treatment.webp", defaultCoverage: 70, quoteSlug: "roller-blinds" },
+  { id: "sunfilter", name: "Sunfilter", image: "/images/sunscreen-480.webp", treatmentImage: "/images/products/sunfilter-treatment.webp", defaultCoverage: 85, quoteSlug: "sunfilter-blinds" },
+  { id: "vertical", name: "Vertical Blinds", image: "/images/vertical-480.webp", treatmentImage: "/images/products/vertical-treatment.webp", defaultCoverage: 95, quoteSlug: "vertical-blinds" },
+  { id: "venetian", name: "Venetian Blinds", image: "/images/venetian-480.webp", treatmentImage: "/images/products/venetian-treatment.webp", defaultCoverage: 90, quoteSlug: "venetian-blinds" },
+  { id: "roman_shades", name: "Roman Shades", image: "/images/roman-480.webp", treatmentImage: "/images/products/roman_shades-treatment.webp", defaultCoverage: 65, quoteSlug: "roman-shades" },
+  { id: "zebra", name: "Zebra Blinds", image: "/images/vision-480.webp", treatmentImage: "/images/products/zebra-treatment.webp", defaultCoverage: 80, quoteSlug: "zebra-blinds" },
+  { id: "honeycomb", name: "Honeycomb", image: "/images/cellular-480.webp", treatmentImage: "/images/products/honeycomb-treatment.webp", defaultCoverage: 75, quoteSlug: "honeycomb-blinds" },
+  { id: "curtains", name: "Curtains", image: "/images/curtains-480.webp", treatmentImage: "/images/products/curtains-treatment.webp", defaultCoverage: 60, quoteSlug: "curtains" },
+  { id: "shutters", name: "Shutters", image: "/images/shutters-480.webp", treatmentImage: "/images/products/shutters-treatment.webp", defaultCoverage: 100, quoteSlug: "shutters" },
+  { id: "outdoor", name: "Outdoor Shades", image: "/images/pergola-480.webp", treatmentImage: "/images/products/outdoor-treatment.webp", defaultCoverage: 85, quoteSlug: "outdoor-shades" },
 ];
 
 const FABRIC_SWATCHES = [
@@ -34,9 +34,9 @@ const MOUNT_TYPES = [
 ];
 
 const OPACITY_OPTIONS = [
-  { id: "light-filter", label: "Light Filter", opacity: 70 },
+  { id: "light-filter", label: "Light Filter", opacity: 75 },
   { id: "blockout", label: "Blockout", opacity: 95 },
-  { id: "sunscreen", label: "Sunscreen", opacity: 45 },
+  { id: "sunscreen", label: "Sunscreen", opacity: 70 },
 ];
 
 const DEFAULT_CORNERS = [
@@ -50,6 +50,139 @@ const lerp = (start, end, amount) => ({
   x: start.x + (end.x - start.x) * amount,
   y: start.y + (end.y - start.y) * amount,
 });
+
+function getHomography1000(dst) {
+  const [p0, p1, p2, p3] = dst;
+  const dx1 = p1.x - p2.x;
+  const dx2 = p3.x - p2.x;
+  const sx = p0.x - p1.x + p2.x - p3.x;
+  const dy1 = p1.y - p2.y;
+  const dy2 = p3.y - p2.y;
+  const sy = p0.y - p1.y + p2.y - p3.y;
+
+  const z = dx1 * dy2 - dy1 * dx2;
+  if (Math.abs(z) < 1e-7) return null;
+
+  const g = ((sx * dy2 - sy * dx2) / z) / 1000;
+  const h = ((dx1 * sy - dy1 * sx) / z) / 1000;
+
+  const a = (p1.x - p0.x + (g * 1000) * p1.x) / 1000;
+  const b = (p3.x - p0.x + (h * 1000) * p3.x) / 1000;
+  const c = p0.x;
+  const d = (p1.y - p0.y + (g * 1000) * p1.y) / 1000;
+  const e = (p3.y - p0.y + (h * 1000) * p3.y) / 1000;
+  const f = p0.y;
+
+  return [a, d, 0, g, b, e, 0, h, 0, 0, 1, 0, c, f, 0, 1];
+}
+
+function drawAffineTriangle(ctx, img, p0, p1, p2, u0, v0, u1, v1, u2, v2) {
+  const delta = u0 * (v1 - v2) + u1 * (v2 - v0) + u2 * (v0 - v1);
+  if (Math.abs(delta) < 1e-7) return;
+  const a = (p0.x * (v1 - v2) + p1.x * (v2 - v0) + p2.x * (v0 - v1)) / delta;
+  const b = (p0.y * (v1 - v2) + p1.y * (v2 - v0) + p2.y * (v0 - v1)) / delta;
+  const c = (p0.x * (u2 - u1) + p1.x * (u0 - u2) + p2.x * (u1 - u0)) / delta;
+  const d = (p0.y * (u2 - u1) + p1.y * (u0 - u2) + p2.y * (u1 - u0)) / delta;
+  const e = (p0.x * (u1 * v2 - u2 * v1) + p1.x * (u2 * v0 - u0 * v2) + p2.x * (u0 * v1 - u1 * v0)) / delta;
+  const f = (p0.y * (u1 * v2 - u2 * v1) + p1.y * (u2 * v0 - u0 * v2) + p2.x * (u0 * v1 - u1 * v0)) / delta;
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(p0.x, p0.y);
+  ctx.lineTo(p1.x, p1.y);
+  ctx.lineTo(p2.x, p2.y);
+  ctx.closePath();
+  ctx.clip();
+  ctx.transform(a, b, c, d, e, f);
+  ctx.drawImage(img, 0, 0);
+  ctx.restore();
+}
+
+function drawWarpedImage(ctx, img, p0, p1, p2, p3, opacity, tintColor, tintOpacity) {
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  drawAffineTriangle(ctx, img, p0, p1, p3, 0, 0, iw, 0, 0, ih);
+  drawAffineTriangle(ctx, img, p1, p2, p3, iw, 0, iw, ih, 0, ih);
+
+  if (tintColor && tintOpacity > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(p0.x, p0.y);
+    ctx.lineTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.lineTo(p3.x, p3.y);
+    ctx.closePath();
+    ctx.fillStyle = tintColor;
+    ctx.globalCompositeOperation = "multiply";
+    ctx.globalAlpha = opacity * tintOpacity;
+    ctx.fill();
+    ctx.restore();
+  }
+  ctx.restore();
+}
+
+function RealBlindTreatment({ imageSrc, corners, coverage, color, opacity, lighting, shadow, stageSize, product }) {
+  const [tl, tr, br, bl] = corners;
+  const amount = coverage / 100;
+  const isVertical = product === "vertical";
+
+  const p1 = isVertical ? lerp(tl, tr, amount) : tr;
+  const p2 = isVertical ? lerp(bl, br, amount) : lerp(tr, br, amount);
+  const p3 = isVertical ? bl : lerp(tl, bl, amount);
+
+  if (!stageSize?.width || !stageSize?.height) return null;
+
+  const dstPixels = [
+    { x: (tl.x * stageSize.width) / 100, y: (tl.y * stageSize.height) / 100 },
+    { x: (p1.x * stageSize.width) / 100, y: (p1.y * stageSize.height) / 100 },
+    { x: (p2.x * stageSize.width) / 100, y: (p2.y * stageSize.height) / 100 },
+    { x: (p3.x * stageSize.width) / 100, y: (p3.y * stageSize.height) / 100 },
+  ];
+
+  const matrix = getHomography1000(dstPixels);
+  if (!matrix) return null;
+
+  const isWhite = color?.toLowerCase() === "#ffffff";
+  const tintOpacity = isWhite ? 0 : 0.58;
+
+  return (
+    <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          width: "1000px",
+          height: "1000px",
+          transformOrigin: "0 0",
+          transform: `matrix3d(${matrix.map((n) => n.toFixed(7)).join(",")})`,
+          opacity: opacity / 100,
+          filter: `drop-shadow(0px ${Math.max(1, Math.round(shadow / 5))}px ${Math.max(2, Math.round(shadow / 3))}px rgba(0, 0, 0, 0.45)) brightness(${lighting}%)`,
+        }}
+      >
+        <img
+          src={imageSrc}
+          alt="Real window blind covering"
+          className="h-full w-full object-fill select-none pointer-events-none"
+        />
+        {tintOpacity > 0 && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: color,
+              mixBlendMode: "multiply",
+              opacity: tintOpacity,
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
 
 function PerspectiveTreatment({ product, corners, coverage, color, opacity, lighting, shadow, slatAngle }) {
   const [tl, tr, br, bl] = corners;
@@ -181,7 +314,7 @@ function PerspectiveTreatment({ product, corners, coverage, color, opacity, ligh
 
         {product === "venetian" && (
           <>
-            <polygon points={treatmentShape} fill="#d8d8d5" />
+            <polygon points={treatmentShape} fill="rgba(15, 23, 42, 0.22)" />
             <g>
               {Array.from({ length: 17 }, (_, index) => {
                 const start = 0.09 + index * 0.053;
@@ -300,6 +433,8 @@ export default function LivePreviewPage() {
   const [shadow, setShadow] = useState(35);
   const [showTreatment, setShowTreatment] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [stageSize, setStageSize] = useState({ width: 0, height: 0 });
+  const [renderMode, setRenderMode] = useState("photo"); // "photo" (real product image) | "vector"
 
   // Camera State
   const [cameraOpen, setCameraOpen] = useState(false);
@@ -362,6 +497,22 @@ export default function LivePreviewPage() {
         URL.revokeObjectURL(imageUrl);
       }
     };
+  }, [imageUrl]);
+
+  // Keep stage size in sync for real blind perspective projection
+  useEffect(() => {
+    const el = imageStageRef.current;
+    if (!el) return undefined;
+    const updateSize = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        setStageSize({ width: rect.width, height: rect.height });
+      }
+    };
+    updateSize();
+    const ro = new ResizeObserver(updateSize);
+    ro.observe(el);
+    return () => ro.disconnect();
   }, [imageUrl]);
 
   // Set new preview file
@@ -486,6 +637,13 @@ export default function LivePreviewPage() {
     if (prodDef) {
       setCoverage(prodDef.defaultCoverage);
     }
+    if (prodId === "sunfilter") {
+      setOpacityOption("sunscreen");
+      setOpacity(70);
+    } else if (opacityOption === "sunscreen") {
+      setOpacityOption("blockout");
+      setOpacity(95);
+    }
     setShowTreatment(true);
   };
 
@@ -537,30 +695,64 @@ export default function LivePreviewPage() {
       // Draw original image
       ctx.drawImage(imgEl, 0, 0, naturalW, naturalH);
 
-      // Serialize SVG overlay
-      const svgEl = imageStageRef.current?.querySelector("svg");
-      if (svgEl && showTreatment) {
-        const svgClone = svgEl.cloneNode(true);
-        svgClone.setAttribute("width", naturalW);
-        svgClone.setAttribute("height", naturalH);
-        const svgData = new XMLSerializer().serializeToString(svgClone);
-        const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
-        const svgUrl = URL.createObjectURL(svgBlob);
+      if (showTreatment) {
+        if (renderMode === "photo" && activeProductObj?.treatmentImage) {
+          const blindImg = new Image();
+          blindImg.crossOrigin = "anonymous";
+          await new Promise((resolve) => {
+            blindImg.onload = () => resolve();
+            blindImg.onerror = () => resolve();
+            blindImg.src = activeProductObj.treatmentImage;
+          });
 
-        const overlayImg = new Image();
-        overlayImg.crossOrigin = "anonymous";
-        await new Promise((resolve) => {
-          overlayImg.onload = () => {
-            ctx.drawImage(overlayImg, 0, 0, naturalW, naturalH);
-            URL.revokeObjectURL(svgUrl);
-            resolve();
-          };
-          overlayImg.onerror = () => {
-            URL.revokeObjectURL(svgUrl);
-            resolve();
-          };
-          overlayImg.src = svgUrl;
-        });
+          if (blindImg.complete && blindImg.naturalWidth) {
+            const amount = coverage / 100;
+            const isVertical = selectedProduct === "vertical";
+
+            const p0 = { x: (corners[0].x * naturalW) / 100, y: (corners[0].y * naturalH) / 100 };
+            const p1 = {
+              x: ((isVertical ? lerp(corners[0], corners[1], amount).x : corners[1].x) * naturalW) / 100,
+              y: ((isVertical ? lerp(corners[0], corners[1], amount).y : corners[1].y) * naturalH) / 100,
+            };
+            const p2 = {
+              x: ((isVertical ? lerp(corners[3], corners[2], amount).x : lerp(corners[1], corners[2], amount).x) * naturalW) / 100,
+              y: ((isVertical ? lerp(corners[3], corners[2], amount).y : lerp(corners[1], corners[2], amount).y) * naturalH) / 100,
+            };
+            const p3 = {
+              x: ((isVertical ? corners[3].x : lerp(corners[0], corners[3], amount).x) * naturalW) / 100,
+              y: ((isVertical ? corners[3].y : lerp(corners[0], corners[3], amount).y) * naturalH) / 100,
+            };
+
+            const isWhite = treatmentColor?.toLowerCase() === "#ffffff";
+            drawWarpedImage(ctx, blindImg, p0, p1, p2, p3, opacity / 100, treatmentColor, isWhite ? 0 : 0.58);
+          }
+        } else {
+          // Serialize SVG overlay
+          const svgEl = imageStageRef.current?.querySelector("svg");
+          if (svgEl) {
+            const svgClone = svgEl.cloneNode(true);
+            svgClone.setAttribute("width", naturalW);
+            svgClone.setAttribute("height", naturalH);
+            const svgData = new XMLSerializer().serializeToString(svgClone);
+            const svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+            const svgUrl = URL.createObjectURL(svgBlob);
+
+            const overlayImg = new Image();
+            overlayImg.crossOrigin = "anonymous";
+            await new Promise((resolve) => {
+              overlayImg.onload = () => {
+                ctx.drawImage(overlayImg, 0, 0, naturalW, naturalH);
+                URL.revokeObjectURL(svgUrl);
+                resolve();
+              };
+              overlayImg.onerror = () => {
+                URL.revokeObjectURL(svgUrl);
+                resolve();
+              };
+              overlayImg.src = svgUrl;
+            });
+          }
+        }
       }
 
       // Add elegant watermark badge
@@ -990,18 +1182,32 @@ export default function LivePreviewPage() {
                         className="block max-h-[68vh] w-full object-contain"
                       />
 
-                      {/* SVG perspective overlay */}
+                      {/* Treatment overlay */}
                       {showTreatment && (
-                        <PerspectiveTreatment
-                          product={selectedProduct}
-                          corners={corners}
-                          coverage={coverage}
-                          color={treatmentColor}
-                          opacity={opacity}
-                          lighting={lighting}
-                          shadow={shadow}
-                          slatAngle={slatAngle}
-                        />
+                        renderMode === "photo" && activeProductObj?.treatmentImage ? (
+                          <RealBlindTreatment
+                            imageSrc={activeProductObj.treatmentImage}
+                            corners={corners}
+                            coverage={coverage}
+                            color={treatmentColor}
+                            opacity={opacity}
+                            lighting={lighting}
+                            shadow={shadow}
+                            stageSize={stageSize}
+                            product={selectedProduct}
+                          />
+                        ) : (
+                          <PerspectiveTreatment
+                            product={selectedProduct}
+                            corners={corners}
+                            coverage={coverage}
+                            color={treatmentColor}
+                            opacity={opacity}
+                            lighting={lighting}
+                            shadow={shadow}
+                            slatAngle={slatAngle}
+                          />
+                        )
                       )}
 
                       {/* Corner pins overlay for window adjustments */}
@@ -1059,6 +1265,14 @@ export default function LivePreviewPage() {
                       </div>
 
                       <div className="absolute right-3 top-3 z-30 flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setRenderMode((m) => (m === "photo" ? "vector" : "photo"))}
+                          title="Toggle between real blind photo and vector illustration"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-white/90 px-3 py-1.5 text-xs font-semibold text-neutral-800 shadow-md backdrop-blur-md hover:bg-white"
+                        >
+                          {renderMode === "photo" ? "Real Blind" : "Vector Mode"}
+                        </button>
                         <button
                           type="button"
                           onClick={() => setShowTreatment((v) => !v)}
