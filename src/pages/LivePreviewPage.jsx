@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Arrow from "../components/ui/Arrow.jsx";
+import Hero from "../components/sections/Hero.jsx";
 
 const PRODUCTS = [
   { id: "roller", name: "Roller Blinds", image: "/images/roller-480.webp", treatmentImage: "/images/products/roller-treatment.webp", defaultCoverage: 70, quoteSlug: "roller-blinds" },
@@ -781,27 +782,20 @@ export default function LivePreviewPage() {
 
   return (
     <div className="min-h-screen bg-[#faf9f7] pb-24 text-[#17241f]">
-      {/* Header Banner */}
-      <section className="border-b border-[#e5e4de] bg-[#f4f3ef] py-10 sm:py-12">
-        <div className="wrap flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <div className="eyebrow !text-moss">Interactive Room Visualiser</div>
-            <h1 className="!text-3xl font-normal sm:!text-4xl">Live Preview</h1>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-[#535751]">
-              Visualise our custom blinds, shades, and curtains directly in your room before getting a quote.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <a
-              href={`/online-quote?product=${activeProductObj.quoteSlug}`}
-              className="btn btn-dark !min-h-11 !px-5 !py-2.5 !text-xs font-semibold"
-            >
-              Get Quote for {activeProductObj.name}
-              <Arrow />
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Hero Header Section */}
+      <Hero
+        compact
+        image="hero"
+        label="Interactive Room Visualiser"
+        title={
+          <>
+            Live Room Preview.
+            <br />
+            See It in Your Space.
+          </>
+        }
+        description="Visualise our custom blinds, shades, and curtains directly on your window with real fabrics, colours, and 3D perspective before getting a quote."
+      />
 
       <div className="wrap mt-8 space-y-10">
         {/* ========================================================================= */}
