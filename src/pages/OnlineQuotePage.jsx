@@ -35,7 +35,20 @@ function hasMeasurements(window) {
 
 function MeasurementGuide() {
   return <section className="rounded-xl border border-[#dedfd7] bg-white p-5 sm:p-6" aria-labelledby="measurement-guide-title">
-    <div id="measurement-guide-title" className="flex min-h-11 items-center gap-3 text-sm font-semibold"><Icon name="blinds" size={22} className="text-moss" />How to measure your window</div>
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <div id="measurement-guide-title" className="flex min-h-11 items-center gap-3 text-sm font-semibold">
+        <Icon name="blinds" size={22} className="text-moss" />
+        How to measure your window
+      </div>
+      <a
+        href="/live-preview"
+        className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-forest px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#1a3f35] hover:shadow"
+      >
+        <Icon name="spark" size={15} className="text-lime" />
+        Live Preview
+        <Arrow />
+      </a>
+    </div>
     <div className="mt-5 grid items-center gap-6 border-t border-neutral-100 pt-5 sm:grid-cols-[150px_1fr]">
       <svg viewBox="0 0 180 180" role="img" aria-label="Measure width horizontally and drop vertically" className="mx-auto w-40 text-moss" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M30 45h100v110H30zM35 52h90M35 60h90M35 68h90M35 76h90M35 84h90M35 92h90M80 96v54" />

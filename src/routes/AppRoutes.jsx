@@ -10,6 +10,7 @@ import PrivacyPolicyPage from "../pages/PrivacyPolicyPage";
 import TermsPage from "../pages/TermsPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import OnlineQuotePage from "../pages/OnlineQuotePage";
+import LivePreviewPage from "../pages/LivePreviewPage";
 
 const pages = {
   "/": HomePage,
@@ -18,6 +19,8 @@ const pages = {
   "/services": ServicesPage,
   "/contact": ContactPage,
   "/online-quote": OnlineQuotePage,
+  "/live-preview": LivePreviewPage,
+  "/preview": LivePreviewPage,
   "/resources": ResourcesPage,
   "/projects": ProjectsPage,
   "/privacy": PrivacyPolicyPage,

@@ -8,6 +8,8 @@ const titles = {
   "/services": "Our Services",
   "/contact": "Contact Us",
   "/online-quote": "Get an Online Quote",
+  "/live-preview": "Live Room Preview",
+  "/preview": "Live Room Preview",
   "/resources": "Resources",
   "/projects": "Projects & Inspiration",
   "/privacy": "Privacy Policy",
