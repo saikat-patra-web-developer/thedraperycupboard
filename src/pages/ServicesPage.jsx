@@ -53,8 +53,9 @@ export default function ServicesPage() {
         </div>
       </section>
       <Process />
-      <div className="grid bg-white md:grid-cols-2">
-        <div className="p-7 sm:p-10 lg:p-14">
+      <section className="bg-white">
+        <div className="wrap grid items-stretch md:grid-cols-2">
+        <div className="py-10 pr-7 sm:py-12 sm:pr-10 lg:py-16 lg:pr-14 2xl:py-20 2xl:pr-20">
           <Heading
             label="Why choose The Drapery Cupboard"
             title={
@@ -88,9 +89,10 @@ export default function ServicesPage() {
         <Img
           name="hero"
           alt="Premium blinds overlooking the coast"
-          className="h-full min-h-80 w-full"
+          className="h-full min-h-80 w-full md:min-h-[460px] 2xl:min-h-[540px]"
         />
-      </div>
+        </div>
+      </section>
       <Coverage />
       <div className="pt-8">
         <Testimonials />
