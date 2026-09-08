@@ -34,7 +34,7 @@ function hasMeasurements(window) {
 }
 
 function MeasurementGuide() {
-  return <section className="rounded-xl border border-[#dedfd7] bg-white p-5 sm:p-6" aria-labelledby="measurement-guide-title">
+  return <section className="rounded-xl border border-brand-line bg-white p-5 sm:p-6" aria-labelledby="measurement-guide-title">
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div id="measurement-guide-title" className="flex min-h-11 items-center gap-3 text-sm font-semibold">
         <Icon name="blinds" size={22} className="text-moss" />
@@ -42,7 +42,7 @@ function MeasurementGuide() {
       </div>
       <a
         href="/live-preview"
-        className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-forest px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#1a3f35] hover:shadow"
+        className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-forest px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-grey hover:shadow"
       >
         <Icon name="spark" size={15} className="text-lime" />
         Live Preview
@@ -219,7 +219,7 @@ export default function OnlineQuotePage() {
       </div>
     </section>
     <section className="wrap py-8 sm:py-12">
-      <div className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#e2e3da] bg-[#f0f2e9] px-5 py-4">
+      <div className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-brand-line bg-brand-50 px-5 py-4">
         <p className="flex items-start gap-3 text-sm leading-relaxed text-neutral-600"><Icon name="shield" size={20} className="text-moss" /><span><strong className="text-forest">Preview pricing.</strong> Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</span></p>
         <span className="shrink-0 text-sm font-semibold text-moss">All prices in NZD</span>
       </div>
@@ -229,11 +229,11 @@ export default function OnlineQuotePage() {
           {windows.map((window, index) => {
             const result = results[index];
             const product = findProduct(window.product);
-            return <fieldset key={window.id} className="min-w-0 overflow-hidden rounded-2xl border border-[#e0e2da] bg-white shadow-[0_3px_18px_#102a2305]">
+            return <fieldset key={window.id} className="min-w-0 overflow-hidden rounded-2xl border border-brand-line bg-white shadow-[0_3px_18px_rgba(70,69,74,0.04)]">
               <legend className="sr-only">Window {index + 1}</legend>
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-100 px-5 py-3 sm:px-6"><div className="flex items-center gap-3"><span className="flex size-8 items-center justify-center rounded-full bg-[#edf2e7] text-xs font-bold text-moss">{String(index + 1).padStart(2,'0')}</span><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">{`Window ${index + 1}`}</h3></div><div className="flex items-center gap-3"><button type="button" className="min-h-11 text-xs font-semibold text-moss" onClick={() => addWindow(window)} aria-label={`Duplicate window ${index + 1}`}>Duplicate</button>{windows.length > 1 && <button type="button" className="min-h-11 text-xs text-neutral-500 underline" aria-label={`Remove window ${index + 1}`} onClick={() => setWindows(current => current.filter(item => item.id !== window.id))}>Remove</button>}</div></div>
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-neutral-100 px-5 py-3 sm:px-6"><div className="flex items-center gap-3"><span className="flex size-8 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-moss">{String(index + 1).padStart(2,'0')}</span><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">{`Window ${index + 1}`}</h3></div><div className="flex items-center gap-3"><button type="button" className="min-h-11 text-xs font-semibold text-moss" onClick={() => addWindow(window)} aria-label={`Duplicate window ${index + 1}`}>Duplicate</button>{windows.length > 1 && <button type="button" className="min-h-11 text-xs text-neutral-500 underline" aria-label={`Remove window ${index + 1}`} onClick={() => setWindows(current => current.filter(item => item.id !== window.id))}>Remove</button>}</div></div>
               <div className="p-5 sm:p-6">
-                <div className="grid items-center gap-4 rounded-xl bg-[#f7f7f3] p-3 sm:grid-cols-[100px_minmax(0,1fr)] sm:p-4">
+                <div className="grid items-center gap-4 rounded-xl bg-brand-50 p-3 sm:grid-cols-[100px_minmax(0,1fr)] sm:p-4">
                   <Img name={product.image} alt={product.name} sizes="(max-width: 639px) 100vw, 100px" className="h-36 w-full rounded-lg sm:h-24" />
                   <div className="grid min-w-0 gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(110px,.7fr)_minmax(110px,.7fr)]">
                     <div className="min-w-0"><label htmlFor={`product-${window.id}`} className="font-semibold">Choose your product</label><select id={`product-${window.id}`} className="mt-2 !text-base" value={window.product} onChange={event => update(window.id,'product',event.target.value)}>{quoteProducts.map(item => <option key={item.slug} value={item.slug}>{item.name}</option>)}</select></div>
@@ -245,14 +245,14 @@ export default function OnlineQuotePage() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#e9ede3] bg-[#f4f7ef] px-5 py-4 sm:px-6"><p className={`max-w-md text-xs leading-relaxed ${pricing[window.id]?.status === 'error' ? 'text-red-700' : 'text-neutral-500'}`}>{pricing[window.id]?.status === 'loading' ? 'Calculating live price…' : pricing[window.id]?.status === 'error' ? 'Price unavailable. Check your connection or measurements.' : result ? 'Includes tube, bottom rail, end caps, brackets, chain, and standard fittings.' : 'Add your measurements to calculate.'}</p><span className="text-xl font-semibold tabular-nums text-forest">{pricing[window.id]?.status === 'loading' ? '…' : result ? money(result.total) : '—'}</span></div>
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-line bg-brand-50 px-5 py-4 sm:px-6"><p className={`max-w-md text-xs leading-relaxed ${pricing[window.id]?.status === 'error' ? 'text-red-700' : 'text-neutral-500'}`}>{pricing[window.id]?.status === 'loading' ? 'Calculating live price…' : pricing[window.id]?.status === 'error' ? 'Price unavailable. Check your connection or measurements.' : result ? 'Includes tube, bottom rail, end caps, brackets, chain, and standard fittings.' : 'Add your measurements to calculate.'}</p><span className="text-xl font-semibold tabular-nums text-forest">{pricing[window.id]?.status === 'loading' ? '…' : result ? money(result.total) : '—'}</span></div>
             </fieldset>;
           })}
-          <button type="button" className="flex min-h-16 w-full items-center justify-center gap-3 rounded-xl border border-dashed border-moss/40 bg-white px-5 py-4 text-sm font-semibold text-moss transition hover:border-moss hover:bg-[#f0f2e9]" onClick={() => addWindow()}><span className="text-xl" aria-hidden="true">+</span>Add Another Window</button>
+          <button type="button" className="flex min-h-16 w-full items-center justify-center gap-3 rounded-xl border border-dashed border-moss/40 bg-white px-5 py-4 text-sm font-semibold text-moss transition hover:border-moss hover:bg-brand-50" onClick={() => addWindow()}><span className="text-xl" aria-hidden="true">+</span>Add Another Window</button>
           <MeasurementGuide />
         </div>
         <aside className="min-w-0 space-y-5 lg:sticky lg:top-6" aria-label="Quote summary">
-          <div className="overflow-hidden rounded-2xl border border-[#dce0d4] bg-white shadow-[0_8px_30px_#102a2308]">
+          <div className="overflow-hidden rounded-2xl border border-brand-line bg-white shadow-[0_8px_30px_rgba(70,69,74,0.06)]">
             <div className="bg-forest p-6 text-white sm:p-7"><h2 className="!text-3xl">Quote Summary</h2></div>
             <div className="p-6 sm:p-7">
               <div className="max-h-72 space-y-4 overflow-y-auto pr-1">{windows.map((window,index) => <div key={window.id} className="flex items-start justify-between gap-4 border-b border-neutral-100 pb-4 text-sm"><div className="min-w-0"><p className="break-words font-semibold">{`Window ${index + 1}`}</p><p className="mt-1 text-xs text-neutral-500">{findProduct(window.product).name}</p><p className="mt-1 text-xs text-neutral-500">{results[index] ? `${window.width} × ${window.drop} mm` : 'Measurements needed'}</p></div><span className="shrink-0 font-semibold tabular-nums">{results[index] ? money(results[index].total) : '—'}</span></div>)}</div>
@@ -261,19 +261,19 @@ export default function OnlineQuotePage() {
               <p className="mt-3 text-center text-xs leading-relaxed text-neutral-500">Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</p>
             </div>
           </div>
-          <div className="flex items-start gap-4 rounded-xl bg-[#edf0e7] p-5"><Icon name="headset" className="text-moss" /><div><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">A little help from our team?</h3><p className="mt-2 text-xs leading-relaxed text-neutral-600">We can help with product choices and measurements.</p><a href={contact.phones[0].href} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-moss">{contact.phones[0].label} <Arrow /></a></div></div>
+          <div className="flex items-start gap-4 rounded-xl bg-brand-100 p-5"><Icon name="headset" className="text-moss" /><div><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">A little help from our team?</h3><p className="mt-2 text-xs leading-relaxed text-neutral-600">We can help with product choices and measurements.</p><a href={contact.phones[0].href} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-moss">{contact.phones[0].label} <Arrow /></a></div></div>
         </aside>
       </div>
     </section>
     {showEnquiry && ready && <div className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 p-4 backdrop-blur-sm" role="presentation" onMouseDown={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>
       <div className="max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="enquiry-title" onMouseDown={event => event.stopPropagation()}>
-        <div className="flex items-center justify-between gap-4 border-b border-neutral-100 bg-[#f7f8f4] px-5 py-4 sm:px-6">
+        <div className="flex items-center justify-between gap-4 border-b border-brand-line bg-brand-50 px-5 py-4 sm:px-6">
           <h2 id="enquiry-title" className="!text-2xl">{submitted ? "Enquiry Sent" : "Confirm your enquiry"}</h2>
           <button type="button" className="flex size-11 shrink-0 items-center justify-center rounded-full text-2xl text-neutral-500 hover:bg-neutral-100" aria-label="Close enquiry form" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>×</button>
         </div>
         {submitted ? (
           <div className="p-6 sm:p-8 text-center space-y-4">
-            <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-[#edf2e7] text-moss text-2xl font-bold">
+            <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-brand-100 text-moss text-2xl font-bold">
               ✓
             </div>
             <h3 className="!text-2xl font-bold text-forest">Thank you, {customer.name || "there"}!</h3>
@@ -333,7 +333,7 @@ export default function OnlineQuotePage() {
               <label className="font-semibold text-forest">Address <span aria-hidden="true" className="text-moss">*</span><input required autoComplete="street-address" placeholder="Installation address" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.address} onChange={event => updateCustomer('address', event.target.value)} /></label>
               <label className="font-semibold text-forest sm:col-span-2"><span className="flex items-center justify-between gap-3"><span>Note</span><span className="text-[10px] font-normal uppercase tracking-wider text-neutral-400">Optional</span></span><textarea rows={3} placeholder="Add access details, preferences, or questions for our team" className="!mt-2 resize-y font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.note} onChange={event => updateCustomer('note', event.target.value)} /></label>
             </div>
-            <div className="mt-6 rounded-xl bg-[#f4f7ef] p-4 text-xs leading-relaxed text-neutral-600"><strong className="text-forest">Estimated total: {money(total)} NZD</strong><br />We’ll review your measurements and confirm the final price with you.</div>
+            <div className="mt-6 rounded-xl bg-brand-50 p-4 text-xs leading-relaxed text-neutral-600"><strong className="text-forest">Estimated total: {money(total)} NZD</strong><br />We’ll review your measurements and confirm the final price with you.</div>
             <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
               <button type="button" className="min-h-11 px-5 text-xs font-semibold text-neutral-500 hover:text-forest" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>Cancel</button>
               <button className="btn sm:min-w-48 disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={submitting}>

@@ -806,7 +806,7 @@ export default function LivePreviewPage() {
             <h2 id="step-1-title" className="!text-xl font-bold tracking-tight text-forest sm:!text-2xl">
               1. Add Your Photo
             </h2>
-            <p className="mt-0.5 text-xs text-[#535751]">Upload a photo from your device or take a new one.</p>
+            <p className="mt-0.5 text-xs text-brand-grey">Upload a photo from your device or take a new one.</p>
           </div>
 
           <div className="grid items-center gap-4 lg:grid-cols-[auto_1fr]">
@@ -825,7 +825,7 @@ export default function LivePreviewPage() {
                   </svg>
                 </div>
                 <span className="mt-3.5 block text-sm font-bold text-forest">Upload an Image</span>
-                <span className="mt-1 block text-xs text-[#71766e]">JPG, PNG (Max 10MB)</span>
+                <span className="mt-1 block text-xs text-brand-grey">JPG, PNG (Max 10MB)</span>
               </button>
               <input ref={fileInputRef} type="file" accept="image/jpeg,image/png,image/webp" onChange={handleUpload} className="hidden" />
 
@@ -842,13 +842,13 @@ export default function LivePreviewPage() {
                   </svg>
                 </div>
                 <span className="mt-3.5 block text-sm font-bold text-forest">Take a Photo</span>
-                <span className="mt-1 block text-xs text-[#71766e]">Use your device camera</span>
+                <span className="mt-1 block text-xs text-brand-grey">Use your device camera</span>
               </button>
 
               {/* Card 3: Tips for best results */}
-              <div className="flex min-h-[160px] flex-col justify-center rounded-2xl border border-[#deded8] bg-[#f8f9f6] p-4 text-xs sm:w-64">
+              <div className="flex min-h-[160px] flex-col justify-center rounded-2xl border border-brand-line bg-brand-50 p-4 text-xs sm:w-64">
                 <span className="mb-2 block font-bold text-forest">Tips for the best results</span>
-                <ul className="space-y-1.5 text-[#535751]">
+                <ul className="space-y-1.5 text-brand-grey">
                   <li className="flex items-center gap-2">
                     <span className="flex size-4 shrink-0 items-center justify-center rounded-full bg-forest text-[10px] text-white">✓</span>
                     Take the photo in good lighting
@@ -889,7 +889,7 @@ export default function LivePreviewPage() {
             <h2 id="step-2-title" className="!text-xl font-bold tracking-tight text-forest sm:!text-2xl">
               2. Choose a Product
             </h2>
-            <p className="mt-0.5 text-xs text-[#535751]">Select a window covering to preview in your space.</p>
+            <p className="mt-0.5 text-xs text-brand-grey">Select a window covering to preview in your space.</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-10">
@@ -903,7 +903,7 @@ export default function LivePreviewPage() {
                   className={`group relative flex flex-col items-center overflow-hidden rounded-2xl border p-2 text-center transition-all ${
                     isSelected
                       ? "border-forest bg-white shadow-md ring-2 ring-forest/20"
-                      : "border-[#deded8] bg-white hover:border-neutral-400 hover:bg-[#fafaf7]"
+                      : "border-brand-line bg-white hover:border-lime hover:bg-brand-50"
                   }`}
                 >
                   <div className="aspect-[4/3] w-full overflow-hidden rounded-xl bg-neutral-100">
@@ -932,13 +932,13 @@ export default function LivePreviewPage() {
               <h2 id="step-3-title" className="!text-xl font-bold tracking-tight text-forest sm:!text-2xl">
                 3. Customise & Preview
               </h2>
-              <p className="mt-0.5 text-xs text-[#535751]">Adjust options to see how it looks in your room.</p>
+              <p className="mt-0.5 text-xs text-brand-grey">Adjust options to see how it looks in your room.</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-[#deded8] bg-white px-4 py-2 text-xs font-semibold text-neutral-700 shadow-sm transition hover:bg-neutral-50"
+                className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-brand-line bg-white px-4 py-2 text-xs font-semibold text-neutral-700 shadow-sm transition hover:bg-brand-50"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
@@ -964,10 +964,10 @@ export default function LivePreviewPage() {
 
           <div className="grid items-start gap-6 lg:grid-cols-[290px_1fr] 2xl:grid-cols-[330px_1fr] 2xl:gap-8">
             {/* Left Column: Control Options */}
-            <div className="space-y-4 rounded-2xl border border-[#deded8] bg-white p-5 shadow-sm">
+            <div className="space-y-4 rounded-2xl border border-brand-line bg-white p-5 shadow-sm">
               {/* 1. Fabric / Colour */}
               <div>
-                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#71766e]">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-brand-grey">
                   Fabric / Colour
                 </span>
                 <div className="flex flex-wrap items-center gap-3">
@@ -1011,7 +1011,7 @@ export default function LivePreviewPage() {
 
               {/* 2. Control Type */}
               <div className="border-t border-neutral-100 pt-3.5">
-                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#71766e]">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-brand-grey">
                   Control Type
                 </span>
                 <div className="grid grid-cols-3 gap-1.5">
@@ -1025,7 +1025,7 @@ export default function LivePreviewPage() {
                         className={`flex min-h-9 items-center justify-center gap-1.5 rounded-xl border px-2 py-1.5 text-xs font-semibold transition ${
                           isSelected
                             ? "border-lime bg-brand-50 text-forest shadow-xs"
-                            : "border-[#deded8] bg-white text-neutral-600 hover:bg-neutral-50"
+                            : "border-brand-line bg-white text-neutral-600 hover:bg-brand-50"
                         }`}
                       >
                         {isSelected && <span className="text-[10px]">✓</span>}
@@ -1050,7 +1050,7 @@ export default function LivePreviewPage() {
 
               {/* 3. Mount Type */}
               <div className="border-t border-neutral-100 pt-3.5">
-                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#71766e]">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-brand-grey">
                   Mount Type
                 </span>
                 <div className="grid grid-cols-2 gap-2">
@@ -1064,7 +1064,7 @@ export default function LivePreviewPage() {
                         className={`flex min-h-9 items-center justify-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition ${
                           isSelected
                             ? "border-lime bg-brand-50 text-forest shadow-xs"
-                            : "border-[#deded8] bg-white text-neutral-600 hover:bg-neutral-50"
+                            : "border-brand-line bg-white text-neutral-600 hover:bg-brand-50"
                         }`}
                       >
                         {isSelected && <span className="text-[10px]">✓</span>}
@@ -1077,7 +1077,7 @@ export default function LivePreviewPage() {
 
               {/* 4. Opacity */}
               <div className="border-t border-neutral-100 pt-3.5">
-                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-[#71766e]">
+                <span className="mb-2 block text-xs font-bold uppercase tracking-wider text-brand-grey">
                   Opacity
                 </span>
                 <div className="grid grid-cols-3 gap-1.5">
@@ -1091,7 +1091,7 @@ export default function LivePreviewPage() {
                         className={`flex min-h-9 items-center justify-center gap-1 rounded-xl border px-1.5 py-1.5 text-center text-xs font-semibold transition ${
                           isSelected
                             ? "border-lime bg-brand-50 text-forest shadow-xs"
-                            : "border-[#deded8] bg-white text-neutral-600 hover:bg-neutral-50"
+                            : "border-brand-line bg-white text-neutral-600 hover:bg-brand-50"
                         }`}
                       >
                         {isSelected && <span className="text-[10px]">✓</span>}
@@ -1156,7 +1156,7 @@ export default function LivePreviewPage() {
             <div className="space-y-4">
               {imageUrl ? (
                 <>
-                  <div className="relative overflow-hidden rounded-2xl border border-[#deded8] bg-white p-3 shadow-sm sm:p-4">
+                  <div className="relative overflow-hidden rounded-2xl border border-brand-line bg-white p-3 shadow-sm sm:p-4">
                     {/* Stage Canvas */}
                     <div
                       ref={imageStageRef}
@@ -1210,8 +1210,8 @@ export default function LivePreviewPage() {
                           <svg className="pointer-events-none absolute inset-0 z-30 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <polygon
                               points={corners.map((c) => `${c.x},${c.y}`).join(" ")}
-                              fill="rgba(16, 42, 35, 0.12)"
-                              stroke="#102a23"
+                              fill="rgba(70, 69, 74, 0.12)"
+                              stroke="#46454a"
                               strokeWidth="1.2"
                               strokeDasharray="2 1.5"
                               vectorEffect="non-scaling-stroke"
@@ -1292,7 +1292,7 @@ export default function LivePreviewPage() {
                   </div>
 
                   {/* Bottom Row: Original Photo comparison thumbnail */}
-                  <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#deded8] bg-white p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-brand-line bg-white p-4">
                     <div className="flex items-center gap-4">
                       {/* Original photo thumbnail card */}
                       <div className="relative overflow-hidden rounded-xl border border-neutral-200 bg-neutral-100 shadow-xs sm:w-44">
@@ -1322,7 +1322,7 @@ export default function LivePreviewPage() {
                       <button
                         type="button"
                         onClick={() => setShowTreatment((v) => !v)}
-                        className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-[#deded8] bg-[#f8f9f6] px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-[#eef2e7]"
+                        className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-brand-line bg-brand-50 px-4 py-2 text-xs font-semibold text-neutral-700 hover:bg-brand-100"
                       >
                         Toggle Overlay ({showTreatment ? "On" : "Off"})
                       </button>
@@ -1337,8 +1337,8 @@ export default function LivePreviewPage() {
                   </div>
                 </>
               ) : (
-                <div className="flex min-h-[380px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#deded8] bg-white p-8 text-center sm:min-h-[460px]">
-                  <div className="flex size-16 items-center justify-center rounded-2xl bg-[#edf2e7] text-moss">
+                <div className="flex min-h-[380px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-brand-line bg-white p-8 text-center sm:min-h-[460px]">
+                  <div className="flex size-16 items-center justify-center rounded-2xl bg-brand-100 text-moss">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
                       <circle cx="9" cy="9" r="2" />
@@ -1346,7 +1346,7 @@ export default function LivePreviewPage() {
                     </svg>
                   </div>
                   <h3 className="mt-4 !font-sans !text-lg !font-bold text-forest">No Window Photo Selected</h3>
-                  <p className="mt-1.5 max-w-md text-xs leading-relaxed text-[#71766e]">
+                  <p className="mt-1.5 max-w-md text-xs leading-relaxed text-brand-grey">
                     Upload an image of your window or take a photo with your device camera above to preview {activeProductObj.name} in your room.
                   </p>
                   <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
@@ -1360,7 +1360,7 @@ export default function LivePreviewPage() {
                     <button
                       type="button"
                       onClick={() => setCameraOpen(true)}
-                      className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-[#deded8] bg-white px-4 py-2 text-xs font-semibold text-neutral-700 shadow-sm transition hover:bg-neutral-50"
+                      className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-brand-line bg-white px-4 py-2 text-xs font-semibold text-neutral-700 shadow-sm transition hover:bg-brand-50"
                     >
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
