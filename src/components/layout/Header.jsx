@@ -54,13 +54,13 @@ function Header({ path }) {
               <div key={url} className="group relative">
                 {link}
                 <div className="invisible absolute left-1/2 top-full z-50 w-[38rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                  <div className="rounded-2xl border border-black/10 bg-white p-3 text-[#17241f] shadow-2xl [text-shadow:none]">
-                    <a href="/products" className="mb-1 flex items-center justify-between rounded-xl px-3 py-2.5 font-semibold text-forest hover:bg-[#f4f7ef]">
+                  <div className="rounded-2xl border border-black/10 bg-white p-3 text-forest shadow-2xl [text-shadow:none]">
+                    <a href="/products" className="mb-1 flex items-center justify-between rounded-xl px-3 py-2.5 font-semibold text-forest hover:bg-brand-50">
                       View all products <span aria-hidden="true">→</span>
                     </a>
                     <div className="grid grid-cols-2 gap-1 border-t border-black/5 pt-2">
                       {products.map((product) => (
-                        <a key={product.slug} href={`/products/${product.slug}`} className="group/item flex items-center gap-3 rounded-xl p-2 text-sm font-medium hover:bg-[#f4f7ef] hover:text-forest">
+                        <a key={product.slug} href={`/products/${product.slug}`} className="group/item flex items-center gap-3 rounded-xl p-2 text-sm font-medium hover:bg-brand-50 hover:text-forest">
                           <Img
                             name={product.image}
                             alt=""
@@ -100,7 +100,7 @@ function Header({ path }) {
       {open && (
         <nav
           aria-label="Mobile navigation"
-          className="absolute top-full z-50 max-h-[calc(100vh-72px)] w-full overflow-y-auto border-t border-black/10 bg-white px-5 py-4 text-[#17241f] shadow-xl lg:hidden"
+          className="absolute top-full z-50 max-h-[calc(100vh-72px)] w-full overflow-y-auto border-t border-black/10 bg-white px-5 py-4 text-forest shadow-xl lg:hidden"
         >
           {nav.map(([name, url]) => (
             <div key={url}>
@@ -129,7 +129,7 @@ function Header({ path }) {
               )}
               {url === "/products" && productsOpen && (
                 <div id="mobile-products" className="mb-2 grid grid-cols-2 gap-1 border-y border-black/5 py-2 pl-3">
-                  <a onClick={() => setOpen(false)} className="col-span-2 flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-forest hover:bg-[#f4f7ef]" href="/products">
+                  <a onClick={() => setOpen(false)} className="col-span-2 flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-forest hover:bg-brand-50" href="/products">
                     View all products <span aria-hidden="true">→</span>
                   </a>
                   {products.map((product) => (

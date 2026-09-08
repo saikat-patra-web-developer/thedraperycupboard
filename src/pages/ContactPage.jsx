@@ -98,7 +98,7 @@ export default function ContactPage() {
                   "Your preferred styles, colours or light control",
                   "Your location and ideal timeframe",
                 ].map((item) => (
-                  <div className="flex items-start gap-3 rounded-lg bg-[#f4f5f0] p-4 text-sm" key={item}>
+                  <div className="flex items-start gap-3 rounded-lg bg-brand-50 p-4 text-sm" key={item}>
                     <Icon name="check" size={18} className="mt-0.5 text-moss" />
                     <span>{item}</span>
                   </div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
                 "/products",
               ],
             ].map(([t, d, b, u]) => (
-              <div className="rounded-lg bg-[#efeeeb] p-6" key={t}>
+              <div className="rounded-lg bg-brand-50 p-6" key={t}>
                 <h3 className="!text-xl">{t}</h3>
                 <p className="muted my-5">{d}</p>
                 <a className="btn btn-dark !px-5 !text-xs" href={u}>

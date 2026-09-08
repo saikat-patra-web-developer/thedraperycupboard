@@ -1,7 +1,7 @@
 function Testimonials() {
   return (
     <section className="wrap pb-12 md:pb-16">
-      <div className="rounded-2xl bg-[#f0efec] p-5 sm:p-7 lg:p-8">
+      <div className="rounded-2xl bg-brand-50 p-5 sm:p-7 lg:p-8">
         <div className="eyebrow text-center">What our customers say</div>
         <div className="grid gap-5 md:grid-cols-3">
           {[
@@ -30,7 +30,7 @@ function Testimonials() {
               </span>
               <p className="muted max-w-[85%] !text-sm">{quote}</p>
               <div className="mt-5 flex items-center gap-3">
-                <div className="flex size-8 items-center justify-center rounded-full bg-[#deded4] text-xs">
+                <div className="flex size-8 items-center justify-center rounded-full bg-brand-100 text-xs">
                   {name[0]}
                 </div>
                 <div>

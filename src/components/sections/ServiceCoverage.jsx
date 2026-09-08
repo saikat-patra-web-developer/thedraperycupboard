@@ -5,7 +5,7 @@ import Heading from "../ui/SectionHeading.jsx";
 
 function Coverage() {
   return (
-    <section className="bg-[#eeefe8]">
+    <section className="bg-brand-50">
       <div className="wrap grid gap-10 py-12 md:py-16 lg:grid-cols-[1fr_1fr_1fr] lg:items-center">
         <div>
           <Heading

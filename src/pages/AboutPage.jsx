@@ -59,7 +59,7 @@ export default function AboutPage() {
         />
       </section>
       <Process />
-      <section className="bg-[#f0efeb]">
+      <section className="bg-brand-50">
         <div className="wrap grid items-stretch sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1.05fr]">
         <div className="py-10 pr-7 sm:py-12 sm:pr-10 lg:py-16 2xl:py-20 2xl:pr-16">
           <Heading
@@ -98,7 +98,7 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-        <div className="bg-[#e9e8e2] px-7 py-10 sm:px-10 sm:py-12 lg:py-16 2xl:px-16 2xl:py-20">
+        <div className="bg-brand-100 px-7 py-10 sm:px-10 sm:py-12 lg:py-16 2xl:px-16 2xl:py-20">
           <Heading label="Quality & warranty" title="Confidence Built In." />
           <p className="muted my-5">
             We stand behind our blinds with warranties and a commitment to

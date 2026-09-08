@@ -757,7 +757,7 @@ export default function LivePreviewPage() {
       }
 
       // Add elegant watermark badge
-      ctx.fillStyle = "rgba(16, 42, 35, 0.85)";
+      ctx.fillStyle = "rgba(70, 69, 74, 0.88)";
       const badgeW = 240;
       const badgeH = 46;
       ctx.roundRect(naturalW - badgeW - 24, naturalH - badgeH - 24, badgeW, badgeH, 12);
@@ -781,7 +781,7 @@ export default function LivePreviewPage() {
   const activeProductObj = PRODUCTS.find((p) => p.id === selectedProduct) || PRODUCTS[0];
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] pb-24 text-[#17241f]">
+    <div className="min-h-screen bg-[#fafbf8] pb-24 text-[#353439]">
       {/* Hero Header Section */}
       <Hero
         compact
@@ -815,9 +815,9 @@ export default function LivePreviewPage() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="group flex min-h-[160px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#deded8] bg-white p-5 text-center transition-all hover:border-moss hover:bg-[#f6f8f3] hover:shadow-sm sm:w-56"
+                className="group flex min-h-[160px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-brand-line bg-white p-5 text-center transition-all hover:border-moss hover:bg-brand-50 hover:shadow-sm sm:w-56"
               >
-                <div className="flex size-12 items-center justify-center rounded-full bg-[#edf2e7] text-moss transition-transform group-hover:scale-110">
+                <div className="flex size-12 items-center justify-center rounded-full bg-brand-100 text-moss transition-transform group-hover:scale-110">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                     <polyline points="17 8 12 3 7 8" />
@@ -833,9 +833,9 @@ export default function LivePreviewPage() {
               <button
                 type="button"
                 onClick={() => setCameraOpen(true)}
-                className="group flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-[#deded8] bg-white p-5 text-center transition-all hover:border-moss hover:bg-[#f6f8f3] hover:shadow-sm sm:w-56"
+                className="group flex min-h-[160px] flex-col items-center justify-center rounded-2xl border border-brand-line bg-white p-5 text-center transition-all hover:border-moss hover:bg-brand-50 hover:shadow-sm sm:w-56"
               >
-                <div className="flex size-12 items-center justify-center rounded-full bg-[#edf2e7] text-moss transition-transform group-hover:scale-110">
+                <div className="flex size-12 items-center justify-center rounded-full bg-brand-100 text-moss transition-transform group-hover:scale-110">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
                     <circle cx="12" cy="13" r="3" />
@@ -950,7 +950,7 @@ export default function LivePreviewPage() {
                 type="button"
                 onClick={handleSaveImage}
                 disabled={isSaving}
-                className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-forest px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#1a3f35] disabled:opacity-50"
+                className="inline-flex min-h-10 items-center gap-2 rounded-xl bg-forest px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-grey disabled:opacity-50"
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
@@ -1024,7 +1024,7 @@ export default function LivePreviewPage() {
                         onClick={() => setControlType(ct.id)}
                         className={`flex min-h-9 items-center justify-center gap-1.5 rounded-xl border px-2 py-1.5 text-xs font-semibold transition ${
                           isSelected
-                            ? "border-forest bg-[#f0f4ec] text-forest shadow-xs"
+                            ? "border-lime bg-brand-50 text-forest shadow-xs"
                             : "border-[#deded8] bg-white text-neutral-600 hover:bg-neutral-50"
                         }`}
                       >
@@ -1063,7 +1063,7 @@ export default function LivePreviewPage() {
                         onClick={() => setMountType(mt.id)}
                         className={`flex min-h-9 items-center justify-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition ${
                           isSelected
-                            ? "border-forest bg-[#f0f4ec] text-forest shadow-xs"
+                            ? "border-lime bg-brand-50 text-forest shadow-xs"
                             : "border-[#deded8] bg-white text-neutral-600 hover:bg-neutral-50"
                         }`}
                       >
@@ -1090,7 +1090,7 @@ export default function LivePreviewPage() {
                         onClick={() => handleSelectOpacity(op.id)}
                         className={`flex min-h-9 items-center justify-center gap-1 rounded-xl border px-1.5 py-1.5 text-center text-xs font-semibold transition ${
                           isSelected
-                            ? "border-forest bg-[#f0f4ec] text-forest shadow-xs"
+                            ? "border-lime bg-brand-50 text-forest shadow-xs"
                             : "border-[#deded8] bg-white text-neutral-600 hover:bg-neutral-50"
                         }`}
                       >
@@ -1419,7 +1419,7 @@ export default function LivePreviewPage() {
                 type="button"
                 onClick={captureCameraPhoto}
                 disabled={Boolean(cameraError)}
-                className="inline-flex items-center gap-2 rounded-xl bg-lime px-5 py-2.5 text-xs font-bold text-forest shadow-md transition hover:bg-[#a7dc79] disabled:opacity-40"
+                className="inline-flex items-center gap-2 rounded-xl bg-lime px-5 py-2.5 text-xs font-bold text-forest shadow-md transition hover:bg-[#8dca34] disabled:opacity-40"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />

@@ -30,15 +30,15 @@ export default function PolicyContent({ type }) {
   return (
     <section className="wrap pt-14 md:pt-18 lg:pt-20">
       <div className="mx-auto max-w-5xl">
-        <header className="border-b border-[#deded8] pt-4 pb-8 md:pt-5 md:pb-10">
+        <header className="border-b border-brand-line pt-4 pb-8 md:pt-5 md:pb-10">
           <Heading label="The Drapery Cupboard" title={isPrivacy ? "Privacy Policy" : "Terms & Conditions"} />
           <p className="muted mt-5 max-w-3xl">{isPrivacy ? "This policy explains how The Drapery Cupboard (TDC) handles personal information provided through this website and in your communications with us." : "Please read these terms carefully, as they form the contract between you and The Drapery Cupboard (TDC)."}</p>
         </header>
         <div className="mt-8 space-y-5 md:mt-10 md:space-y-6">
           {sections.map(([title, items], index) => (
-            <article className="rounded-xl border border-[#e4e3df] bg-white p-5 shadow-[0_5px_20px_rgba(16,42,35,0.04)] sm:p-7 md:p-8" key={title}>
+            <article className="rounded-xl border border-brand-line bg-white p-5 shadow-[0_5px_20px_rgba(70,69,74,0.06)] sm:p-7 md:p-8" key={title}>
               <h2 className="!text-2xl text-forest">{index + 1}. {title}</h2>
-              <ul className="mt-4 space-y-3 pl-5 text-[15px] leading-7 text-[#535751] marker:text-moss">
+              <ul className="mt-4 space-y-3 pl-5 text-[15px] leading-7 text-brand-grey marker:text-moss">
                 {items.map((item) => <li className="list-disc pl-1" key={item}>{item}</li>)}
               </ul>
             </article>

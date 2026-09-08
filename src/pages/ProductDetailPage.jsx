@@ -39,11 +39,11 @@ export default function ProductDetailPage({ id }) {
           <div className="eyebrow">{product.category}</div><h1 className="!text-4xl sm:!text-[42px]">{product.name}</h1>
           <p className="muted mt-5">{product.description}</p>
           <ul className="my-7 space-y-3">{product.benefits.map(benefit => <li key={benefit} className="flex gap-3 text-base"><Icon size={19} className="text-moss" />{benefit}</li>)}</ul>
-          <div className="rounded-xl bg-[#eeede7] p-5"><p className="text-base font-semibold">A quote tailored to your space</p><p className="muted mt-1 !text-sm">Share your measurements and preferences for product options and pricing.</p></div>
+          <div className="rounded-xl bg-brand-50 p-5"><p className="text-base font-semibold">A quote tailored to your space</p><p className="muted mt-1 !text-sm">Share your measurements and preferences for product options and pricing.</p></div>
           <div className="mt-6 flex flex-wrap gap-3"><Button to="/online-quote" dark>Get a Free Quote</Button><Button to="/contact" outline>Talk to Our Team</Button></div>
         </div>
       </div>
-      <div className="my-12 grid gap-9 rounded-xl bg-[#f0efeb] p-6 lg:grid-cols-3 lg:p-9">
+      <div className="my-12 grid gap-9 rounded-xl bg-brand-50 p-6 lg:grid-cols-3 lg:p-9">
         {product.options.map(([title,text]) => <div key={title}><Icon name="blinds" className="mb-4 text-moss" /><h3 className="!text-xl">{title}</h3><p className="muted mt-3">{text}</p></div>)}
       </div>
       <div className="grid gap-10 pb-12 lg:grid-cols-[1.1fr_1fr]">
@@ -57,7 +57,7 @@ export default function ProductDetailPage({ id }) {
       </div>
       <div className="grid gap-9 border-t border-neutral-200 py-12 lg:grid-cols-[1.6fr_1fr]">
         <div><h2 className="mb-4 !text-3xl">Your Questions, Answered</h2><Faq items={product.faqs} /></div>
-        <div className="rounded-xl bg-[#eeede7] p-7"><h3>Let’s Find the Right Fit</h3><p className="muted my-4">Tell us about your space and what you want to achieve. We’ll help you choose the right product and finish.</p><Button to={quoteUrl}>Enquire About {product.name}</Button></div>
+        <div className="rounded-xl bg-brand-100 p-7"><h3>Let’s Find the Right Fit</h3><p className="muted my-4">Tell us about your space and what you want to achieve. We’ll help you choose the right product and finish.</p><Button to={quoteUrl}>Enquire About {product.name}</Button></div>
       </div>
       <section className="pb-10"><div className="eyebrow">Explore more</div><h2 className="mb-6">You May Also Like</h2><ProductGrid full items={related} /></section>
     </section>
