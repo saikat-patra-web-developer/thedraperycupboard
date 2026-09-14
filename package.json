@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "images:build": "node scripts/build-images.mjs"
+    "images:build": "node scripts/build-images.mjs",
+    "verify": "node scripts/verify-integrity.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Agent speedup & internal documentation (not used by website)
+AGENTS.md
+PROJECT_INDEX.md
+FAST_LOOKUP.md
+PROJECT_SCAN.md
+
+# Internal verification & audit scripts
+scripts/verify-integrity.mjs
+
