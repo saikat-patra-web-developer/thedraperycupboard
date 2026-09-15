@@ -148,15 +148,50 @@ export default function CheckoutPage() {
   return (
     <section className="wrap py-10 md:py-14">
       {/* Breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-xs text-neutral-500">
-        <a href="/" className="hover:text-forest">Home</a>
+      <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs text-neutral-500">
+        <a href="/" className="hover:text-forest transition">Home</a>
         <span>›</span>
-        <a href="/parts" className="hover:text-forest">Blinds Parts</a>
+        <a href="/parts" className="hover:text-forest transition">Blinds Parts</a>
         <span>›</span>
-        <a href="/cart" className="hover:text-forest">Cart</a>
+        <a href="/cart" className="hover:text-forest transition">Shopping Cart</a>
         <span>›</span>
         <span aria-current="page" className="text-forest font-semibold">Checkout</span>
       </nav>
+
+      {/* Checkout Steps Progress Stepper */}
+      <div className="mb-8 rounded-2xl border border-brand-line bg-white p-4 sm:p-5 shadow-xs">
+        <div className="flex items-center justify-between max-w-2xl mx-auto text-xs font-semibold">
+          {/* Step 1: Completed Cart */}
+          <a href="/cart" className="flex items-center gap-2 text-moss hover:underline transition">
+            <span className="size-6 rounded-full bg-lime/90 text-forest font-bold flex items-center justify-center text-[11px] shadow-2xs">
+              ✓
+            </span>
+            <span className="font-bold">Shopping Cart</span>
+          </a>
+
+          {/* Completed Connector */}
+          <div className="h-0.5 flex-1 mx-3 bg-lime hidden sm:block" />
+
+          {/* Step 2: Active Delivery & Details */}
+          <div className="flex items-center gap-2 text-forest">
+            <span className="size-6 rounded-full bg-forest text-lime font-bold flex items-center justify-center text-[11px] shadow-2xs">
+              2
+            </span>
+            <span className="font-bold">Delivery & Details</span>
+          </div>
+
+          {/* Upcoming Connector */}
+          <div className="h-0.5 flex-1 mx-3 bg-neutral-200 hidden sm:block" />
+
+          {/* Step 3: Upcoming Confirmation */}
+          <div className="flex items-center gap-2 text-neutral-400">
+            <span className="size-6 rounded-full bg-neutral-100 border border-neutral-300 font-bold flex items-center justify-center text-[11px]">
+              3
+            </span>
+            <span className="hidden sm:inline">Confirmation</span>
+          </div>
+        </div>
+      </div>
 
       <h1 className="!text-3xl sm:!text-4xl font-serif text-forest mb-8">Secure Checkout</h1>
 

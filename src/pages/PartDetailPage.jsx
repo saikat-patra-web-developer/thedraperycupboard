@@ -12,7 +12,7 @@ const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", curre
 
 export default function PartDetailPage({ id }) {
   const part = findPart(id);
-  const { addItem } = useCart();
+  const { addItem, items, cartCount } = useCart();
 
   const [selectedVariant, setSelectedVariant] = useState(part?.variants ? part.variants[0] : null);
   const [selectedPack, setSelectedPack] = useState(part?.packOptions ? part.packOptions[0] : null);
@@ -20,19 +20,25 @@ export default function PartDetailPage({ id }) {
   const [activeTab, setActiveTab] = useState("specs");
   const [addedNotice, setAddedNotice] = useState(false);
 
+  const variantKey = selectedVariant?.id || "default";
+  const packKey = selectedPack?.id || "default";
+  const currentCartItemId = `${part?.id}-${variantKey}-${packKey}`;
+  const inCartItem = items.find((item) => item.cartItemId === currentCartItemId);
+  const inCartQty = inCartItem ? inCartItem.quantity : 0;
+
   if (!part) return <NotFoundPage />;
 
   const currentPrice = Math.round(part.price * (selectedPack?.multiplier || 1) * 100) / 100;
   const totalPrice = Math.round(currentPrice * quantity * 100) / 100;
 
   const handleAddToCart = () => {
-    addItem(part, quantity, selectedVariant, selectedPack);
+    addItem(part, quantity, selectedVariant, selectedPack, { openDrawer: false });
     setAddedNotice(true);
-    setTimeout(() => setAddedNotice(false), 2000);
+    setTimeout(() => setAddedNotice(false), 3000);
   };
 
   const handleBuyNow = () => {
-    addItem(part, quantity, selectedVariant, selectedPack);
+    addItem(part, quantity, selectedVariant, selectedPack, { openDrawer: false });
     window.location.assign("/checkout");
   };
 
@@ -198,48 +204,94 @@ export default function PartDetailPage({ id }) {
             )}
 
             {/* Quantity Stepper & Add to Cart */}
-            <div className="mt-6 pt-6 border-t border-neutral-200 space-y-4">
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center rounded-xl border border-neutral-300 bg-white">
+            <div className="mt-6 pt-6 border-t border-neutral-200 space-y-3">
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Stepper */}
+                <div className="flex items-center rounded-xl border border-neutral-300 bg-white shadow-2xs">
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-100 transition rounded-l-xl"
+                    className="px-4 py-2.5 text-base font-bold text-neutral-600 hover:bg-neutral-100 active:scale-95 transition rounded-l-xl"
                     aria-label="Decrease quantity"
                   >
                     −
                   </button>
-                  <span className="w-12 text-center text-sm font-semibold">{quantity}</span>
+                  <span className="w-12 text-center text-sm font-bold text-forest">{quantity}</span>
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => Math.min(99, q + 1))}
-                    className="px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-100 transition rounded-r-xl"
+                    className="px-4 py-2.5 text-base font-bold text-neutral-600 hover:bg-neutral-100 active:scale-95 transition rounded-r-xl"
                     aria-label="Increase quantity"
                   >
                     +
                   </button>
                 </div>
 
+                {/* Add to Cart / Add More button */}
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="btn btn-dark flex-1 !min-h-12 text-sm font-semibold justify-center shadow-md"
+                  className="btn btn-dark flex-1 !min-h-12 text-sm font-semibold justify-center shadow-md hover:scale-[1.01] transition"
                 >
-                  <Icon name="tools" size={16} className="text-lime" /> Add to Cart • {money(totalPrice)}
+                  <Icon name="tools" size={16} className="text-lime" />
+                  <span>
+                    {inCartQty > 0
+                      ? `Add More (${quantity}) • ${money(totalPrice)}`
+                      : `Add to Cart • ${money(totalPrice)}`}
+                  </span>
                 </button>
               </div>
 
+              {/* View Cart Button (Direct to Proper Cart Page) */}
+              {cartCount > 0 && (
+                <a
+                  href="/cart"
+                  className="btn !bg-lime hover:!bg-lime/90 !text-forest w-full !min-h-11 text-xs font-bold justify-center shadow-xs hover:shadow transition flex items-center gap-2"
+                >
+                  <Icon name="check" size={16} className="text-forest" />
+                  <span>View Cart ({cartCount} {cartCount === 1 ? "item" : "items"})</span>
+                  <Arrow />
+                </a>
+              )}
+
+              {/* Instant Buy Checkout Button */}
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="btn w-full !min-h-11 text-xs font-semibold justify-center shadow-xs"
+                className="btn btn-outline w-full !min-h-11 text-xs font-semibold justify-center shadow-xs"
               >
                 Instant Buy & Checkout <Arrow />
               </button>
 
+              {/* Cart Status & Notice Alert */}
               {addedNotice && (
-                <div className="rounded-lg bg-lime/20 border border-lime p-2.5 text-center text-xs font-semibold text-moss animate-appear">
-                  ✓ Item added to cart! Cart drawer is open.
+                <div className="rounded-xl bg-lime/20 border border-lime p-3 text-center text-xs font-semibold text-moss animate-appear flex items-center justify-between gap-2">
+                  <span>✓ Added {quantity} item(s) to your cart!</span>
+                  <a
+                    href="/cart"
+                    className="underline font-bold text-forest hover:text-moss"
+                  >
+                    View Cart →
+                  </a>
+                </div>
+              )}
+
+              {inCartQty > 0 && !addedNotice && (
+                <div className="rounded-xl bg-brand-50 border border-brand-line p-3 flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="size-5 rounded-full bg-lime text-forest font-bold text-[10px] flex items-center justify-center">
+                      ✓
+                    </span>
+                    <span className="text-forest font-medium">
+                      <strong className="font-bold">{inCartQty}</strong> of this option currently in your cart.
+                    </span>
+                  </div>
+                  <a
+                    href="/cart"
+                    className="text-xs font-bold text-moss hover:underline flex items-center gap-1 shrink-0"
+                  >
+                    View Cart <Arrow />
+                  </a>
                 </div>
               )}
             </div>

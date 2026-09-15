@@ -29,7 +29,14 @@ export function CartProvider({ children }) {
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
 
-  const addItem = (part, quantity = 1, variant = null, packOption = null) => {
+  const addItem = (
+    part,
+    quantity = 1,
+    variant = null,
+    packOption = null,
+    options = {}
+  ) => {
+    const { openDrawer = false } = options;
     const multiplier = packOption?.multiplier || 1;
     const unitPrice = Math.round(part.price * multiplier * 100) / 100;
     const variantKey = variant?.id || "default";
@@ -73,8 +80,20 @@ export function CartProvider({ children }) {
       ];
     });
 
-    setLastAddedItem({ ...part, variantLabel, quantity });
-    setIsDrawerOpen(true);
+    setLastAddedItem({ ...part, variantLabel, quantity, timestamp: Date.now() });
+    if (openDrawer) {
+      setIsDrawerOpen(true);
+    }
+  };
+
+  const dismissLastAddedItem = () => setLastAddedItem(null);
+
+  const getItemQuantity = (partId, variantId = null, packId = null) => {
+    const vKey = variantId || "default";
+    const pKey = packId || "default";
+    const targetId = `${partId}-${vKey}-${pKey}`;
+    const item = items.find((i) => i.cartItemId === targetId);
+    return item ? item.quantity : 0;
   };
 
   const updateQuantity = (cartItemId, newQty) => {
@@ -127,6 +146,8 @@ export function CartProvider({ children }) {
         openDrawer,
         closeDrawer,
         lastAddedItem,
+        dismissLastAddedItem,
+        getItemQuantity,
       }}
     >
       {children}

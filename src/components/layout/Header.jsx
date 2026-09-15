@@ -8,45 +8,37 @@ import { useCart } from "../../hooks/useCart.js";
 function Header({ path }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const { cartCount, openDrawer } = useCart();
+  const { cartCount } = useCart();
   const overlaysHero = path === "/";
   const nav = [
     ["Home", "/"],
     ["Products", "/products"],
     ["Blinds Parts", "/parts"],
-    ["About", "/about"],
     ["Services", "/services"],
+    ["About", "/about"],
     ["Contact", "/contact"],
   ];
   return (
     <header
       className={
-        "z-50 isolate w-full border-b " +
+        "top-0 z-40 w-full transition-colors duration-200 " +
         (overlaysHero
-          ? "absolute inset-x-0 top-0 border-white/15 bg-gradient-to-b from-forest/75 to-forest/35 text-white shadow-[0_8px_30px_rgba(0,0,0,0.12)]"
-          : "relative border-black/5 bg-white")
+          ? "absolute bg-transparent text-white"
+          : "sticky border-b border-black/10 bg-white/95 text-forest backdrop-blur-md")
       }
     >
-      <div className="wrap flex h-[72px] items-center justify-between gap-3 md:h-[84px] md:gap-6 2xl:h-[96px]">
+      <div className="wrap flex items-center justify-between gap-4 py-4 md:py-5">
         <Brand footer={overlaysHero} compact={overlaysHero} />
-        <nav
-          aria-label="Main navigation"
-          className={
-            "hidden items-center gap-6 lg:flex xl:gap-8 2xl:gap-10 " +
-            (overlaysHero ? "[text-shadow:0_1px_8px_rgba(0,0,0,0.4)]" : "")
-          }
-        >
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-[0.14em]">
           {nav.map(([name, url]) => {
-            const isActive =
-              path === url ||
-              (url === "/products" && path.startsWith("/products/")) ||
-              (url === "/parts" && (path.startsWith("/parts") || path === "/shop" || path === "/cart" || path === "/checkout"));
-
+            const isActive = path === url || (url !== "/" && path.startsWith(url));
             const link = (
               <a
                 href={url}
                 className={
-                  "relative inline-flex items-center gap-1.5 py-3 text-sm font-semibold after:absolute after:bottom-0 after:left-0 after:h-[2px] after:transition-[width] " +
+                  "relative py-1 transition " +
+                  (isActive ? (overlaysHero ? "text-white " : "text-forest ") : overlaysHero ? "text-white/80 hover:text-white " : "text-forest/75 hover:text-forest ") +
+                  "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all " +
                   (overlaysHero ? "after:bg-lime " : "after:bg-moss ") +
                   (isActive ? "after:w-full" : "after:w-0 hover:after:w-full")
                 }
@@ -93,10 +85,9 @@ function Header({ path }) {
 
         {/* Right Action Cluster: Cart Button + Online Quote + Mobile Hamburger */}
         <div className="flex items-center gap-2.5 sm:gap-3">
-          {/* Cart Trigger */}
-          <button
-            type="button"
-            onClick={openDrawer}
+          {/* Cart Trigger (Links Directly to Proper Cart Page) */}
+          <a
+            href="/cart"
             aria-label={`View shopping cart, ${cartCount} items`}
             className={`relative flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
               overlaysHero
@@ -123,7 +114,7 @@ function Header({ path }) {
                 {cartCount}
               </span>
             )}
-          </button>
+          </a>
 
           <div className={overlaysHero ? "hidden md:block" : "hidden sm:block"}>
             <Button dark to="/online-quote">
@@ -193,13 +184,10 @@ function Header({ path }) {
             </div>
           ))}
           <div className="mt-4 pt-3 border-t border-black/10 flex flex-col gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setOpen(false);
-                openDrawer();
-              }}
-              className="flex w-full items-center justify-between rounded-xl bg-brand-50 border border-brand-line px-4 py-3 text-sm font-semibold text-forest"
+            <a
+              href="/cart"
+              onClick={() => setOpen(false)}
+              className="flex w-full items-center justify-between rounded-xl bg-brand-50 border border-brand-line px-4 py-3 text-sm font-semibold text-forest hover:bg-brand-100 transition"
             >
               <span className="flex items-center gap-2">
                 <svg className="size-4 text-moss" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -210,7 +198,7 @@ function Header({ path }) {
               <span className="rounded-full bg-forest px-2.5 py-0.5 text-xs font-bold text-white">
                 {cartCount}
               </span>
-            </button>
+            </a>
             <div className={overlaysHero ? "md:hidden" : "sm:hidden"}>
               <Button dark to="/online-quote">
                 Get Online Quote

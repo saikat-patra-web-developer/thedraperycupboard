@@ -4,6 +4,7 @@ import usePageTitle from "./hooks/usePageTitle";
 import AppRoutes from "./routes/AppRoutes";
 import { CartProvider } from "./context/CartContext";
 import CartDrawer from "./components/cart/CartDrawer";
+import CartNotificationToast from "./components/cart/CartNotificationToast";
 
 export default function App() {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
@@ -23,6 +24,7 @@ export default function App() {
       </main>
       <Footer />
       <CartDrawer />
+      <CartNotificationToast />
     </CartProvider>
   );
 }

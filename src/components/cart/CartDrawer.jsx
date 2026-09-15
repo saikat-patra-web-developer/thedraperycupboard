@@ -208,18 +208,21 @@ export default function CartDrawer() {
 
               <div className="pt-2 space-y-2">
                 <a
-                  href="/checkout"
-                  onClick={closeDrawer}
-                  className="btn btn-dark w-full !py-3 font-semibold shadow-md flex items-center justify-center gap-2"
-                >
-                  Checkout Now <Arrow />
-                </a>
-                <a
                   href="/cart"
                   onClick={closeDrawer}
-                  className="block text-center text-xs font-semibold text-neutral-600 hover:text-moss py-1"
+                  className="btn !bg-lime hover:!bg-lime/90 !text-forest w-full !min-h-11 font-bold text-xs shadow-xs flex items-center justify-center gap-2"
                 >
-                  View Full Cart Details →
+                  <Icon name="tools" size={15} className="text-forest" />
+                  <span>View Full Cart Page</span>
+                  <Arrow />
+                </a>
+                <a
+                  href="/checkout"
+                  onClick={closeDrawer}
+                  className="btn btn-dark w-full !min-h-11 font-bold text-xs shadow-md flex items-center justify-center gap-2"
+                >
+                  <span>Proceed to Checkout</span>
+                  <Arrow />
                 </a>
               </div>
 

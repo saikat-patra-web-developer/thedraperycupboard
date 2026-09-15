@@ -28,7 +28,42 @@ export default function OrderConfirmationPage() {
   };
 
   return (
-    <section className="wrap py-12 md:py-18 max-w-4xl mx-auto">
+    <section className="wrap py-10 md:py-16 max-w-4xl mx-auto">
+      {/* Checkout Steps Progress Stepper */}
+      <div className="mb-8 rounded-2xl border border-brand-line bg-white p-4 sm:p-5 shadow-xs">
+        <div className="flex items-center justify-between max-w-2xl mx-auto text-xs font-semibold">
+          {/* Step 1: Completed Cart */}
+          <div className="flex items-center gap-2 text-moss">
+            <span className="size-6 rounded-full bg-lime/90 text-forest font-bold flex items-center justify-center text-[11px] shadow-2xs">
+              ✓
+            </span>
+            <span className="font-semibold">Shopping Cart</span>
+          </div>
+
+          {/* Completed Connector */}
+          <div className="h-0.5 flex-1 mx-3 bg-lime hidden sm:block" />
+
+          {/* Step 2: Completed Delivery & Details */}
+          <div className="flex items-center gap-2 text-moss">
+            <span className="size-6 rounded-full bg-lime/90 text-forest font-bold flex items-center justify-center text-[11px] shadow-2xs">
+              ✓
+            </span>
+            <span className="font-semibold">Delivery & Details</span>
+          </div>
+
+          {/* Completed Connector */}
+          <div className="h-0.5 flex-1 mx-3 bg-lime hidden sm:block" />
+
+          {/* Step 3: Completed Confirmation */}
+          <div className="flex items-center gap-2 text-forest">
+            <span className="size-6 rounded-full bg-forest text-lime font-bold flex items-center justify-center text-[11px] shadow-2xs">
+              3
+            </span>
+            <span className="font-bold">Confirmation</span>
+          </div>
+        </div>
+      </div>
+
       {/* Success Badge */}
       <div className="card bg-white p-8 sm:p-12 border border-brand-line shadow-sm text-center">
         <div className="size-20 rounded-full bg-lime/20 border-2 border-lime flex items-center justify-center text-moss mx-auto">

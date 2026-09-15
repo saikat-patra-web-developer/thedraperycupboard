@@ -1,38 +1,73 @@
 import { useState } from "react";
 import { useCart } from "../../hooks/useCart.js";
 import Icon from "../ui/Icon.jsx";
+import Arrow from "../ui/Arrow.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
 export default function PartCard({ part }) {
-  const { addItem } = useCart();
+  const { items, addItem, updateQuantity } = useCart();
   const [selectedVariant, setSelectedVariant] = useState(part.variants ? part.variants[0] : null);
   const selectedPack = part.packOptions ? part.packOptions[0] : null;
   const [addedAnimation, setAddedAnimation] = useState(false);
 
   const price = Math.round(part.price * (selectedPack?.multiplier || 1) * 100) / 100;
+  const variantKey = selectedVariant?.id || "default";
+  const packKey = selectedPack?.id || "default";
+  const cartItemId = `${part.id}-${variantKey}-${packKey}`;
+
+  const inCartItem = items.find((item) => item.cartItemId === cartItemId);
+  const inCartQty = inCartItem ? inCartItem.quantity : 0;
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem(part, 1, selectedVariant, selectedPack);
+    addItem(part, 1, selectedVariant, selectedPack, { openDrawer: false });
     setAddedAnimation(true);
     setTimeout(() => setAddedAnimation(false), 1200);
   };
 
+  const handleIncrease = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    updateQuantity(cartItemId, inCartQty + 1);
+  };
+
+  const handleDecrease = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    updateQuantity(cartItemId, inCartQty - 1);
+  };
+
+  const handleViewCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.assign("/cart");
+  };
+
   return (
-    <article className="card group flex flex-col h-full bg-white transition duration-200 hover:shadow-lg border border-brand-line">
+    <article
+      className={`card group flex flex-col h-full bg-white transition-all duration-200 border ${
+        inCartQty > 0
+          ? "border-lime shadow-md ring-1 ring-lime/40"
+          : "border-brand-line hover:shadow-lg"
+      }`}
+    >
       {/* Visual Header / Thumbnail Box */}
       <div className="relative aspect-[1.3] w-full bg-gradient-to-br from-neutral-50 to-brand-50/60 p-5 flex flex-col justify-between overflow-hidden border-b border-neutral-100">
         <div className="flex items-center justify-between gap-2 z-10">
           <span className="rounded-md bg-white/90 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-moss shadow-2xs">
             {part.blindType}
           </span>
-          {part.badge && (
+          {inCartQty > 0 ? (
+            <span className="rounded-md bg-lime/90 border border-moss/20 px-2.5 py-0.8 text-[11px] font-bold text-forest shadow-2xs flex items-center gap-1">
+              <Icon name="check" size={12} className="text-moss" /> {inCartQty} in cart
+            </span>
+          ) : part.badge ? (
             <span className="rounded-md bg-forest px-2.5 py-1 text-[11px] font-semibold text-white shadow-2xs">
               {part.badge}
             </span>
-          )}
+          ) : null}
         </div>
 
         {/* Central Graphic Illustration */}
@@ -115,30 +150,81 @@ export default function PartCard({ part }) {
         )}
 
         {/* Price and Cart Footer */}
-        <div className="mt-auto pt-4 flex items-center justify-between gap-3 border-t border-neutral-100">
-          <div>
-            <div className="text-xl font-bold text-forest">{money(price)}</div>
-            <div className="text-[10px] text-neutral-500">Incl. 15% NZ GST</div>
-          </div>
+        {inCartQty === 0 ? (
+          <div className="mt-auto pt-4 flex items-center justify-between gap-3 border-t border-neutral-100">
+            <div>
+              <div className="text-xl font-bold text-forest">{money(price)}</div>
+              <div className="text-[10px] text-neutral-500">Incl. 15% NZ GST</div>
+            </div>
 
-          <button
-            type="button"
-            onClick={handleAddToCart}
-            className={`btn !min-h-10 !px-4 !py-2 text-xs font-semibold rounded-lg transition-all ${
-              addedAnimation ? "!bg-moss !text-white scale-105" : "btn-dark"
-            }`}
-          >
-            {addedAnimation ? (
-              <span className="flex items-center gap-1.5">
-                <Icon name="check" size={14} /> Added!
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5">
-                <Icon name="tools" size={14} className="text-lime" /> Add to Cart
-              </span>
-            )}
-          </button>
-        </div>
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={`btn !min-h-10 !px-4 !py-2 text-xs font-semibold rounded-lg transition-all ${
+                addedAnimation ? "!bg-moss !text-white scale-105" : "btn-dark"
+              }`}
+            >
+              {addedAnimation ? (
+                <span className="flex items-center gap-1.5">
+                  <Icon name="check" size={14} /> Added!
+                </span>
+              ) : (
+                <span className="flex items-center gap-1.5">
+                  <Icon name="tools" size={14} className="text-lime" /> Add to Cart
+                </span>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div className="mt-auto pt-3 border-t border-brand-line/60 bg-brand-50/60 -mx-5 -mb-5 p-4 rounded-b-2xl animate-appear">
+            <div className="flex items-center justify-between gap-2 mb-2.5">
+              <div>
+                <div className="text-base font-bold text-forest leading-tight">
+                  {money(price * inCartQty)}
+                </div>
+                <div className="text-[11px] text-neutral-500 font-medium">
+                  {money(price)} each • <span className="text-moss font-bold">{inCartQty} in cart</span>
+                </div>
+              </div>
+
+              {/* Increase Items System (Stepper) */}
+              <div className="flex items-center rounded-lg border border-brand-line bg-white shadow-2xs p-0.5">
+                <button
+                  type="button"
+                  onClick={handleDecrease}
+                  className="size-7 rounded-md text-forest font-bold text-base hover:bg-neutral-100 active:scale-90 flex items-center justify-center transition"
+                  aria-label="Decrease quantity"
+                  title="Decrease quantity"
+                >
+                  −
+                </button>
+                <span className="min-w-8 text-center text-xs font-bold text-forest">
+                  {inCartQty}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleIncrease}
+                  className="size-7 rounded-md bg-forest text-white font-bold text-base hover:bg-moss active:scale-90 flex items-center justify-center transition"
+                  aria-label="Increase quantity"
+                  title="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* View Cart Button (Direct to Proper Cart Page) */}
+            <a
+              href="/cart"
+              onClick={handleViewCart}
+              className="btn !bg-lime hover:!bg-lime/90 !text-forest !min-h-9 !py-1.5 !px-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 w-full shadow-xs hover:shadow transition-all"
+            >
+              <Icon name="check" size={14} className="text-forest" />
+              <span>View Cart ({inCartQty})</span>
+              <Arrow />
+            </a>
+          </div>
+        )}
       </div>
     </article>
   );
