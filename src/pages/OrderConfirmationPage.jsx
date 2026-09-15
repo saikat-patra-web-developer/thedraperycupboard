@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
+import Img from "../components/ui/Image.jsx";
 import { contact } from "../data/contact.js";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
@@ -87,6 +88,30 @@ export default function OrderConfirmationPage() {
         </div>
       </div>
 
+      {/* Payment Confirmation Banner if Card */}
+      {order?.paymentMethod === "card" && (
+        <div className="mt-8 card bg-white p-6 sm:p-8 border border-lime/60 shadow-xs">
+          <div className="flex items-start gap-3.5">
+            <div className="size-10 rounded-full bg-lime/20 border border-lime flex items-center justify-center text-moss shrink-0 mt-0.5">
+              <Icon name="check" size={20} />
+            </div>
+            <div>
+              <h2 className="!text-lg font-bold text-forest m-0">Payment Authorised & Confirmed</h2>
+              <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
+                Your credit / debit card payment was successfully authorised. Your order is registered in our local dispatch queue and will ship via tracked courier next business day.
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-4 text-[11px] text-neutral-500">
+                <span className="flex items-center gap-1 font-semibold text-moss">
+                  <Icon name="shield" size={14} /> 256-Bit Encrypted
+                </span>
+                <span>•</span>
+                <span>Payment Status: <strong className="text-moss font-semibold">Authorised / Complete</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Payment Instructions if Bank Transfer */}
       {(!order || order.paymentMethod === "bank_transfer") && (
         <div className="mt-8 card bg-white p-6 sm:p-8 border-2 border-lime/60 shadow-xs">
@@ -149,14 +174,29 @@ export default function OrderConfirmationPage() {
 
           <div className="divide-y divide-neutral-100 text-xs">
             {order.items.map((item) => (
-              <div key={item.cartItemId} className="py-3 flex justify-between items-center">
-                <div>
-                  <strong className="text-forest text-sm block">{item.name}</strong>
-                  <span className="text-neutral-500">
-                    SKU: {item.sku} • Qty: {item.quantity} {item.variantLabel && `• ${item.variantLabel}`}
-                  </span>
+              <div key={item.cartItemId} className="py-3.5 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="size-14 rounded-lg bg-neutral-50 border border-neutral-200 p-1 flex items-center justify-center shrink-0 overflow-hidden">
+                    <Img
+                      name={item.image || item.id}
+                      alt={item.name}
+                      sizes="56px"
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <a
+                      href={`/product/${item.slug}`}
+                      className="text-forest text-sm font-bold hover:text-moss transition block truncate"
+                    >
+                      {item.name}
+                    </a>
+                    <span className="text-neutral-500 text-xs block mt-0.5">
+                      SKU: {item.sku} • Qty: {item.quantity} {item.variantLabel && item.variantLabel !== "Standard" && `• ${item.variantLabel}`}
+                    </span>
+                  </div>
                 </div>
-                <span className="font-bold text-forest text-sm">
+                <span className="font-bold text-forest text-sm shrink-0">
                   {money(item.unitPrice * item.quantity)}
                 </span>
               </div>
@@ -168,6 +208,9 @@ export default function OrderConfirmationPage() {
               <span className="font-semibold text-forest block mb-1">Delivery Destination</span>
               <p className="text-neutral-600 leading-relaxed">{order.customer.fullAddress}</p>
               <p className="text-neutral-500 mt-1">Recipient: {order.customer.name} ({order.customer.phone})</p>
+              <p className="text-neutral-400 text-[11px] mt-1">
+                Method: <strong>{order.deliveryMethod || "Standard Tracked Courier"}</strong>
+              </p>
             </div>
 
             <div className="space-y-1.5 text-right sm:border-l sm:border-neutral-100 sm:pl-6">
@@ -175,14 +218,22 @@ export default function OrderConfirmationPage() {
                 <span>Subtotal:</span>
                 <span className="font-semibold text-forest">{money(order.subtotal)}</span>
               </div>
+
+              {order.discountAmount > 0 && (
+                <div className="flex justify-between text-moss font-semibold">
+                  <span>Promo Discount ({order.appliedPromo?.code || "Voucher"}):</span>
+                  <span>-{money(order.discountAmount)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between">
-                <span>Tracked Courier:</span>
+                <span>Courier Delivery:</span>
                 <span className="font-semibold text-forest">
-                  {order.shipping === 0 ? "FREE" : money(order.shipping)}
+                  {order.shipping === 0 ? <strong className="text-moss">FREE</strong> : money(order.shipping)}
                 </span>
               </div>
               <div className="flex justify-between text-neutral-400 text-[11px]">
-                <span>Includes 15% GST:</span>
+                <span>Includes 15% NZ GST:</span>
                 <span>{money(order.gst)}</span>
               </div>
               <div className="flex justify-between text-base font-bold text-forest pt-2 border-t border-neutral-200">

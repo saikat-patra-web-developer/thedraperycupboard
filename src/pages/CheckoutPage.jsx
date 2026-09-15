@@ -2,11 +2,22 @@ import { useState, useRef, useEffect } from "react";
 import { useCart } from "../hooks/useCart.js";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
+import Img from "../components/ui/Image.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
 export default function CheckoutPage() {
-  const { items, subtotal, shipping, clearCart } = useCart();
+  const {
+    items,
+    subtotal,
+    discountAmount,
+    discountedSubtotal,
+    appliedPromo,
+    applyPromo,
+    removePromo,
+    shipping,
+    clearCart,
+  } = useCart();
 
   const [customer, setCustomer] = useState({
     name: "",
@@ -24,6 +35,10 @@ export default function CheckoutPage() {
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [honeypot, setHoneypot] = useState("");
+
+  const [promoInput, setPromoInput] = useState("");
+  const [promoMessage, setPromoMessage] = useState({ type: "", text: "" });
+  const [showPromoBox, setShowPromoBox] = useState(false);
 
   const formOpenedRef = useRef(0);
   useEffect(() => {
@@ -44,11 +59,31 @@ export default function CheckoutPage() {
     );
   }
 
-  const shippingCost = deliveryMethod === "rural" ? 12.5 : shipping;
-  const finalTotal = Math.round((subtotal + shippingCost) * 100) / 100;
+  // Shipping calculation: Free courier if threshold met, with rural surcharge
+  const shippingCost = deliveryMethod === "rural" ? (shipping === 0 ? 4.0 : 12.5) : shipping;
+  const finalTotal = Math.round((discountedSubtotal + shippingCost) * 100) / 100;
   const finalGst = Math.round(((finalTotal * 3) / 23) * 100) / 100;
 
   const updateCustomer = (field, val) => setCustomer((prev) => ({ ...prev, [field]: val }));
+
+  const handleApplyPromo = (e) => {
+    e.preventDefault();
+    const clean = promoInput.trim();
+    if (!clean) return;
+
+    const res = applyPromo(clean);
+    if (res.success) {
+      setPromoMessage({ type: "success", text: res.message });
+      setPromoInput("");
+    } else {
+      setPromoMessage({ type: "error", text: res.message });
+    }
+  };
+
+  const handleRemovePromo = () => {
+    removePromo();
+    setPromoMessage({ type: "", text: "" });
+  };
 
   const handleSubmitOrder = async (e) => {
     e.preventDefault();
@@ -71,23 +106,35 @@ export default function CheckoutPage() {
       // Local order processing (skipping remote API submit)
       await new Promise((res) => setTimeout(res, 500));
 
-      // Save order receipt for confirmation screen
+      // Save order receipt for confirmation screen & persistent history
       const receipt = {
         orderRef,
         customer: { ...customer, fullAddress },
-        items,
+        items: items.map((i) => ({
+          ...i,
+          image: i.image || i.id,
+        })),
         subtotal,
+        discountAmount,
+        discountedSubtotal,
+        appliedPromo: appliedPromo ? { code: appliedPromo.code, label: appliedPromo.label } : null,
         shipping: shippingCost,
         total: finalTotal,
         gst: finalGst,
         paymentMethod,
-        deliveryMethod: deliveryMethod === "rural" ? "Rural Tracked Courier" : "Standard Tracked Courier",
+        deliveryMethod: deliveryMethod === "rural" ? "Rural Tracked Courier (RD)" : "Standard Tracked Courier",
         date: new Date().toLocaleDateString("en-NZ", { year: "numeric", month: "short", day: "numeric" }),
+        timestamp: Date.now(),
       };
 
       try {
         sessionStorage.setItem("tdc_latest_order", JSON.stringify(receipt));
         localStorage.setItem("tdc_latest_order", JSON.stringify(receipt));
+
+        const historyRaw = localStorage.getItem("tdc_order_history");
+        const prevHistory = historyRaw ? JSON.parse(historyRaw) : [];
+        const updatedHistory = [receipt, ...prevHistory.filter((o) => o?.orderRef !== orderRef)].slice(0, 20);
+        localStorage.setItem("tdc_order_history", JSON.stringify(updatedHistory));
       } catch {}
 
       clearCart();
@@ -337,7 +384,14 @@ export default function CheckoutPage() {
                     <span className="text-neutral-500">For rural addresses outside standard courier routes</span>
                   </div>
                 </div>
-                <span className="font-bold text-forest text-sm">{money(12.5)}</span>
+                <div className="text-right">
+                  <span className="font-bold text-forest text-sm">
+                    {shipping === 0 ? money(4.0) : money(12.5)}
+                  </span>
+                  {shipping === 0 && (
+                    <span className="block text-[10px] text-moss font-semibold">Free Courier + $4 RD</span>
+                  )}
+                </div>
               </label>
             </div>
           </div>
@@ -410,14 +464,24 @@ export default function CheckoutPage() {
 
           <div className="divide-y divide-neutral-100 max-h-72 overflow-y-auto pr-1 text-xs">
             {items.map((item) => (
-              <div key={item.cartItemId} className="py-3 flex items-center justify-between gap-3">
-                <div className="min-w-0">
-                  <span className="font-semibold text-forest line-clamp-1">{item.name}</span>
-                  <span className="text-neutral-500">
-                    Qty: {item.quantity} {item.variantLabel && `• ${item.variantLabel}`}
-                  </span>
+              <div key={item.cartItemId} className="py-2.5 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="size-11 shrink-0 rounded-lg bg-neutral-50 border border-neutral-200 p-1 flex items-center justify-center overflow-hidden">
+                    <Img
+                      name={item.image || item.id}
+                      alt={item.name}
+                      sizes="44px"
+                      className="size-full object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="font-semibold text-forest line-clamp-1 text-xs">{item.name}</span>
+                    <span className="text-neutral-500 text-[11px] block">
+                      Qty: {item.quantity} {item.variantLabel && item.variantLabel !== "Standard" && `• ${item.variantLabel}`}
+                    </span>
+                  </div>
                 </div>
-                <span className="font-bold text-forest shrink-0">
+                <span className="font-bold text-forest shrink-0 text-xs">
                   {money(item.unitPrice * item.quantity)}
                 </span>
               </div>
@@ -429,8 +493,72 @@ export default function CheckoutPage() {
               <span>Subtotal</span>
               <span className="font-semibold text-forest">{money(subtotal)}</span>
             </div>
+
+            {/* Promo Discount Line */}
+            {appliedPromo && discountAmount > 0 && (
+              <div className="flex justify-between items-center text-moss font-semibold bg-lime/10 px-2.5 py-1.5 rounded-lg border border-lime/30 text-xs">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <Icon name="check" size={14} className="shrink-0" />
+                  <span className="truncate">{appliedPromo.label} ({appliedPromo.code}):</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span>-{money(discountAmount)}</span>
+                  <button
+                    type="button"
+                    onClick={handleRemovePromo}
+                    className="text-neutral-400 hover:text-red-600 font-bold ml-1 text-xs"
+                    title="Remove promo code"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Promo Code Accordion on Checkout if not yet applied */}
+            {!appliedPromo && (
+              <div className="pt-1">
+                {!showPromoBox ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowPromoBox(true)}
+                    className="text-[11px] font-semibold text-moss hover:text-forest underline"
+                  >
+                    + Have a Promo or Trade Code?
+                  </button>
+                ) : (
+                  <form onSubmit={handleApplyPromo} className="space-y-1.5 pt-1">
+                    <div className="flex items-center rounded-lg border border-neutral-300 bg-white p-1 focus-within:border-forest focus-within:ring-1 focus-within:ring-forest transition">
+                      <input
+                        type="text"
+                        value={promoInput}
+                        onChange={(e) => setPromoInput(e.target.value)}
+                        placeholder="e.g. WELCOME10"
+                        className="flex-1 bg-transparent px-2.5 py-1 text-xs uppercase font-semibold text-forest focus:outline-none placeholder:normal-case placeholder:font-normal placeholder:text-neutral-400"
+                      />
+                      <button
+                        type="submit"
+                        className="rounded bg-forest px-3 py-1 text-xs font-bold text-white hover:bg-moss transition"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                    {promoMessage.text && (
+                      <p
+                        className={`text-[11px] font-medium ${
+                          promoMessage.type === "success" ? "text-moss" : "text-red-600"
+                        }`}
+                      >
+                        {promoMessage.text}
+                      </p>
+                    )}
+                  </form>
+                )}
+              </div>
+            )}
+
             <div className="flex justify-between">
-              <span>Shipping</span>
+              <span>Shipping ({deliveryMethod === "rural" ? "Rural Tracked" : "Standard Courier"})</span>
               <span className="font-semibold text-forest">
                 {shippingCost === 0 ? <strong className="text-moss">FREE</strong> : money(shippingCost)}
               </span>

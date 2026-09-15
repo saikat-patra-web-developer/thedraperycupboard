@@ -31,10 +31,68 @@ const PARTS_FAQS = [
   ],
 ];
 
+const normalizeCategory = (cat) => {
+  if (!cat) return "all";
+  const c = cat.toLowerCase().trim();
+  if (c.startsWith("roller")) return "roller";
+  if (c.startsWith("venetian")) return "venetian";
+  if (c.startsWith("vertical")) return "vertical";
+  if (c.startsWith("curtain")) return "curtains";
+  if (c.startsWith("motor")) return "motors";
+  if (c.startsWith("safe") || c.startsWith("chain")) return "safety";
+  return c;
+};
+
 export default function PartsPage() {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get("category");
+      if (cat) return normalizeCategory(cat);
+    }
+    return "all";
+  });
+
+  const [searchQuery, setSearchQuery] = useState(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("search") || params.get("q") || "";
+    }
+    return "";
+  });
+
   const [sortBy, setSortBy] = useState("featured");
+
+  const handleSelectCategory = (catId) => {
+    setActiveCategory(catId);
+    if (typeof window !== "undefined" && window.history?.replaceState) {
+      const params = new URLSearchParams(window.location.search);
+      if (catId === "all") {
+        params.delete("category");
+      } else {
+        params.set("category", catId);
+      }
+      const query = params.toString();
+      const newUrl = window.location.pathname + (query ? `?${query}` : "");
+      window.history.replaceState(null, "", newUrl);
+    }
+  };
+
+  const handleSearchChange = (val) => {
+    setSearchQuery(val);
+    if (typeof window !== "undefined" && window.history?.replaceState) {
+      const params = new URLSearchParams(window.location.search);
+      if (!val.trim()) {
+        params.delete("search");
+        params.delete("q");
+      } else {
+        params.set("search", val.trim());
+      }
+      const query = params.toString();
+      const newUrl = window.location.pathname + (query ? `?${query}` : "");
+      window.history.replaceState(null, "", newUrl);
+    }
+  };
 
   const filteredParts = useMemo(() => {
     let result = getPartsByCategory(activeCategory);
@@ -106,9 +164,9 @@ export default function PartsPage() {
       <section id="catalog" className="wrap section scroll-mt-6">
         <PartFilters
           activeCategory={activeCategory}
-          onSelectCategory={setActiveCategory}
+          onSelectCategory={handleSelectCategory}
           searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
+          onSearchChange={handleSearchChange}
           sortBy={sortBy}
           onSortChange={setSortBy}
           totalResults={filteredParts.length}
@@ -128,8 +186,8 @@ export default function PartsPage() {
               <div className="mt-6 flex flex-wrap justify-center gap-3">
                 <button
                   onClick={() => {
-                    setSearchQuery("");
-                    setActiveCategory("all");
+                    handleSearchChange("");
+                    handleSelectCategory("all");
                   }}
                   className="btn btn-dark text-xs"
                 >

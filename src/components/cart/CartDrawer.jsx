@@ -13,8 +13,11 @@ export default function CartDrawer() {
     updateQuantity,
     cartCount,
     subtotal,
+    discountAmount,
+    appliedPromo,
     shipping,
     total,
+    gst,
     freeShippingThreshold,
     amountUntilFreeShipping,
     isDrawerOpen,
@@ -214,6 +217,12 @@ export default function CartDrawer() {
                   <span>Subtotal</span>
                   <span className="font-semibold text-forest">{money(subtotal)}</span>
                 </div>
+                {appliedPromo && discountAmount > 0 && (
+                  <div className="flex justify-between text-moss font-semibold">
+                    <span>Discount ({appliedPromo.code}):</span>
+                    <span>-{money(discountAmount)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span>Tracked NZ Courier</span>
                   <span className="font-semibold text-forest">
@@ -222,7 +231,7 @@ export default function CartDrawer() {
                 </div>
                 <div className="flex justify-between text-[11px] text-neutral-400">
                   <span>Includes 15% NZ GST</span>
-                  <span>{money(((total * 3) / 23))}</span>
+                  <span>{money(gst)}</span>
                 </div>
                 <div className="flex justify-between text-base font-bold text-forest pt-2 border-t border-neutral-200">
                   <span>Estimated Total</span>

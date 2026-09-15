@@ -9,12 +9,6 @@ import { contact } from "../data/contact.js";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
-const PROMO_CODES = {
-  WELCOME10: { code: "WELCOME10", discountPercent: 10, label: "10% Welcome Discount" },
-  TRADENZ: { code: "TRADENZ", discountPercent: 15, label: "15% Trade & Commercial Discount" },
-  DIYREPAIR: { code: "DIYREPAIR", discountPercent: 10, label: "10% DIY Repair Promo" },
-};
-
 export default function CartPage() {
   const {
     items,
@@ -22,49 +16,41 @@ export default function CartPage() {
     updateQuantity,
     clearCart,
     subtotal,
+    discountAmount,
+    discountedSubtotal,
+    appliedPromo,
+    applyPromo,
+    removePromo,
+    shipping,
+    total,
+    gst,
     freeShippingThreshold,
     amountUntilFreeShipping,
     addItem,
   } = useCart();
 
   const [promoInput, setPromoInput] = useState("");
-  const [appliedPromo, setAppliedPromo] = useState(null);
   const [promoMessage, setPromoMessage] = useState({ type: "", text: "" });
   const [confirmClear, setConfirmClear] = useState(false);
 
-  const progressPercent = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
-
-  // Discounts & totals calculation
-  const discountAmount = appliedPromo
-    ? Math.round(subtotal * (appliedPromo.discountPercent / 100) * 100) / 100
-    : 0;
-  const discountedSubtotal = Math.max(0, Math.round((subtotal - discountAmount) * 100) / 100);
-  const shippingCost = items.length === 0 ? 0 : subtotal >= freeShippingThreshold ? 0 : 8.5;
-  const totalDue = Math.round((discountedSubtotal + shippingCost) * 100) / 100;
-  const gstIncluded = Math.round(((totalDue * 3) / 23) * 100) / 100; // 15% NZ GST included
+  const progressPercent = Math.min(100, Math.round((discountedSubtotal / freeShippingThreshold) * 100));
 
   const handleApplyPromo = (e) => {
     e.preventDefault();
-    const clean = promoInput.trim().toUpperCase();
+    const clean = promoInput.trim();
     if (!clean) return;
 
-    if (PROMO_CODES[clean]) {
-      setAppliedPromo(PROMO_CODES[clean]);
-      setPromoMessage({
-        type: "success",
-        text: `✓ Applied ${PROMO_CODES[clean].label} (${PROMO_CODES[clean].discountPercent}% off items)`,
-      });
+    const res = applyPromo(clean);
+    if (res.success) {
+      setPromoMessage({ type: "success", text: res.message });
       setPromoInput("");
     } else {
-      setPromoMessage({
-        type: "error",
-        text: "Invalid promo code. Try WELCOME10 for 10% off your order.",
-      });
+      setPromoMessage({ type: "error", text: res.message });
     }
   };
 
   const handleRemovePromo = () => {
-    setAppliedPromo(null);
+    removePromo();
     setPromoMessage({ type: "", text: "" });
   };
 
@@ -104,16 +90,16 @@ export default function CartPage() {
               Popular Parts Categories
             </span>
             <div className="flex flex-wrap justify-center sm:justify-start gap-2">
-              <a href="/parts" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/parts?category=roller" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Roller Blinds Hardware
               </a>
-              <a href="/parts" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/parts?category=venetian" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Venetian Tilters & Locks
               </a>
-              <a href="/parts" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/parts?category=vertical" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Vertical Carriers & Chains
               </a>
-              <a href="/parts" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/parts?category=curtains" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Curtain Hooks & Gliders
               </a>
             </div>
@@ -458,12 +444,12 @@ export default function CartPage() {
                     <span className="block text-[10px] text-neutral-400">Standard delivery nationwide</span>
                   </div>
                   <span className="font-bold">
-                    {shippingCost === 0 ? (
+                    {shipping === 0 ? (
                       <span className="rounded-md bg-lime/20 border border-lime/40 px-2 py-0.5 font-bold text-moss">
                         FREE
                       </span>
                     ) : (
-                      money(shippingCost)
+                      money(shipping)
                     )}
                   </span>
                 </div>
@@ -471,7 +457,7 @@ export default function CartPage() {
                 {/* GST Notice */}
                 <div className="flex justify-between text-[11px] text-neutral-400 pt-1">
                   <span>Included 15% NZ GST</span>
-                  <span>{money(gstIncluded)}</span>
+                  <span>{money(gst)}</span>
                 </div>
 
                 {/* Total Line */}
@@ -480,7 +466,7 @@ export default function CartPage() {
                     <span className="text-sm font-bold text-forest block">Estimated Total</span>
                     <span className="text-[10px] text-neutral-400">All prices in New Zealand Dollars (NZD)</span>
                   </div>
-                  <span className="text-2xl font-bold text-forest">{money(totalDue)}</span>
+                  <span className="text-2xl font-bold text-forest">{money(total)}</span>
                 </div>
               </div>
 
