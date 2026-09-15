@@ -4,9 +4,6 @@ import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
-const apiBaseUrl = (import.meta.env.VITE_QMB_API_URL || "https://quotemyblinds.com/api/api/p").replace(/\/+$/, "");
-const enquiryApiUrl = `${apiBaseUrl}/enquiry`;
-const webApiKey = (import.meta.env.VITE_QMB_WEB_API_KEY || "pmfQCWPkw1q").trim();
 
 export default function CheckoutPage() {
   const { items, subtotal, shipping, clearCart } = useCart();
@@ -70,52 +67,9 @@ export default function CheckoutPage() {
     const orderRef = `TDC-${Date.now().toString().slice(-6)}`;
     const fullAddress = `${customer.street}, ${customer.suburb ? customer.suburb + ", " : ""}${customer.city} ${customer.postcode}, New Zealand`;
 
-    const payload = {
-      web_api_key: webApiKey,
-      website_hp_key: honeypot,
-      _sub_time: Math.round(e.timeStamp || 0),
-      customer_email: customer.email.trim().toLowerCase(),
-      customer_name: customer.name.trim(),
-      customer_phone: customer.phone.trim(),
-      customer_data: {
-        address: fullAddress,
-        delivery_method: deliveryMethod === "rural" ? "Rural Tracked Courier" : "Standard Tracked Courier",
-        payment_method: paymentMethod,
-        notes: customer.notes.trim(),
-      },
-      enquiry_data: {
-        order_type: "parts_ecommerce",
-        order_number: orderRef,
-        total: finalTotal,
-        currency: "NZD",
-        windows: items.map((item) => ({
-          product: `Parts: ${item.name}`,
-          product_name: item.name,
-          product_slug: item.slug,
-          blinds_type: item.blindType,
-          width: item.quantity,
-          drop: 1,
-          price: Math.round(item.unitPrice * item.quantity * 100) / 100,
-        })),
-        summary: `E-Commerce Parts Order ${orderRef} - ${items.length} items - Payment: ${paymentMethod}`,
-      },
-      source_url: window.location.href,
-    };
-
     try {
-      const response = await fetch(enquiryApiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.message || `Order submission failed (${response.status})`);
-      }
+      // Local order processing (skipping remote API submit)
+      await new Promise((res) => setTimeout(res, 500));
 
       // Save order receipt for confirmation screen
       const receipt = {
@@ -127,11 +81,13 @@ export default function CheckoutPage() {
         total: finalTotal,
         gst: finalGst,
         paymentMethod,
+        deliveryMethod: deliveryMethod === "rural" ? "Rural Tracked Courier" : "Standard Tracked Courier",
         date: new Date().toLocaleDateString("en-NZ", { year: "numeric", month: "short", day: "numeric" }),
       };
 
       try {
         sessionStorage.setItem("tdc_latest_order", JSON.stringify(receipt));
+        localStorage.setItem("tdc_latest_order", JSON.stringify(receipt));
       } catch {}
 
       clearCart();
@@ -139,7 +95,7 @@ export default function CheckoutPage() {
     } catch (err) {
       console.error("Checkout submission error:", err);
       setErrorMessage(
-        err.message || "We encountered an issue submitting your order. Please review your details and try again."
+        err?.message || "We encountered an issue submitting your order. Please review your details and try again."
       );
       setSubmitting(false);
     }

@@ -8,7 +8,10 @@ const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", curre
 export default function OrderConfirmationPage() {
   const [order] = useState(() => {
     try {
-      const saved = typeof window !== "undefined" ? sessionStorage.getItem("tdc_latest_order") : null;
+      const saved =
+        typeof window !== "undefined"
+          ? sessionStorage.getItem("tdc_latest_order") || localStorage.getItem("tdc_latest_order")
+          : null;
       return saved ? JSON.parse(saved) : null;
     } catch {
       return null;
