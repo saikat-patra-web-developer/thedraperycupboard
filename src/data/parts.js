@@ -17,6 +17,7 @@ export const parts = [
   // ===================== ROLLER BLIND PARTS =====================
   {
     id: "part-rb-01",
+    image: "part-rb-01",
     slug: "roller-blind-clutch-mechanism-38mm",
     name: "Heavy-Duty Roller Blind Clutch Mechanism (38mm)",
     sku: "TDC-RBM-38",
@@ -59,6 +60,7 @@ export const parts = [
   },
   {
     id: "part-rb-02",
+    image: "part-rb-02",
     slug: "roller-blind-clutch-mechanism-32mm",
     name: "Standard Roller Blind Clutch Mechanism (32mm)",
     sku: "TDC-RBM-32",
@@ -97,6 +99,7 @@ export const parts = [
   },
   {
     id: "part-rb-03",
+    image: "part-rb-03",
     slug: "roller-blind-universal-brackets-pair",
     name: "Roller Blind Heavy-Duty Mounting Brackets (Pair)",
     sku: "TDC-RBB-01",
@@ -136,6 +139,7 @@ export const parts = [
   },
   {
     id: "part-rb-04",
+    image: "part-rb-04",
     slug: "spring-loaded-idler-pin-end-plug",
     name: "Spring-Loaded Roller Blind Idler Pin End (38mm)",
     sku: "TDC-RBI-38",
@@ -171,6 +175,7 @@ export const parts = [
   },
   {
     id: "part-rb-05",
+    image: "part-rb-05",
     slug: "roller-blind-double-bracket-set",
     name: "Dual Day/Night Roller Blind Double Bracket Set",
     sku: "TDC-RBD-02",
@@ -207,6 +212,7 @@ export const parts = [
   },
   {
     id: "part-rb-06",
+    image: "part-rb-06",
     slug: "roller-blind-bottom-rail-end-caps",
     name: "Tear-Drop Roller Blind Bottom Rail End Caps (Pair)",
     sku: "TDC-RBE-03",
@@ -245,6 +251,7 @@ export const parts = [
   // ===================== VENETIAN BLIND PARTS =====================
   {
     id: "part-vn-01",
+    image: "part-vn-01",
     slug: "venetian-blind-gear-cord-tilter",
     name: "Venetian Blind Heavy Duty Cord Tilter Mechanism",
     sku: "TDC-VNT-01",
@@ -280,6 +287,7 @@ export const parts = [
   },
   {
     id: "part-vn-02",
+    image: "part-vn-02",
     slug: "venetian-blind-clear-acrylic-wand",
     name: "Clear Acrylic Venetian Blind Tilt Wand with Hook",
     sku: "TDC-VNW-60",
@@ -317,6 +325,7 @@ export const parts = [
   },
   {
     id: "part-vn-03",
+    image: "part-vn-03",
     slug: "venetian-blind-hold-down-brackets",
     name: "Venetian Blind Bottom Rail Hold Down Brackets (Pair)",
     sku: "TDC-VNH-03",
@@ -350,6 +359,7 @@ export const parts = [
   },
   {
     id: "part-vn-04",
+    image: "part-vn-04",
     slug: "venetian-blind-cord-lock-mechanism",
     name: "Heavy-Duty Venetian Blind Cord Lock Mechanism",
     sku: "TDC-VNL-04",
@@ -384,6 +394,7 @@ export const parts = [
   // ===================== VERTICAL BLIND PARTS =====================
   {
     id: "part-vt-01",
+    image: "part-vt-01",
     slug: "vertical-blind-vane-top-hangers-pack",
     name: "Vertical Blind Vane Top Hangers (Pack of 20)",
     sku: "TDC-VTH-20",
@@ -421,6 +432,7 @@ export const parts = [
   },
   {
     id: "part-vt-02",
+    image: "part-vt-02",
     slug: "vertical-blind-bottom-weights-pack",
     name: "Vertical Blind Slotted Bottom Weights (Pack of 10)",
     sku: "TDC-VTW-10",
@@ -455,6 +467,7 @@ export const parts = [
   },
   {
     id: "part-vt-03",
+    image: "part-vt-03",
     slug: "vertical-blind-bottom-link-chain-roll",
     name: "Vertical Blind Bottom Stabilizer Link Chain (10m Roll)",
     sku: "TDC-VTC-10M",
@@ -491,6 +504,7 @@ export const parts = [
   // ===================== CURTAIN HARDWARE =====================
   {
     id: "part-ct-01",
+    image: "part-ct-01",
     slug: "heavy-duty-curtain-track-gliders-pack",
     name: "Heavy-Duty Wheeled Curtain Track Gliders (Pack of 30)",
     sku: "TDC-CTG-30",
@@ -528,6 +542,7 @@ export const parts = [
   },
   {
     id: "part-ct-02",
+    image: "part-ct-02",
     slug: "stainless-steel-pinch-pleat-curtain-hooks",
     name: "Stainless Steel 4-Prong Pinch Pleat Curtain Hooks (Pack of 30)",
     sku: "TDC-CTH-4P",
@@ -562,6 +577,7 @@ export const parts = [
   },
   {
     id: "part-ct-03",
+    image: "part-ct-03",
     slug: "universal-curtain-track-double-brackets",
     name: "Heavy-Duty Double Curtain Track Brackets (Pack of 3)",
     sku: "TDC-CTB-DBL",
@@ -599,6 +615,7 @@ export const parts = [
   // ===================== MOTORS & SMART HOME =====================
   {
     id: "part-mt-01",
+    image: "part-mt-01",
     slug: "rechargeable-battery-tubular-motor-kit-25mm",
     name: "Rechargeable Lithium Tubular Blind Motor (25mm / 1.1Nm)",
     sku: "TDC-MOT-25",
@@ -638,6 +655,7 @@ export const parts = [
   },
   {
     id: "part-mt-02",
+    image: "part-mt-02",
     slug: "multi-channel-blind-remote-control-15ch",
     name: "15-Channel LCD Multi-Room Blind Remote Control",
     sku: "TDC-RMT-15",
@@ -674,6 +692,7 @@ export const parts = [
   },
   {
     id: "part-mt-03",
+    image: "part-mt-03",
     slug: "smart-wifi-bridge-gateway-hub",
     name: "Smart Wi-Fi Blind Gateway Hub (Tuya / Alexa / Google Home)",
     sku: "TDC-HUB-01",
@@ -709,6 +728,7 @@ export const parts = [
   },
   {
     id: "part-mt-04",
+    image: "part-mt-04",
     slug: "magnetic-usb-c-motor-charging-cable-3m",
     name: "Magnetic USB-C Motor Charging Cable (3 Metre Extra Long)",
     sku: "TDC-MCC-3M",
@@ -745,6 +765,7 @@ export const parts = [
   // ===================== CHAINS & CHILD SAFETY =====================
   {
     id: "part-cs-01",
+    image: "part-cs-01",
     slug: "metal-ball-chain-continuous-loop",
     name: "Stainless Steel Ball Chain Continuous Loop (No Joiner)",
     sku: "TDC-CHN-SS",
@@ -783,6 +804,7 @@ export const parts = [
   },
   {
     id: "part-cs-02",
+    image: "part-cs-02",
     slug: "child-safety-chain-tensioner-p-clip-pack",
     name: "Child Safety Chain & Cord Tensioner P-Clips (Pack of 4)",
     sku: "TDC-SAF-04",
@@ -819,6 +841,7 @@ export const parts = [
   },
   {
     id: "part-cs-03",
+    image: "part-cs-03",
     slug: "metal-ball-chain-connectors-joiners-pack",
     name: "Stainless Steel Ball Chain Joiners & Stop Balls (Pack of 10)",
     sku: "TDC-CHJ-10",

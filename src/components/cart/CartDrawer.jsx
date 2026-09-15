@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useCart } from "../../hooks/useCart.js";
 import Arrow from "../ui/Arrow.jsx";
 import Icon from "../ui/Icon.jsx";
+import Img from "../ui/Image.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
@@ -119,9 +120,23 @@ export default function CartDrawer() {
             ) : (
               items.map((item) => (
                 <div key={item.cartItemId} className="py-4 flex gap-4 items-start">
-                  <div className="size-16 shrink-0 rounded-lg bg-neutral-100 border border-neutral-200 flex items-center justify-center p-2 text-moss">
-                    <Icon name="tools" size={24} />
-                  </div>
+                  <a
+                    href={`/product/${item.slug}`}
+                    onClick={closeDrawer}
+                    className="size-16 shrink-0 rounded-lg bg-white border border-neutral-200 flex items-center justify-center p-1 shadow-2xs overflow-hidden hover:border-moss transition"
+                    title={`View ${item.name}`}
+                  >
+                    {item.image || item.id ? (
+                      <Img
+                        name={item.image || item.id}
+                        alt={item.name}
+                        sizes="64px"
+                        className="size-full object-contain"
+                      />
+                    ) : (
+                      <Icon name="tools" size={24} className="text-moss" />
+                    )}
+                  </a>
                   <div className="flex-1 min-w-0">
                     <a
                       href={`/product/${item.slug}`}

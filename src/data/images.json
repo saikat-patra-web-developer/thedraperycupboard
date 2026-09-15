@@ -47,6 +47,144 @@
     "src": "/images/motorisation-1536.webp",
     "srcSet": "/images/motorisation-480.webp 480w, /images/motorisation-800.webp 800w, /images/motorisation-1200.webp 1200w, /images/motorisation-1536.webp 1536w"
   },
+  "part-cs-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-cs-01-800.webp",
+    "srcSet": "/images/part-cs-01-480.webp 480w, /images/part-cs-01-800.webp 800w"
+  },
+  "part-cs-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-cs-02-800.webp",
+    "srcSet": "/images/part-cs-02-480.webp 480w, /images/part-cs-02-800.webp 800w"
+  },
+  "part-cs-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-cs-03-800.webp",
+    "srcSet": "/images/part-cs-03-480.webp 480w, /images/part-cs-03-800.webp 800w"
+  },
+  "part-ct-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-ct-01-800.webp",
+    "srcSet": "/images/part-ct-01-480.webp 480w, /images/part-ct-01-800.webp 800w"
+  },
+  "part-ct-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-ct-02-800.webp",
+    "srcSet": "/images/part-ct-02-480.webp 480w, /images/part-ct-02-800.webp 800w"
+  },
+  "part-ct-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-ct-03-800.webp",
+    "srcSet": "/images/part-ct-03-480.webp 480w, /images/part-ct-03-800.webp 800w"
+  },
+  "part-mt-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-mt-01-800.webp",
+    "srcSet": "/images/part-mt-01-480.webp 480w, /images/part-mt-01-800.webp 800w"
+  },
+  "part-mt-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-mt-02-800.webp",
+    "srcSet": "/images/part-mt-02-480.webp 480w, /images/part-mt-02-800.webp 800w"
+  },
+  "part-mt-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-mt-03-800.webp",
+    "srcSet": "/images/part-mt-03-480.webp 480w, /images/part-mt-03-800.webp 800w"
+  },
+  "part-mt-04": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-mt-04-800.webp",
+    "srcSet": "/images/part-mt-04-480.webp 480w, /images/part-mt-04-800.webp 800w"
+  },
+  "part-rb-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-rb-01-800.webp",
+    "srcSet": "/images/part-rb-01-480.webp 480w, /images/part-rb-01-800.webp 800w"
+  },
+  "part-rb-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-rb-02-800.webp",
+    "srcSet": "/images/part-rb-02-480.webp 480w, /images/part-rb-02-800.webp 800w"
+  },
+  "part-rb-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-rb-03-800.webp",
+    "srcSet": "/images/part-rb-03-480.webp 480w, /images/part-rb-03-800.webp 800w"
+  },
+  "part-rb-04": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-rb-04-800.webp",
+    "srcSet": "/images/part-rb-04-480.webp 480w, /images/part-rb-04-800.webp 800w"
+  },
+  "part-rb-05": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-rb-05-800.webp",
+    "srcSet": "/images/part-rb-05-480.webp 480w, /images/part-rb-05-800.webp 800w"
+  },
+  "part-rb-06": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-rb-06-800.webp",
+    "srcSet": "/images/part-rb-06-480.webp 480w, /images/part-rb-06-800.webp 800w"
+  },
+  "part-vn-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vn-01-800.webp",
+    "srcSet": "/images/part-vn-01-480.webp 480w, /images/part-vn-01-800.webp 800w"
+  },
+  "part-vn-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vn-02-800.webp",
+    "srcSet": "/images/part-vn-02-480.webp 480w, /images/part-vn-02-800.webp 800w"
+  },
+  "part-vn-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vn-03-800.webp",
+    "srcSet": "/images/part-vn-03-480.webp 480w, /images/part-vn-03-800.webp 800w"
+  },
+  "part-vn-04": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vn-04-800.webp",
+    "srcSet": "/images/part-vn-04-480.webp 480w, /images/part-vn-04-800.webp 800w"
+  },
+  "part-vt-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vt-01-800.webp",
+    "srcSet": "/images/part-vt-01-480.webp 480w, /images/part-vt-01-800.webp 800w"
+  },
+  "part-vt-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vt-02-800.webp",
+    "srcSet": "/images/part-vt-02-480.webp 480w, /images/part-vt-02-800.webp 800w"
+  },
+  "part-vt-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-vt-03-800.webp",
+    "srcSet": "/images/part-vt-03-480.webp 480w, /images/part-vt-03-800.webp 800w"
+  },
   "pergola": {
     "width": 1536,
     "height": 1024,

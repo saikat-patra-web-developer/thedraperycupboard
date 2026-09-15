@@ -3,6 +3,7 @@ import { findPart, parts } from "../data/parts.js";
 import { useCart } from "../hooks/useCart.js";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
+import Img from "../components/ui/Image.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
 import PartCard from "../components/parts/PartCard.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
@@ -143,19 +144,20 @@ export default function ProductViewPage({ id }) {
               {/* Dynamic View Graphic Rendering */}
               <div className="my-auto flex flex-col items-center justify-center text-center py-6">
                 {activeView === "main" && (
-                  <div className="size-40 sm:size-48 rounded-3xl bg-white shadow-md border border-brand-line flex items-center justify-center p-7 text-moss transition-transform duration-300 hover:scale-105">
-                    <Icon
-                      name={
-                        part.category === "motors"
-                          ? "wifi"
-                          : part.category === "curtains"
-                          ? "spark"
-                          : part.category === "safety"
-                          ? "shield"
-                          : "tools"
-                      }
-                      size={80}
-                    />
+                  <div className="w-full max-w-sm mx-auto flex items-center justify-center p-2 sm:p-4 transition-transform duration-300 hover:scale-105">
+                    {part.image ? (
+                      <Img
+                        name={part.image}
+                        alt={part.name}
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 500px"
+                        className="max-h-[300px] sm:max-h-[360px] w-full object-contain drop-shadow-md"
+                      />
+                    ) : (
+                      <div className="size-40 sm:size-48 rounded-3xl bg-white shadow-md border border-brand-line flex items-center justify-center p-7 text-moss">
+                        <Icon name="tools" size={80} />
+                      </div>
+                    )}
                   </div>
                 )}
 

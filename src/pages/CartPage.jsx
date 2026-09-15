@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCart } from "../hooks/useCart.js";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
+import Img from "../components/ui/Image.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
 import { parts } from "../data/parts.js";
 import { contact } from "../data/contact.js";
@@ -225,21 +226,23 @@ export default function CartPage() {
                     >
                       {/* Product Thumbnail & Details */}
                       <div className="flex items-start gap-4 min-w-0">
-                        {/* Thumbnail Box */}
-                        <div className="size-20 shrink-0 rounded-xl bg-gradient-to-br from-neutral-50 to-brand-50 border border-neutral-200 flex items-center justify-center p-3 text-moss shadow-2xs">
-                          <Icon
-                            name={
-                              item.category === "motors"
-                                ? "wifi"
-                                : item.category === "curtains"
-                                ? "spark"
-                                : item.category === "safety"
-                                ? "shield"
-                                : "tools"
-                            }
-                            size={28}
-                          />
-                        </div>
+                        {/* Thumbnail Box with Real WebP Image */}
+                        <a
+                          href={`/product/${item.slug}`}
+                          className="size-20 shrink-0 rounded-xl bg-white border border-neutral-200 flex items-center justify-center p-1.5 shadow-2xs overflow-hidden hover:border-moss transition"
+                          title={`View ${item.name}`}
+                        >
+                          {item.image || item.id ? (
+                            <Img
+                              name={item.image || item.id}
+                              alt={item.name}
+                              sizes="80px"
+                              className="size-full object-contain"
+                            />
+                          ) : (
+                            <Icon name="tools" size={28} className="text-moss" />
+                          )}
+                        </a>
 
                         {/* Title, SKU & Variant Information */}
                         <div className="min-w-0 flex-1">

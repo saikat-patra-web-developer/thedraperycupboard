@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCart } from "../../hooks/useCart.js";
 import Icon from "../ui/Icon.jsx";
 import Arrow from "../ui/Arrow.jsx";
+import Img from "../ui/Image.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
@@ -53,10 +54,10 @@ export default function PartCard({ part }) {
           : "border-brand-line hover:shadow-lg"
       }`}
     >
-      {/* Visual Header / Thumbnail Box */}
-      <div className="relative aspect-[1.3] w-full bg-gradient-to-br from-neutral-50 to-brand-50/60 p-5 flex flex-col justify-between overflow-hidden border-b border-neutral-100">
+      {/* Visual Header / Product WebP Image Box */}
+      <div className="relative aspect-[1.25] w-full bg-gradient-to-br from-neutral-50 via-white to-brand-50/60 p-4 flex flex-col justify-between overflow-hidden border-b border-neutral-100">
         <div className="flex items-center justify-between gap-2 z-10">
-          <span className="rounded-md bg-white/90 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-moss shadow-2xs">
+          <span className="rounded-md bg-white/90 px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-moss shadow-2xs border border-brand-line/40">
             {part.blindType}
           </span>
           {inCartQty > 0 ? (
@@ -70,29 +71,27 @@ export default function PartCard({ part }) {
           ) : null}
         </div>
 
-        {/* Central Graphic Illustration */}
+        {/* Real Product WebP Image Display */}
         <a
           href={`/product/${part.slug}`}
-          className="my-auto flex items-center justify-center text-forest/75 transition-transform duration-300 group-hover:scale-110"
+          className="my-auto flex items-center justify-center p-2 transition-transform duration-300 group-hover:scale-105"
           title={`View ${part.name}`}
         >
-          <div className="size-20 rounded-2xl bg-white/80 shadow-xs border border-brand-line/60 flex items-center justify-center p-3 text-moss group-hover:border-forest group-hover:shadow-sm transition">
-            <Icon
-              name={
-                part.category === "motors"
-                  ? "wifi"
-                  : part.category === "curtains"
-                  ? "spark"
-                  : part.category === "safety"
-                  ? "shield"
-                  : "tools"
-              }
-              size={36}
+          {part.image ? (
+            <Img
+              name={part.image}
+              alt={part.name}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              className="max-h-40 w-full object-contain drop-shadow-sm"
             />
-          </div>
+          ) : (
+            <div className="size-20 rounded-2xl bg-white/80 shadow-xs border border-brand-line/60 flex items-center justify-center p-3 text-moss group-hover:border-forest group-hover:shadow-sm transition">
+              <Icon name="tools" size={36} />
+            </div>
+          )}
         </a>
 
-        <div className="flex items-center justify-between text-[11px] text-neutral-500 z-10">
+        <div className="flex items-center justify-between text-[11px] text-neutral-500 z-10 pt-1">
           <span className="font-mono font-medium">SKU: {part.sku}</span>
           <span className="flex items-center gap-1 text-moss font-semibold">
             <span className="size-1.5 rounded-full bg-lime animate-pulse" />

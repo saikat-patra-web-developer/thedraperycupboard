@@ -75,12 +75,12 @@ export function CartProvider({ children }) {
           variant: variant ? { id: variant.id, label: variant.label, hex: variant.hex } : null,
           packOption: packOption ? { id: packOption.id, label: packOption.label } : null,
           variantLabel: variantLabel || "Standard",
-          image: part.image || null,
+          image: part.image || part.id || null,
         },
       ];
     });
 
-    setLastAddedItem({ ...part, variantLabel, quantity, timestamp: Date.now() });
+    setLastAddedItem({ ...part, image: part.image || part.id, variantLabel, quantity, timestamp: Date.now() });
     if (openDrawer) {
       setIsDrawerOpen(true);
     }

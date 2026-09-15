@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useCart } from "../../hooks/useCart.js";
 import Icon from "../ui/Icon.jsx";
 import Arrow from "../ui/Arrow.jsx";
+import Img from "../ui/Image.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
@@ -37,8 +38,17 @@ export default function CartNotificationToast() {
       className="fixed bottom-5 inset-x-4 sm:inset-x-auto sm:right-6 sm:max-w-md z-40 bg-forest text-white rounded-2xl p-3.5 sm:p-4 shadow-2xl border border-white/15 flex items-center justify-between gap-3 animate-appear backdrop-blur-md"
     >
       <div className="flex items-center gap-3 min-w-0">
-        <div className="size-10 rounded-xl bg-lime/20 border border-lime/40 text-lime flex items-center justify-center shrink-0">
-          <Icon name="check" size={20} />
+        <div className="size-11 rounded-xl bg-white border border-white/20 p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
+          {lastAddedItem.image ? (
+            <Img
+              name={lastAddedItem.image}
+              alt={lastAddedItem.name}
+              sizes="44px"
+              className="size-full object-contain"
+            />
+          ) : (
+            <Icon name="check" size={20} className="text-moss" />
+          )}
         </div>
         <div className="min-w-0">
           <div className="text-xs font-bold text-white truncate flex items-center gap-1.5">
