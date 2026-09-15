@@ -12,16 +12,18 @@ import NotFoundPage from "../pages/NotFoundPage";
 import OnlineQuotePage from "../pages/OnlineQuotePage";
 import LivePreviewPage from "../pages/LivePreviewPage";
 import PartsPage from "../pages/PartsPage";
-import PartDetailPage from "../pages/PartDetailPage";
+import ProductViewPage from "../pages/ProductViewPage";
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
+import { findPart } from "../data/parts.js";
 
 const pages = {
   "/": HomePage,
   "/products": ProductsPage,
   "/parts": PartsPage,
   "/shop": PartsPage,
+  "/product": ProductViewPage,
   "/cart": CartPage,
   "/checkout": CheckoutPage,
   "/order-confirmation": OrderConfirmationPage,
@@ -38,11 +40,16 @@ const pages = {
 };
 
 export default function AppRoutes({ path }) {
-  const part = path.match(/^\/parts\/([^/]+)$/);
-  if (part) return <PartDetailPage key={part[1]} id={part[1]} />;
+  const productView = path.match(/^\/(?:parts|product)\/([^/]+)$/);
+  if (productView) return <ProductViewPage key={productView[1]} id={productView[1]} />;
 
   const product = path.match(/^\/products\/([^/]+)$/);
-  if (product) return <ProductDetailPage key={product[1]} id={product[1]} />;
+  if (product) {
+    if (findPart(product[1])) {
+      return <ProductViewPage key={product[1]} id={product[1]} />;
+    }
+    return <ProductDetailPage key={product[1]} id={product[1]} />;
+  }
 
   const Page = pages[path] || NotFoundPage;
   return <Page />;

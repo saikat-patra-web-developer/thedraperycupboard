@@ -15,10 +15,18 @@ export default function ProductGrid({ full = false, items = products }) {
           </div>
           <div className={full ? "flex flex-1 flex-col px-5 pb-6 pt-5" : "px-1 pt-3"}>
             {full ? <h3 className="!text-2xl">{product.name}</h3> : <b className="text-sm">{product.name}</b>}
-            {full && <>
-              <p className="muted mb-6 mt-3 !text-sm">{product.description}</p>
-              <span className="text-link mt-auto">Explore Product <Arrow /></span>
-            </>}
+            {full ? (
+              <>
+                <p className="muted mb-6 mt-3 !text-sm">{product.description}</p>
+                <span className="btn btn-outline text-xs mt-auto inline-flex items-center gap-1.5 self-start group-hover:border-forest group-hover:text-forest transition">
+                  View Product <Arrow />
+                </span>
+              </>
+            ) : (
+              <span className="text-xs text-moss font-semibold flex items-center gap-1 mt-1.5 group-hover:underline">
+                View Product <Arrow />
+              </span>
+            )}
           </div>
         </a>
       ))}

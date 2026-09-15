@@ -248,7 +248,7 @@ export default function CartPage() {
                           </span>
 
                           <h3 className="!text-base font-bold text-forest mt-1 hover:text-moss transition">
-                            <a href={`/parts/${item.slug}`}>{item.name}</a>
+                            <a href={`/product/${item.slug}`}>{item.name}</a>
                           </h3>
 
                           <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
@@ -260,6 +260,12 @@ export default function CartPage() {
                                 Option: <strong>{item.variantLabel}</strong>
                               </span>
                             )}
+                            <a
+                              href={`/product/${item.slug}`}
+                              className="text-[11px] font-semibold text-moss hover:text-forest inline-flex items-center gap-1 transition underline"
+                            >
+                              View Product <Arrow />
+                            </a>
                           </div>
 
                           <div className="mt-2 flex items-center gap-1.5 text-[11px] font-semibold text-moss">

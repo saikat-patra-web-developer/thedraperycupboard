@@ -7,6 +7,7 @@ const titles = {
   "/products": "Our Products",
   "/parts": "Blinds Replacement Parts & Hardware Shop",
   "/shop": "Blinds Replacement Parts & Hardware Shop",
+  "/product": "View Product",
   "/cart": "Shopping Cart",
   "/checkout": "Secure Checkout",
   "/order-confirmation": "Order Confirmation",
@@ -24,11 +25,11 @@ const titles = {
 
 export default function usePageTitle(path) {
   useEffect(() => {
-    const partId = path.match(/^\/parts\/([^/]+)$/)?.[1];
+    const partId = path.match(/^\/(?:parts|product)\/([^/]+)$/)?.[1];
     const part = partId ? findPart(partId) : null;
 
     const productId = path.match(/^\/products\/([^/]+)$/)?.[1];
-    const product = productId ? findProduct(productId) : null;
+    const product = productId ? (findProduct(productId) || findPart(productId)) : null;
 
     const title = titles[path] || part?.name || product?.name || "Page Not Found";
     document.title = title + " | The Drapery Cupboard";

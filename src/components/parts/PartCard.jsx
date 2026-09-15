@@ -71,8 +71,12 @@ export default function PartCard({ part }) {
         </div>
 
         {/* Central Graphic Illustration */}
-        <div className="my-auto flex items-center justify-center text-forest/75 transition-transform duration-300 group-hover:scale-110">
-          <div className="size-20 rounded-2xl bg-white/80 shadow-xs border border-brand-line/60 flex items-center justify-center p-3 text-moss">
+        <a
+          href={`/product/${part.slug}`}
+          className="my-auto flex items-center justify-center text-forest/75 transition-transform duration-300 group-hover:scale-110"
+          title={`View ${part.name}`}
+        >
+          <div className="size-20 rounded-2xl bg-white/80 shadow-xs border border-brand-line/60 flex items-center justify-center p-3 text-moss group-hover:border-forest group-hover:shadow-sm transition">
             <Icon
               name={
                 part.category === "motors"
@@ -86,7 +90,7 @@ export default function PartCard({ part }) {
               size={36}
             />
           </div>
-        </div>
+        </a>
 
         <div className="flex items-center justify-between text-[11px] text-neutral-500 z-10">
           <span className="font-mono font-medium">SKU: {part.sku}</span>
@@ -111,7 +115,7 @@ export default function PartCard({ part }) {
 
         {/* Product Title */}
         <h3 className="!text-lg font-bold text-forest group-hover:text-moss transition">
-          <a href={`/parts/${part.slug}`}>{part.name}</a>
+          <a href={`/product/${part.slug}`}>{part.name}</a>
         </h3>
 
         <p className="mt-2 text-xs leading-relaxed text-brand-grey line-clamp-2">
@@ -151,29 +155,45 @@ export default function PartCard({ part }) {
 
         {/* Price and Cart Footer */}
         {inCartQty === 0 ? (
-          <div className="mt-auto pt-4 flex items-center justify-between gap-3 border-t border-neutral-100">
-            <div>
-              <div className="text-xl font-bold text-forest">{money(price)}</div>
-              <div className="text-[10px] text-neutral-500">Incl. 15% NZ GST</div>
+          <div className="mt-auto pt-4 border-t border-neutral-100">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div>
+                <div className="text-xl font-bold text-forest">{money(price)}</div>
+                <div className="text-[10px] text-neutral-500">Incl. 15% NZ GST</div>
+              </div>
+              <span className="text-[11px] text-moss font-semibold flex items-center gap-1">
+                <span className="size-1.5 rounded-full bg-lime animate-pulse" />
+                In Stock
+              </span>
             </div>
 
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className={`btn !min-h-10 !px-4 !py-2 text-xs font-semibold rounded-lg transition-all ${
-                addedAnimation ? "!bg-moss !text-white scale-105" : "btn-dark"
-              }`}
-            >
-              {addedAnimation ? (
-                <span className="flex items-center gap-1.5">
-                  <Icon name="check" size={14} /> Added!
-                </span>
-              ) : (
-                <span className="flex items-center gap-1.5">
-                  <Icon name="tools" size={14} className="text-lime" /> Add to Cart
-                </span>
-              )}
-            </button>
+            <div className="grid grid-cols-2 gap-2">
+              <a
+                href={`/product/${part.slug}`}
+                className="btn btn-outline !min-h-10 !px-2 !py-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1 hover:border-forest transition-all"
+              >
+                <span>View Product</span>
+                <Arrow />
+              </a>
+
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className={`btn !min-h-10 !px-2 !py-2 text-xs font-semibold rounded-lg justify-center transition-all ${
+                  addedAnimation ? "!bg-moss !text-white scale-105" : "btn-dark"
+                }`}
+              >
+                {addedAnimation ? (
+                  <span className="flex items-center gap-1">
+                    <Icon name="check" size={13} /> Added!
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1">
+                    <Icon name="tools" size={13} className="text-lime" /> Add to Cart
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         ) : (
           <div className="mt-auto pt-3 border-t border-brand-line/60 bg-brand-50/60 -mx-5 -mb-5 p-4 rounded-b-2xl animate-appear">
@@ -213,16 +233,25 @@ export default function PartCard({ part }) {
               </div>
             </div>
 
-            {/* View Cart Button (Direct to Proper Cart Page) */}
-            <a
-              href="/cart"
-              onClick={handleViewCart}
-              className="btn !bg-lime hover:!bg-lime/90 !text-forest !min-h-9 !py-1.5 !px-3 text-xs font-bold rounded-lg flex items-center justify-center gap-1.5 w-full shadow-xs hover:shadow transition-all"
-            >
-              <Icon name="check" size={14} className="text-forest" />
-              <span>View Cart ({inCartQty})</span>
-              <Arrow />
-            </a>
+            {/* Action Buttons: View Cart + View Product */}
+            <div className="grid grid-cols-2 gap-2">
+              <a
+                href="/cart"
+                onClick={handleViewCart}
+                className="btn !bg-lime hover:!bg-lime/90 !text-forest !min-h-9 !py-1.5 !px-2 text-xs font-bold rounded-lg flex items-center justify-center gap-1 shadow-xs hover:shadow transition-all"
+              >
+                <Icon name="check" size={13} className="text-forest" />
+                <span>View Cart ({inCartQty})</span>
+              </a>
+
+              <a
+                href={`/product/${part.slug}`}
+                className="btn btn-outline bg-white hover:border-forest !min-h-9 !py-1.5 !px-2 text-xs font-semibold rounded-lg flex items-center justify-center gap-1 transition-all"
+              >
+                <span>View Product</span>
+                <Arrow />
+              </a>
+            </div>
           </div>
         )}
       </div>

@@ -124,18 +124,27 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <a
-                      href={`/parts/${item.slug}`}
+                      href={`/product/${item.slug}`}
                       onClick={closeDrawer}
                       className="text-sm font-semibold text-forest hover:text-moss line-clamp-1 block"
                     >
                       {item.name}
                     </a>
-                    <p className="text-xs text-neutral-500 mt-0.5">
-                      SKU: <span className="font-mono">{item.sku}</span>
-                      {item.variantLabel && item.variantLabel !== "Standard" && (
-                        <> • <span className="text-neutral-700 font-medium">{item.variantLabel}</span></>
-                      )}
-                    </p>
+                    <div className="flex items-center justify-between gap-2 mt-0.5 text-xs text-neutral-500">
+                      <span>
+                        SKU: <span className="font-mono">{item.sku}</span>
+                        {item.variantLabel && item.variantLabel !== "Standard" && (
+                          <> • <span className="text-neutral-700 font-medium">{item.variantLabel}</span></>
+                        )}
+                      </span>
+                      <a
+                        href={`/product/${item.slug}`}
+                        onClick={closeDrawer}
+                        className="text-[11px] text-moss hover:underline font-semibold shrink-0"
+                      >
+                        View Product →
+                      </a>
+                    </div>
                     <div className="mt-2.5 flex items-center justify-between">
                       {/* Quantity Stepper */}
                       <div className="flex items-center rounded-md border border-neutral-300 bg-white">
