@@ -189,6 +189,37 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      <section className="wrap pb-12 md:pb-16">
+        <div className="rounded-2xl bg-brand-50 border border-brand-line p-8 sm:p-10 lg:p-12">
+          <div className="grid gap-8 lg:grid-cols-[1.4fr_auto] items-center">
+            <div>
+              <span className="eyebrow">DIY Repairs & Spare Parts</span>
+              <h2 className="!text-3xl font-serif text-forest">
+                Need Replacement Parts for Your Blinds?
+              </h2>
+              <p className="mt-3 text-sm text-neutral-600 max-w-2xl leading-relaxed">
+                Don’t replace the whole blind when a quick fix will do. Shop genuine 32mm & 38mm roller clutches, metal chains, child safety tensioners, venetian wands, vertical weights, and retrofit motorisation kits.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-4 text-xs font-semibold text-forest">
+                <span className="flex items-center gap-1.5">
+                  <Icon name="truck" size={16} className="text-moss" /> Fast NZ Courier Dispatch
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Icon name="shield" size={16} className="text-moss" /> 30-Day Fit Guarantee
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Icon name="leaf" size={16} className="text-moss" /> Free Delivery Over $75
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+              <Button to="/parts" dark>
+                Shop Blinds Parts
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
       <Testimonials />
       <Cta />
     </>

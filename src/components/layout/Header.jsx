@@ -3,14 +3,17 @@ import Brand from "./Brand.jsx";
 import Button from "../ui/Button.jsx";
 import Img from "../ui/Image.jsx";
 import { products } from "../../data/products.js";
+import { useCart } from "../../hooks/useCart.js";
 
 function Header({ path }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const { cartCount, openDrawer } = useCart();
   const overlaysHero = path === "/";
   const nav = [
     ["Home", "/"],
     ["Products", "/products"],
+    ["Blinds Parts", "/parts"],
     ["About", "/about"],
     ["Services", "/services"],
     ["Contact", "/contact"],
@@ -29,22 +32,32 @@ function Header({ path }) {
         <nav
           aria-label="Main navigation"
           className={
-            "hidden items-center gap-7 lg:flex xl:gap-9 2xl:gap-12 " +
+            "hidden items-center gap-6 lg:flex xl:gap-8 2xl:gap-10 " +
             (overlaysHero ? "[text-shadow:0_1px_8px_rgba(0,0,0,0.4)]" : "")
           }
         >
           {nav.map(([name, url]) => {
+            const isActive =
+              path === url ||
+              (url === "/products" && path.startsWith("/products/")) ||
+              (url === "/parts" && (path.startsWith("/parts") || path === "/shop" || path === "/cart" || path === "/checkout"));
+
             const link = (
               <a
                 href={url}
                 className={
                   "relative inline-flex items-center gap-1.5 py-3 text-sm font-semibold after:absolute after:bottom-0 after:left-0 after:h-[2px] after:transition-[width] " +
                   (overlaysHero ? "after:bg-lime " : "after:bg-moss ") +
-                  ((path === url || (url === "/products" && path.startsWith("/products/"))) ? "after:w-full" : "after:w-0 hover:after:w-full")
+                  (isActive ? "after:w-full" : "after:w-0 hover:after:w-full")
                 }
               >
                 {name}
                 {url === "/products" && <span aria-hidden="true" className="text-[10px]">▾</span>}
+                {url === "/parts" && (
+                  <span className="rounded bg-lime/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-moss ml-0.5">
+                    Shop
+                  </span>
+                )}
               </a>
             );
 
@@ -77,25 +90,62 @@ function Header({ path }) {
             );
           })}
         </nav>
-        <div className={overlaysHero ? "hidden md:block" : "hidden sm:block"}>
-          <Button dark to="/online-quote">
-            Get Online Quote
-          </Button>
+
+        {/* Right Action Cluster: Cart Button + Online Quote + Mobile Hamburger */}
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Cart Trigger */}
+          <button
+            type="button"
+            onClick={openDrawer}
+            aria-label={`View shopping cart, ${cartCount} items`}
+            className={`relative flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
+              overlaysHero
+                ? "bg-white/15 text-white hover:bg-white/25"
+                : "bg-brand-50 text-forest hover:bg-brand-100 border border-brand-line"
+            }`}
+          >
+            <svg
+              className={`size-4 ${overlaysHero ? "text-lime" : "text-moss"}`}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+              <path d="M3 6h18" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+            <span className="hidden sm:inline font-bold">Cart</span>
+            {cartCount > 0 && (
+              <span className="flex size-5 items-center justify-center rounded-full bg-lime text-[11px] font-bold text-forest shadow-xs">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          <div className={overlaysHero ? "hidden md:block" : "hidden sm:block"}>
+            <Button dark to="/online-quote">
+              Get Online Quote
+            </Button>
+          </div>
+
+          <button
+            aria-label="Toggle navigation"
+            aria-expanded={open}
+            onClick={() => {
+              setOpen(!open);
+              if (open) setProductsOpen(false);
+            }}
+            className={
+              "flex size-11 items-center justify-center rounded-full text-2xl transition lg:hidden " +
+              (overlaysHero ? "hover:bg-white/10" : "hover:bg-neutral-100")
+            }
+          >
+            {open ? "×" : "☰"}
+          </button>
         </div>
-        <button
-          aria-label="Toggle navigation"
-          aria-expanded={open}
-          onClick={() => {
-            setOpen(!open);
-            if (open) setProductsOpen(false);
-          }}
-          className={
-            "flex size-12 items-center justify-center rounded-full text-2xl transition lg:hidden " +
-            (overlaysHero ? "hover:bg-white/10" : "hover:bg-neutral-100")
-          }
-        >
-          {open ? "×" : "☰"}
-        </button>
       </div>
       {open && (
         <nav
@@ -142,10 +192,30 @@ function Header({ path }) {
               )}
             </div>
           ))}
-          <div className={overlaysHero ? "mt-2 md:hidden" : "mt-2 sm:hidden"}>
-            <Button dark to="/online-quote">
-              Get Online Quote
-            </Button>
+          <div className="mt-4 pt-3 border-t border-black/10 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openDrawer();
+              }}
+              className="flex w-full items-center justify-between rounded-xl bg-brand-50 border border-brand-line px-4 py-3 text-sm font-semibold text-forest"
+            >
+              <span className="flex items-center gap-2">
+                <svg className="size-4 text-moss" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                Shopping Cart
+              </span>
+              <span className="rounded-full bg-forest px-2.5 py-0.5 text-xs font-bold text-white">
+                {cartCount}
+              </span>
+            </button>
+            <div className={overlaysHero ? "md:hidden" : "sm:hidden"}>
+              <Button dark to="/online-quote">
+                Get Online Quote
+              </Button>
+            </div>
           </div>
         </nav>
       )}
