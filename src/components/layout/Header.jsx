@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import Brand from "./Brand.jsx";
 import Button from "../ui/Button.jsx";
 import Img from "../ui/Image.jsx";
+import Icon from "../ui/Icon.jsx";
 import { products } from "../../data/products.js";
+import { services } from "../../data/services.js";
 import { useCart } from "../../hooks/useCart.js";
 
 function Header({ path }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const { cartCount } = useCart();
   const isHome = path === "/";
   const [isScrolled, setIsScrolled] = useState(
@@ -27,10 +30,10 @@ function Header({ path }) {
   const overlaysHero = isHome && !isScrolled && !open;
   const nav = [
     ["Home", "/"],
+    ["About", "/about"],
+    ["Services", "/services"],
     ["Products", "/products"],
     ["Blinds Parts", "/parts"],
-    ["Services", "/services"],
-    ["About", "/about"],
     ["Blog", "/blog"],
     ["Contact", "/contact"],
   ];
@@ -61,7 +64,9 @@ function Header({ path }) {
                 }
               >
                 {name}
-                {url === "/products" && <span aria-hidden="true" className="text-[10px]">▾</span>}
+                {(url === "/products" || url === "/services") && (
+                  <span aria-hidden="true" className="text-[10px] ml-0.5">▾</span>
+                )}
                 {url === "/parts" && (
                   <span className="rounded bg-lime/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-moss ml-0.5">
                     Shop
@@ -69,6 +74,32 @@ function Header({ path }) {
                 )}
               </a>
             );
+
+            if (url === "/services") {
+              return (
+                <div key={url} className="group relative">
+                  {link}
+                  <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                    <div className="rounded-2xl border border-black/10 bg-white p-2 text-forest shadow-2xl [text-shadow:none]">
+                      <div className="flex flex-col gap-0.5">
+                        {services.map(([title, id, , ic]) => (
+                          <a
+                            key={id}
+                            href={`/services#${id}`}
+                            className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium normal-case tracking-normal text-forest hover:bg-brand-50 hover:text-forest transition-colors"
+                          >
+                            <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-moss">
+                              <Icon name={ic} size={15} />
+                            </span>
+                            <span>{title}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
 
             if (url !== "/products") return <span key={url}>{link}</span>;
 
@@ -144,7 +175,10 @@ function Header({ path }) {
             aria-expanded={open}
             onClick={() => {
               setOpen(!open);
-              if (open) setProductsOpen(false);
+              if (open) {
+                setProductsOpen(false);
+                setServicesOpen(false);
+              }
             }}
             className={
               "flex size-11 items-center justify-center rounded-full text-2xl transition lg:hidden " +
@@ -162,7 +196,25 @@ function Header({ path }) {
         >
           {nav.map(([name, url]) => (
             <div key={url}>
-              {url === "/products" ? (
+              {url === "/services" ? (
+                <button
+                  type="button"
+                  aria-expanded={servicesOpen}
+                  aria-controls="mobile-services"
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-3.5 text-left text-base font-semibold hover:bg-neutral-50"
+                >
+                  Services
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    className={`size-5 shrink-0 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                  >
+                    <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              ) : url === "/products" ? (
                 <button
                   type="button"
                   aria-expanded={productsOpen}
@@ -184,6 +236,26 @@ function Header({ path }) {
                 <a onClick={() => setOpen(false)} className="block rounded-lg px-3 py-3.5 text-base font-semibold hover:bg-neutral-50" href={url}>
                   {name}
                 </a>
+              )}
+              {url === "/services" && servicesOpen && (
+                <div id="mobile-services" className="mb-2 flex flex-col gap-1 border-y border-black/5 py-2 pl-3">
+                  <a onClick={() => setOpen(false)} className="flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-forest hover:bg-brand-50" href="/services">
+                    View all services <span aria-hidden="true">→</span>
+                  </a>
+                  {services.map(([title, id, , ic]) => (
+                    <a
+                      key={id}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-2.5 rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest"
+                      href={`/services#${id}`}
+                    >
+                      <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand-50 text-moss">
+                        <Icon name={ic} size={14} />
+                      </span>
+                      <span>{title}</span>
+                    </a>
+                  ))}
+                </div>
               )}
               {url === "/products" && productsOpen && (
                 <div id="mobile-products" className="mb-2 grid grid-cols-2 gap-1 border-y border-black/5 py-2 pl-3">

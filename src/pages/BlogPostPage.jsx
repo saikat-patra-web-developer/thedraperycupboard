@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { findBlogPost, getRelatedBlogPosts, blogPosts } from "../data/blogPosts.js";
 import Arrow from "../components/ui/Arrow.jsx";
 import Icon from "../components/ui/Icon.jsx";
@@ -6,20 +6,35 @@ import Cta from "../components/sections/CallToAction.jsx";
 
 export default function BlogPostPage({ slug }) {
   const post = findBlogPost(slug);
-  const [readingProgress, setReadingProgress] = useState(0);
+  const progressBarRef = useRef(null);
+  const [readPercent, setReadPercent] = useState(0);
   const [activeSection, setActiveSection] = useState("");
   const [copied, setCopied] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [feedbackGiven, setFeedbackGiven] = useState(null); // 'yes' | 'no' | null
   const [tocOpen, setTocOpen] = useState(true);
 
-  // Scroll reading progress indicator
+  // High-performance RAF-throttled scroll handler (zero re-render during fast scrolls)
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalScroll > 0) {
-        const progress = Math.min(100, Math.max(0, (window.scrollY / totalScroll) * 100));
-        setReadingProgress(progress);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+          if (totalScroll > 0) {
+            const currentScroll = window.scrollY;
+            const progress = Math.min(100, Math.max(0, (currentScroll / totalScroll) * 100));
+            // Update progress bar directly via DOM ref for silky-smooth animation without React re-renders
+            if (progressBarRef.current) {
+              progressBarRef.current.style.width = `${progress}%`;
+            }
+            // Only update React state when rounded percentage changes to avoid layout thrashing
+            const rounded = Math.round(progress);
+            setReadPercent((prev) => (prev !== rounded ? rounded : prev));
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -135,10 +150,11 @@ export default function BlogPostPage({ slug }) {
     <>
       {/* 1. Sticky Reading Progress Indicator */}
       <div
-        className="fixed top-0 left-0 z-50 h-1 bg-gradient-to-r from-lime via-[#8dca34] to-moss transition-[width] duration-150 ease-out shadow-xs"
-        style={{ width: `${readingProgress}%` }}
+        ref={progressBarRef}
+        className="fixed top-0 left-0 z-50 h-1 bg-gradient-to-r from-lime via-[#8dca34] to-moss pointer-events-none shadow-xs"
+        style={{ width: "0%" }}
         role="progressbar"
-        aria-valuenow={Math.round(readingProgress)}
+        aria-valuenow={readPercent}
         aria-valuemin="0"
         aria-valuemax="100"
       />
@@ -577,7 +593,7 @@ export default function BlogPostPage({ slug }) {
                     <span>Article Contents</span>
                   </span>
                   <span className="text-[11px] font-bold text-moss">
-                    {Math.round(readingProgress)}% read
+                    {readPercent}% read
                   </span>
                 </div>
 

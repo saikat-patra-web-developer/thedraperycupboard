@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Icon from "../components/ui/Icon.jsx";
 import Img from "../components/ui/Image.jsx";
 import Button from "../components/ui/Button.jsx";
@@ -11,6 +12,17 @@ import { services } from "../data/services.js";
 import { features } from "../data/features.js";
 
 export default function ServicesPage() {
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.location.hash) return;
+    const targetId = window.location.hash.slice(1);
+    const el = document.getElementById(targetId);
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+  }, []);
+
   return (
     <>
       <Hero
@@ -37,10 +49,10 @@ export default function ServicesPage() {
         <div className="mb-7 text-center">
           <Heading label="Our services" title="Solutions for Every Space" />
         </div>
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {services.map(([t, id, d, ic]) => (
-            <article className="card scroll-mt-6" key={id} id={id}>
-              <Img name={id} alt={t} className="h-44 w-full" />
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {services.map(([t, id, d, ic, img]) => (
+            <article className="card scroll-mt-28" key={id} id={id}>
+              <Img name={img || id} alt={t} className="h-44 w-full" />
               <div className="relative p-6 pt-9">
                 <div className="absolute -top-6 flex size-12 items-center justify-center rounded-full bg-forest text-lime">
                   <Icon name={ic} />

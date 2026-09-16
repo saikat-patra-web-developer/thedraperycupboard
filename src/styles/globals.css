@@ -57,9 +57,7 @@
     outline: 3px solid #7dba25;
     outline-offset: 4px;
   }
-  html {
-    scroll-behavior: smooth;
-  }
+
   input,
   select,
   textarea {
@@ -352,19 +350,21 @@ a:hover .product-photo {
 .blog-table tbody tr:hover {
   background: #f4f8ed;
 }
-/* Blog Card and Full-Resolution Image Display */
+/* Blog Card and Restrained Image Display */
 .blog-img-card {
-  margin: 2.5rem 0;
-  border-radius: 1.25rem;
+  margin: 2rem auto;
+  max-width: 540px;
+  width: 100%;
+  border-radius: 1rem;
   border: 1px solid var(--color-brand-line);
   background: #ffffff;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(70, 69, 74, 0.06);
+  box-shadow: 0 4px 16px rgba(70, 69, 74, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .blog-img-card:hover {
-  box-shadow: 0 8px 30px rgba(70, 69, 74, 0.1);
+  box-shadow: 0 8px 24px rgba(70, 69, 74, 0.09);
   border-color: rgba(125, 186, 37, 0.45);
 }
 
@@ -372,19 +372,21 @@ a:hover .product-photo {
 .blog-inline-img {
   width: 100%;
   max-width: 100%;
-  height: auto;
+  max-height: 320px;
   display: block;
-  object-fit: contain;
-  background-color: #ffffff;
+  object-fit: cover;
+  background-color: #fafbf8;
 }
 
 /* Standalone inline image not inside figure card */
 .blog-article-content > .blog-inline-img,
 .blog-article-content > p > .blog-inline-img {
-  margin: 2.25rem auto;
-  border-radius: 1.25rem;
+  max-width: 520px;
+  max-height: 320px;
+  margin: 2rem auto;
+  border-radius: 1rem;
   border: 1px solid var(--color-brand-line);
-  box-shadow: 0 6px 20px rgba(70, 69, 74, 0.08);
+  box-shadow: 0 4px 16px rgba(70, 69, 74, 0.06);
 }
 
 .blog-img-card .blog-inline-img {
@@ -395,21 +397,26 @@ a:hover .product-photo {
 }
 
 .blog-img-card figcaption {
-  padding: 0.875rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   font-size: 0.8125rem;
   color: #67666b;
   background: #fafbf8;
   border-top: 1px solid var(--color-brand-line);
   text-align: center;
-  font-style: italic;
-  line-height: 1.5;
+  font-style: normal;
+  line-height: 1.45;
+}
+
+.blog-img-card figcaption strong {
+  color: var(--color-forest);
+  font-weight: 600;
 }
 
 /* Multi-Image Grids */
 .blog-image-grid {
   display: grid;
-  gap: 1.25rem;
-  margin: 2.5rem 0;
+  gap: 1rem;
+  margin: 2rem 0 2.5rem;
 }
 
 .blog-image-grid.grid-2 {
@@ -432,15 +439,89 @@ a:hover .product-photo {
 
 .blog-image-grid .blog-img-card {
   margin: 0;
+  max-width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
+  border-radius: 0.875rem;
+  box-shadow: 0 2px 10px rgba(70, 69, 74, 0.04);
+}
+
+.blog-image-grid .blog-img-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(70, 69, 74, 0.09);
 }
 
 .blog-image-grid .blog-img-card img {
-  flex: 1;
+  width: 100%;
+  height: 180px;
+  max-height: 180px;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  max-height: 280px;
+  flex-shrink: 0;
+}
+
+.blog-image-grid .blog-img-card figcaption {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Editorial Split Media Callout */
+.blog-split-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid var(--color-brand-line);
+  background: #fafbf8;
+  box-shadow: 0 2px 12px rgba(70, 69, 74, 0.04);
+}
+
+@media (min-width: 640px) {
+  .blog-split-callout {
+    flex-direction: row;
+    align-items: center;
+  }
+  .blog-split-callout-img {
+    width: 220px;
+    flex-shrink: 0;
+  }
+}
+
+.blog-split-callout-img img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-brand-line);
+  display: block;
+}
+
+.blog-split-callout-body {
+  flex: 1;
+}
+
+.blog-split-callout-body h4 {
+  margin: 0 0 0.375rem 0;
+  font-family: Georgia, serif;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-forest);
+}
+
+.blog-split-callout-body p {
+  margin: 0 !important;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #555459;
 }
 
 /* Swatch Gallery */
@@ -499,12 +580,17 @@ a:hover .product-photo {
   border: 1px solid var(--color-brand-line);
   background: #1a191c;
   box-shadow: 0 8px 32px rgba(70, 69, 74, 0.14);
+  aspect-ratio: 16 / 9;
+  max-height: 480px;
 }
 
 .blog-video {
   width: 100%;
+  height: 100%;
   max-height: 480px;
   display: block;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
 }
 
 /* Print Optimization for Editorial Guides */
