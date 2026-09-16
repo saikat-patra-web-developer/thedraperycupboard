@@ -560,8 +560,8 @@ export default function CartPage() {
                 Take a photo of your existing blind bracket, chain, or motor mechanism and email it to our team. We'll identify the exact match for you.
               </p>
               <div className="pt-2 flex flex-col gap-1 text-[11px] font-semibold text-moss">
-                <a href={`tel:${contact.phoneRaw}`} className="hover:underline flex items-center gap-1.5">
-                  <Icon name="phone" size={12} /> {contact.phone}
+                <a href={contact.phones[0].href} className="hover:underline flex items-center gap-1.5">
+                  <Icon name="phone" size={12} /> {contact.phone} (Toll Free)
                 </a>
                 <a href={`mailto:${contact.email}`} className="hover:underline flex items-center gap-1.5">
                   <Icon name="mail" size={12} /> {contact.email}

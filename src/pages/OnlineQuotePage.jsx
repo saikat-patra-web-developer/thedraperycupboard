@@ -261,7 +261,7 @@ export default function OnlineQuotePage() {
               <p className="mt-3 text-center text-xs leading-relaxed text-neutral-500">Custom options such as motorisation, heavy-duty tubes, and fabric quality may affect the price. Our team will confirm your final quote.</p>
             </div>
           </div>
-          <div className="flex items-start gap-4 rounded-xl bg-brand-100 p-5"><Icon name="headset" className="text-moss" /><div><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">A little help from our team?</h3><p className="mt-2 text-xs leading-relaxed text-neutral-600">We can help with product choices and measurements.</p><a href={contact.phones[0].href} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-moss">{contact.phones[0].label} <Arrow /></a></div></div>
+          <div className="flex items-start gap-4 rounded-xl bg-brand-100 p-5"><Icon name="headset" className="text-moss" /><div><h3 className="!font-sans !text-sm !font-semibold !tracking-normal">A little help from our team?</h3><p className="mt-2 text-xs leading-relaxed text-neutral-600">We can help with product choices and measurements.</p><a href={contact.phones[0].href} className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-moss">Toll Free: {contact.phones[0].label} <Arrow /></a></div></div>
         </aside>
       </div>
     </section>

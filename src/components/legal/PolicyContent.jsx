@@ -47,7 +47,7 @@ export default function PolicyContent({ type }) {
       </div>
       <div className="mt-8 rounded-t-2xl bg-forest px-6 py-10 text-white sm:px-8 lg:px-10 lg:py-11">
         <h2 className="!text-2xl">Contact The Drapery Cupboard</h2>
-        <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/75">Questions about these {isPrivacy ? "privacy practices" : "terms"} can be sent to <a href={contact.emailHref} className="text-lime underline underline-offset-4">{contact.email}</a> or discussed by calling <a href={contact.phones[0].href} className="text-lime underline underline-offset-4">{contact.phones[0].label}</a>.</p>
+        <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/75">Questions about these {isPrivacy ? "privacy practices" : "terms"} can be sent to <a href={contact.emailHref} className="text-lime underline underline-offset-4">{contact.email}</a> or discussed by calling <a href={contact.phones[0].href} className="text-lime underline underline-offset-4">Toll Free {contact.phones[0].label}</a>.</p>
       </div>
     </section>
   );

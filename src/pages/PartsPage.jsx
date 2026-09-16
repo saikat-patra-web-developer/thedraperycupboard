@@ -235,7 +235,7 @@ export default function PartsPage() {
                 href={contact.phones[0].href}
                 className="btn btn-outline !border-white/30 !text-white hover:!bg-white/10 !py-3.5 !px-6 text-xs text-center"
               >
-                Call {contact.phones[0].label}
+                Call Toll Free {contact.phones[0].label}
               </a>
             </div>
           </div>

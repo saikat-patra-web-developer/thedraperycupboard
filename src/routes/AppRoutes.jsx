@@ -16,6 +16,8 @@ import ProductViewPage from "../pages/ProductViewPage";
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
+import BlogPage from "../pages/BlogPage";
+import BlogPostPage from "../pages/BlogPostPage";
 import { findPart } from "../data/parts.js";
 
 const pages = {
@@ -27,6 +29,7 @@ const pages = {
   "/cart": CartPage,
   "/checkout": CheckoutPage,
   "/order-confirmation": OrderConfirmationPage,
+  "/blog": BlogPage,
   "/about": AboutPage,
   "/services": ServicesPage,
   "/contact": ContactPage,
@@ -40,6 +43,9 @@ const pages = {
 };
 
 export default function AppRoutes({ path }) {
+  const blogPost = path.match(/^\/blog\/([^/]+)$/);
+  if (blogPost) return <BlogPostPage key={blogPost[1]} slug={blogPost[1]} />;
+
   const productView = path.match(/^\/(?:parts|product)\/([^/]+)$/);
   if (productView) return <ProductViewPage key={productView[1]} id={productView[1]} />;
 

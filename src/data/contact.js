@@ -1,7 +1,9 @@
 export const contact = {
-  phones: [{ label: "+64 20 455 5535", href: "tel:+64204555535" }],
+  phone: "0800 55 00 11",
+  phoneRaw: "0800550011",
+  phones: [{ label: "0800 55 00 11", href: "tel:0800550011" }],
   email: "info@thedraperycupboard.co.nz",
   emailHref: "mailto:info@thedraperycupboard.co.nz",
-  address: "22 Johnson Street, Tuakau 2121, New Zealand",
+  address: "35 Main Road, Waikato, Te Kauwhata 3710, New Zealand",
   consultation: "Free in-home and online video consultations",
 };

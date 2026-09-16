@@ -20,7 +20,7 @@ Image galleries, responsive navigation, FAQ accordions and validated enquiry dra
 
 The former low-resolution screenshot crops have been replaced throughout the website. Full-resolution generated/restored PNGs live in src/assets/images; the site uses responsive WebP files in public/images. Product images are 1536px wide, and the hero is 1672px wide. The original supplied 2172px-wide logo is retained. Generation prompts and provenance are recorded in src/assets/images/PROMPTS.md. Portrait restoration reconstructs plausible details from low-resolution references; use original staff photographs when exact identity fidelity is required.
 
-Contact details were verified against https://www.thedraperycupboard.co.nz/contact/ on 5 September 2026: +64 20 455 5535, info@thedraperycupboard.co.nz, 22 Johnson Street, Tuakau 2121, New Zealand. Shared values live in src/data/contact.js. Confirm product specifications, pricing, testimonials, team information and legal policies before publishing.
+Contact details were verified against https://www.thedraperycupboard.co.nz/contact/ on 5 September 2026: Toll Free 0800 55 00 11, info@thedraperycupboard.co.nz, 35 Main Road, Waikato, Te Kauwhata 3710, New Zealand. Shared values live in src/data/contact.js. Confirm product specifications, pricing, testimonials, team information and legal policies before publishing.
 
 A production host must rewrite application routes to index.html. Connect a form backend before enabling direct submissions.
 

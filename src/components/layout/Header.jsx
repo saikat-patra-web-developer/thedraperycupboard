@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Brand from "./Brand.jsx";
 import Button from "../ui/Button.jsx";
 import Img from "../ui/Image.jsx";
@@ -9,27 +9,44 @@ function Header({ path }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const { cartCount } = useCart();
-  const overlaysHero = path === "/";
+  const isHome = path === "/";
+  const [isScrolled, setIsScrolled] = useState(
+    () => typeof window !== "undefined" && window.scrollY > 20
+  );
+
+  useEffect(() => {
+    if (!isHome) return;
+    const handleScroll = () => {
+      const nextScrolled = window.scrollY > 20;
+      setIsScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHome]);
+
+  const overlaysHero = isHome && !isScrolled && !open;
   const nav = [
     ["Home", "/"],
     ["Products", "/products"],
     ["Blinds Parts", "/parts"],
     ["Services", "/services"],
     ["About", "/about"],
+    ["Blog", "/blog"],
     ["Contact", "/contact"],
   ];
   return (
     <header
       className={
-        "top-0 z-40 w-full transition-colors duration-200 " +
+        "top-0 z-40 w-full transition-all duration-300 " +
+        (isHome ? "fixed " : "sticky ") +
         (overlaysHero
-          ? "absolute bg-transparent text-white"
-          : "sticky border-b border-black/10 bg-white/95 text-forest backdrop-blur-md")
+          ? "bg-transparent text-white"
+          : "border-b border-black/10 bg-white/95 text-forest shadow-xs backdrop-blur-md")
       }
     >
       <div className="wrap flex items-center justify-between gap-4 py-4 md:py-5">
         <Brand footer={overlaysHero} compact={overlaysHero} />
-        <nav aria-label="Main" className="hidden lg:flex items-center gap-7 text-xs font-semibold uppercase tracking-[0.14em]">
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-7 text-xs font-semibold uppercase tracking-[0.14em]">
           {nav.map(([name, url]) => {
             const isActive = path === url || (url !== "/" && path.startsWith(url));
             const link = (

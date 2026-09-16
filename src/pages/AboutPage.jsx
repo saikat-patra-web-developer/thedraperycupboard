@@ -47,7 +47,7 @@ export default function AboutPage() {
             blinds for your space.
           </Heading>
           <p className="muted mt-4 max-w-md">
-            From our Tuakau base, we help homeowners and businesses across New
+            From our Te Kauwhata, Waikato base, we help homeowners and businesses across New
             Zealand find blinds that are made to measure, built to last and easy
             to use.
           </p>

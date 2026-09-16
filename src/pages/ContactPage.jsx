@@ -29,9 +29,9 @@ export default function ContactPage() {
             {[
               [
                 "phone",
-                "Call Us",
+                "Call Us (Toll Free)",
                 contact.phones[0].label,
-                "Talk with our window-covering specialists",
+                "Free call nationwide across New Zealand",
                 contact.phones[0].href,
               ],
               [
@@ -106,7 +106,7 @@ export default function ContactPage() {
               </div>
               <div className="mt-7 flex flex-wrap gap-3">
                 <a href={contact.phones[0].href} className="btn btn-dark !px-5 !text-xs">
-                  Call {contact.phones[0].label} <Arrow />
+                  Call {contact.phones[0].label} (Toll Free) <Arrow />
                 </a>
                 <a href={contact.emailHref} className="btn btn-outline !px-5 !text-xs">
                   Email Our Team <Arrow />
@@ -151,7 +151,7 @@ export default function ContactPage() {
               [
                 "Prefer to talk to someone?",
                 "Our friendly team is ready to chat about your project.",
-                "Call " + contact.phones[0].label,
+                "Call Toll Free " + contact.phones[0].label,
                 contact.phones[0].href,
               ],
               [

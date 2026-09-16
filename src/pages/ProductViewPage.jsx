@@ -238,7 +238,7 @@ export default function ProductViewPage({ id }) {
               </div>
               <div className="rounded-xl border border-brand-line bg-white p-3 text-center shadow-2xs">
                 <Icon name="pin" size={18} className="text-moss mx-auto mb-1" />
-                <div className="text-xs font-bold text-forest">Auckland / Tuakau</div>
+                <div className="text-xs font-bold text-forest">Te Kauwhata / Waikato</div>
                 <div className="text-[10px] text-neutral-500">Fast NZ Dispatch</div>
               </div>
             </div>
@@ -494,7 +494,7 @@ export default function ProductViewPage({ id }) {
                     </tr>
                     <tr>
                       <td className="py-3 font-semibold text-forest">Dispatch Warehouse</td>
-                      <td className="py-3 text-neutral-600">Tuakau / Auckland, New Zealand</td>
+                      <td className="py-3 text-neutral-600">Te Kauwhata, Waikato, New Zealand</td>
                     </tr>
                   </tbody>
                 </table>
