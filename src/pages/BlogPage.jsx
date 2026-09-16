@@ -6,7 +6,13 @@ import Icon from "../components/ui/Icon.jsx";
 import { blogPosts, blogCategories } from "../data/blogPosts.js";
 
 export default function BlogPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(() => {
+    if (typeof window !== "undefined") {
+      const param = new URLSearchParams(window.location.search).get("category");
+      if (param && blogCategories.includes(param)) return param;
+    }
+    return "All";
+  });
 
   const filteredPosts =
     activeCategory === "All"

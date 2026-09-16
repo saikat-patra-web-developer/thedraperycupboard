@@ -143,147 +143,162 @@ export default function BlogPostPage({ slug }) {
         aria-valuemax="100"
       />
 
-      {/* 2. Top Editorial Utility & Breadcrumb Bar */}
-      <nav aria-label="Breadcrumb" className="border-b border-brand-line/60 bg-[#f9faf6] py-3 text-xs">
-        <div className="wrap flex flex-wrap items-center justify-between gap-3 text-neutral-500">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <a href="/" className="hover:text-forest transition-colors">
-              Home
-            </a>
-            <span className="text-neutral-300">/</span>
-            <a href="/blog" className="hover:text-forest transition-colors">
-              Design Journal
-            </a>
-            <span className="text-neutral-300">/</span>
-            <span className="rounded bg-brand-100 px-2 py-0.5 font-bold text-moss">
-              {post.category}
-            </span>
-            <span className="hidden md:inline text-neutral-300">/</span>
-            <span className="hidden md:inline max-w-[260px] truncate font-medium text-forest">
-              {post.title}
-            </span>
+      {/* 2. Magazine Editorial Masthead Section */}
+      <section className="border-b border-brand-line/80 bg-gradient-to-b from-[#f8faf4] via-[#f5f8ef]/50 to-white py-8 sm:py-12">
+        <div className="wrap">
+          {/* Top Breadcrumb & Action Toolbar */}
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-line/70 pb-5 text-xs text-neutral-500">
+            <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs text-neutral-500">
+              <a href="/" className="hover:text-forest transition-colors font-medium">
+                Home
+              </a>
+              <span className="text-neutral-400">›</span>
+              <a
+                href={`/blog?category=${encodeURIComponent(post.category)}`}
+                className="hover:text-forest transition-colors font-medium text-neutral-600"
+              >
+                {post.category}
+              </a>
+              <span className="text-neutral-400">›</span>
+              <span aria-current="page" className="font-semibold text-forest truncate max-w-[200px] sm:max-w-xs md:max-w-md">
+                {post.title}
+              </span>
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleCopyLink}
+                className="inline-flex items-center gap-1.5 rounded-full border border-brand-line bg-white px-3.5 py-1 text-xs font-semibold text-forest shadow-2xs transition hover:bg-brand-50"
+                title="Copy article link"
+              >
+                <Icon name="copy" size={12} className="text-moss" />
+                <span>{copied ? "Link Copied!" : "Share"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePrint}
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-brand-line bg-white px-3.5 py-1 text-xs font-semibold text-forest shadow-2xs transition hover:bg-brand-50"
+                title="Print article or save as PDF"
+              >
+                <Icon name="print" size={12} className="text-moss" />
+                <span>Print / PDF</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setBookmarked(!bookmarked)}
+                className={`inline-flex items-center gap-1 rounded-full border border-brand-line bg-white px-3 py-1 text-xs font-semibold transition ${
+                  bookmarked ? "text-moss bg-brand-50 border-moss/40" : "text-neutral-500 hover:bg-brand-50"
+                }`}
+                title="Save guide"
+              >
+                <Icon name="bookmark" size={12} className={bookmarked ? "text-moss" : "text-neutral-400"} />
+                <span className="hidden sm:inline">{bookmarked ? "Saved" : "Save"}</span>
+              </button>
+
+              <span className="text-neutral-300">|</span>
+
+              <a
+                href="/blog"
+                className="inline-flex items-center gap-1 font-bold text-moss hover:underline"
+              >
+                ← Back to Blog
+              </a>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleCopyLink}
-              className="inline-flex items-center gap-1.5 rounded-full border border-brand-line bg-white px-3 py-1 text-xs font-semibold text-forest shadow-2xs transition hover:bg-brand-50"
-              title="Copy article link to clipboard"
-            >
-              <Icon name="copy" size={12} className="text-moss" />
-              <span>{copied ? "Link Copied!" : "Share"}</span>
-            </button>
+          {/* 2-Column Integrated Magazine Hero Grid */}
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left 7 Cols: Typography, Deck, Byline, and Value Badges */}
+            <div className="lg:col-span-7">
+              <div className="flex items-center gap-2 text-[11px] font-bold tracking-[0.16em] uppercase text-moss">
+                <span className="inline-block h-2 w-2 rounded-full bg-lime"></span>
+                <span>TDC Editorial • New Zealand Living</span>
+              </div>
 
-            <button
-              type="button"
-              onClick={handlePrint}
-              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-brand-line bg-white px-3 py-1 text-xs font-semibold text-forest shadow-2xs transition hover:bg-brand-50"
-              title="Print article or save as PDF"
-            >
-              <Icon name="print" size={12} className="text-moss" />
-              <span>Print / PDF</span>
-            </button>
+              <h1 className="mt-3 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-[2.65rem] font-serif font-bold text-forest leading-[1.18] tracking-[-0.02em]">
+                {post.title}
+              </h1>
 
-            <button
-              type="button"
-              onClick={() => setBookmarked(!bookmarked)}
-              className={`inline-flex items-center gap-1 rounded-full border border-brand-line bg-white px-2.5 py-1 text-xs font-semibold transition ${
-                bookmarked ? "text-moss bg-brand-50 border-moss/40" : "text-neutral-500 hover:bg-brand-50"
-              }`}
-              title="Save guide"
-            >
-              <Icon name="bookmark" size={12} className={bookmarked ? "text-moss" : "text-neutral-400"} />
-              <span className="hidden sm:inline">{bookmarked ? "Saved" : "Save"}</span>
-            </button>
+              {post.excerpt && (
+                <p className="mt-4 text-base sm:text-lg leading-relaxed text-[#4e4d52] font-normal">
+                  {post.excerpt}
+                </p>
+              )}
 
-            <span className="text-neutral-300">|</span>
+              {/* Author & Byline Information */}
+              <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-neutral-600 border-t border-brand-line/60 pt-5">
+                <div className="flex items-center gap-3">
+                  <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest text-xs font-bold text-white tracking-wider ring-2 ring-lime/50">
+                    TDC
+                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-lime text-[8px] text-forest font-bold ring-2 ring-white">
+                      ✓
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-forest text-[13px]">The Drapery Cupboard Styling Team</p>
+                    <p className="text-[11px] text-neutral-500">
+                      Window Furnishings Specialists • Auckland & Waikato
+                    </p>
+                  </div>
+                </div>
 
-            <a
-              href="/blog"
-              className="inline-flex items-center gap-1 font-bold text-moss hover:underline"
-            >
-              ← Back to Journal
-            </a>
-          </div>
-        </div>
-      </nav>
+                <div className="flex flex-wrap items-center gap-3 text-neutral-500 sm:ml-auto">
+                  <span className="flex items-center gap-1 font-medium">
+                    <Icon name="calendar" size={13} className="text-moss" />
+                    <time dateTime={post.date}>{post.formattedDate}</time>
+                  </span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 font-medium">
+                    <Icon name="clock" size={13} className="text-moss" />
+                    {post.readTime}
+                  </span>
+                </div>
+              </div>
 
-      {/* 3. Main Editorial Header & Content Container */}
-      <main className="wrap py-10 sm:py-16">
-        
-        {/* Masthead Header */}
-        <header className="mx-auto max-w-4xl">
-          <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span className="font-bold tracking-[0.16em] uppercase text-moss text-[11px]">
-              TDC Editorial • New Zealand Living
-            </span>
-            <span className="text-neutral-300">•</span>
-            <span className="rounded-full bg-brand-100 px-3 py-0.5 text-xs font-bold text-moss">
-              {post.category}
-            </span>
-          </div>
-
-          <h1 className="mt-4 !text-3xl sm:!text-4xl md:!text-5xl lg:!text-[3.25rem] font-serif font-bold text-forest leading-[1.14] tracking-[-0.02em]">
-            {post.title}
-          </h1>
-
-          {/* Lead excerpt */}
-          {post.excerpt && (
-            <p className="mt-5 border-l-2 border-lime pl-4 text-base sm:text-lg leading-relaxed text-neutral-600 font-normal">
-              {post.excerpt}
-            </p>
-          )}
-
-          {/* Detailed Author & Review Byline Bar */}
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-y border-brand-line/80 py-4 text-xs text-neutral-600">
-            <div className="flex items-center gap-3">
-              <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-forest text-xs font-bold text-white tracking-wider ring-2 ring-lime/50">
-                TDC
-                <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-lime text-[8px] text-forest font-bold ring-2 ring-white">
-                  ✓
+              {/* Quick Trust Highlights Strip */}
+              <div className="mt-5 flex flex-wrap items-center gap-2 text-[11px]">
+                <span className="inline-flex items-center gap-1 rounded-full bg-white border border-brand-line px-3 py-1 text-forest font-medium shadow-2xs">
+                  <span className="text-lime font-bold">✓</span> 5-Year Fabric Warranty
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-white border border-brand-line px-3 py-1 text-forest font-medium shadow-2xs">
+                  <span className="text-lime font-bold">✓</span> 100% Fit Guarantee
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-white border border-brand-line px-3 py-1 text-forest font-medium shadow-2xs">
+                  <span className="text-lime font-bold">✓</span> Free In-Home Measure & Quote
                 </span>
               </div>
-              <div>
-                <p className="font-bold text-forest text-[13px]">The Drapery Cupboard Styling Team</p>
-                <p className="text-[11px] text-neutral-500">
-                  Window Furnishings Specialists • Auckland & Waikato
-                </p>
+            </div>
+
+            {/* Right 5 Cols: Proportioned Featured Image Card */}
+            {post.image && (
+              <div className="lg:col-span-5">
+                <div className="group relative overflow-hidden rounded-2xl border border-brand-line/90 bg-white p-2.5 shadow-md shadow-forest/5 transition hover:shadow-xl">
+                  <div className="relative overflow-hidden rounded-xl aspect-[4/3] bg-neutral-100">
+                    <img
+                      src={post.image}
+                      alt={post.imageAlt || post.title}
+                      className="h-full w-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                      loading="eager"
+                    />
+                    <div className="absolute bottom-3 left-3 right-3 rounded-lg bg-forest/85 backdrop-blur-md px-3.5 py-2 text-[11px] text-white/95 flex items-center justify-between shadow-xs">
+                      <span className="font-medium">Custom Installed in New Zealand</span>
+                      <span className="rounded bg-lime px-1.5 py-0.5 font-bold text-[10px] text-forest">
+                        TDC Verified
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4 text-neutral-500">
-              <span className="flex items-center gap-1.5 font-medium">
-                <Icon name="calendar" size={13} className="text-moss" />
-                <time dateTime={post.date}>{post.formattedDate}</time>
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1.5 font-medium">
-                <Icon name="clock" size={13} className="text-moss" />
-                {post.readTime}
-              </span>
-              <span>•</span>
-              <span className="inline-flex items-center gap-1 font-semibold text-moss">
-                <Icon name="shield" size={13} /> NZ Code Compliant
-              </span>
-            </div>
+            )}
           </div>
-        </header>
+        </div>
+      </section>
 
-        {/* Featured Hero Image */}
-        {post.image && (
-          <figure className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl sm:rounded-3xl border border-brand-line bg-neutral-100 shadow-[0_16px_40px_-15px_rgba(70,69,74,0.12)]">
-            <img
-              src={post.image}
-              alt={post.imageAlt || post.title}
-              className="max-h-[520px] w-full object-cover"
-              loading="eager"
-            />
-            <figcaption className="bg-brand-50/60 px-5 py-2.5 text-center text-[11px] font-medium text-neutral-500 border-t border-brand-line/50">
-              Custom window treatments precision-measured and installed across Auckland & Waikato homes.
-            </figcaption>
-          </figure>
-        )}
+      {/* 3. Main Editorial Content Container */}
+      <main className="wrap py-10 sm:py-14">
 
         {/* Two-Column Grid: Left Content (740px) + Right Sticky Actions/TOC (350px) */}
         <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_360px] gap-10 xl:gap-14 items-start">
