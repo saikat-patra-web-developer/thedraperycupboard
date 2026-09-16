@@ -144,7 +144,7 @@ export default function BlogPostPage({ slug }) {
       />
 
       {/* 2. Magazine Editorial Masthead Section */}
-      <section className="border-b border-brand-line/80 bg-gradient-to-b from-[#f8faf4] via-[#f5f8ef]/50 to-white py-8 sm:py-12">
+      <section className="border-b border-brand-line/80 bg-gradient-to-b from-[#f8faf4] via-[#f5f8ef]/50 to-white pt-6 pb-6 sm:pt-8 sm:pb-8">
         <div className="wrap">
           {/* Top Breadcrumb & Action Toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-brand-line/70 pb-5 text-xs text-neutral-500">
@@ -298,16 +298,16 @@ export default function BlogPostPage({ slug }) {
       </section>
 
       {/* 3. Main Editorial Content Container */}
-      <main className="wrap py-10 sm:py-14">
+      <main className="wrap pt-6 pb-16 sm:pt-8 sm:pb-20">
 
         {/* Two-Column Grid: Left Content (740px) + Right Sticky Actions/TOC (350px) */}
-        <div className="mt-12 lg:mt-16 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_360px] gap-10 xl:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_360px] gap-8 xl:gap-10 items-start">
           
           {/* LEFT: Main Editorial Article Column */}
           <article className="min-w-0">
             
             {/* Executive Summary / Key Takeaways Box */}
-            <section className="mb-10 rounded-2xl border border-brand-line bg-gradient-to-br from-brand-50/90 to-white p-6 shadow-2xs">
+            <section className="mb-8 rounded-2xl border border-brand-line bg-gradient-to-br from-brand-50/90 to-white p-5 sm:p-6 shadow-2xs">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-moss">
                 <Icon name="spark" size={16} className="text-moss" />
                 <span>At a Glance • Key Considerations for NZ Homes</span>
