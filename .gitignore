@@ -28,6 +28,7 @@ AGENTS.md
 PROJECT_INDEX.md
 FAST_LOOKUP.md
 PROJECT_SCAN.md
+.ignore
 
 # Internal verification & audit scripts
 scripts/verify-integrity.mjs
