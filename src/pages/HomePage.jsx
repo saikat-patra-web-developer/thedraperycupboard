@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import Icon from "../components/ui/Icon.jsx";
 import Img from "../components/ui/Image.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
@@ -8,8 +10,17 @@ import Features from "../components/sections/Features.jsx";
 import ProductGrid from "../components/products/ProductGrid.jsx";
 import Testimonials from "../components/sections/Testimonials.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
+import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 export default function HomePage() {
+  const shouldReduceMotion = useReducedMotion();
+  const aboutRef = useRef(null);
+  const { scrollYProgress: aboutScroll } = useScroll({
+    target: aboutRef,
+    offset: ["start end", "end start"],
+  });
+  const aboutParallax = useTransform(aboutScroll, [0, 1], [-20, 20]);
+
   return (
     <>
       <Hero
@@ -35,37 +46,78 @@ export default function HomePage() {
           </>
         }
       >
-        <div className="mt-6 flex flex-wrap gap-4">
+        <motion.div
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.6,
+            delay: shouldReduceMotion ? 0 : 1.0,
+            ease: EASE_PREMIUM,
+          }}
+          className="mt-6 flex flex-wrap gap-4"
+        >
           <Button to="/products">Explore Our Range</Button>
           <Button to="/online-quote" outline>
             Get a Free Quote
           </Button>
-        </div>
-        <div className="mt-9 grid gap-5 sm:grid-cols-3 sm:gap-7">
+        </motion.div>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.08,
+                delayChildren: shouldReduceMotion ? 0 : 1.15,
+              },
+            },
+          }}
+          className="mt-9 grid gap-5 sm:grid-cols-3 sm:gap-7"
+        >
           {[
             ["leaf", "NZ Owned &", "Operated"],
             ["shield", "Premium Quality", "Guaranteed"],
             ["truck", "Fast, Reliable", "Nationwide Delivery"],
           ].map(([icon, a, b]) => (
-            <div className="flex items-center gap-3" key={a}>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 12 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: EASE_PREMIUM,
+                  },
+                },
+              }}
+              className="flex items-center gap-3"
+              key={a}
+            >
               <Icon name={icon} size={25} />
               <span className="text-sm leading-5">
                 {a}
                 <br />
                 {b}
               </span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Hero>
       <section className="wrap section">
         <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+          >
             <Heading
               label="Our range"
               title="The Right Finish for Every Space"
             />
-          </div>
+          </motion.div>
           <a href="/products" className="text-link shrink-0">
             View all products <Arrow />
           </a>
@@ -75,8 +127,16 @@ export default function HomePage() {
         </div>
       </section>
       <Features />
-      <section className="wrap section grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center 2xl:gap-20">
-        <div>
+      <section
+        ref={aboutRef}
+        className="wrap section grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-center 2xl:gap-20 overflow-hidden"
+      >
+        <motion.div
+          initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
+        >
           <Heading
             label="About The Drapery Cupboard"
             title={
@@ -108,53 +168,123 @@ export default function HomePage() {
           <Button to="/about" dark>
             Learn More About Us
           </Button>
-        </div>
-        <Img
-          name="dining"
-          alt="Dining room with custom roller blinds overlooking a New Zealand bay"
-          className="h-[280px] w-full rounded-xl sm:h-[360px] 2xl:h-[460px]"
-        />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: shouldReduceMotion ? 0 : 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
+          className="relative overflow-hidden rounded-xl h-[280px] sm:h-[360px] 2xl:h-[460px] w-full"
+        >
+          <motion.div
+            style={{ y: shouldReduceMotion ? 0 : aboutParallax }}
+            className="relative h-[114%] -top-[7%] w-full"
+          >
+            <Img
+              name="dining"
+              alt="Dining room with custom roller blinds overlooking a New Zealand bay"
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </motion.div>
+        </motion.div>
       </section>
       <section className="bg-forest py-12 text-white md:py-16">
         <div className="wrap">
           <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+            >
               <Heading
                 label="Projects & inspiration"
                 title="Real Spaces. Beautiful Results."
               />
-            </div>
+            </motion.div>
             <a className="text-link shrink-0 !text-lime" href="/projects">
               View all projects <Arrow />
             </a>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                },
+              },
+            }}
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"
+          >
             {[
               "Modern Coastal Home",
               "Luxury Apartment",
               "Architectural New Build",
               "Contemporary Family Home",
             ].map((t, i) => (
-              <a href={"/projects#project-" + i} key={t}>
-                <Img
-                  name={"project" + (i + 1)}
-                  alt={t}
-                  className="h-[220px] w-full rounded-xl 2xl:h-[280px]"
-                />
-                <div className="mt-3 flex justify-between text-sm font-medium">
-                  {t}
-                  <Arrow />
+              <motion.a
+                href={"/projects#project-" + i}
+                key={t}
+                variants={{
+                  hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 30 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: {
+                      duration: shouldReduceMotion ? 0.2 : 0.65,
+                      ease: EASE_PREMIUM,
+                    },
+                  },
+                }}
+                className="group block"
+              >
+                <div className="relative overflow-hidden rounded-xl">
+                  <Img
+                    name={"project" + (i + 1)}
+                    alt={t}
+                    className="h-[220px] w-full 2xl:h-[280px] object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/15" />
                 </div>
-              </a>
+                <div className="mt-3 flex justify-between text-sm font-medium transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
+                  <span>{t}</span>
+                  <span className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
+                    <Arrow />
+                  </span>
+                </div>
+              </motion.a>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
       <section className="wrap section">
-        <div className="text-center">
+        <motion.div
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+          className="text-center"
+        >
           <Heading label="Our services" title="More Than Just Blinds" />
-        </div>
-        <div className="mt-8 grid grid-cols-1 gap-7 sm:grid-cols-2 xl:grid-cols-4">
+        </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.08,
+              },
+            },
+          }}
+          className="mt-8 grid grid-cols-1 gap-7 sm:grid-cols-2 xl:grid-cols-4"
+        >
           {[
             [
               "tools",
@@ -177,20 +307,56 @@ export default function HomePage() {
               "Fast, reliable delivery across New Zealand",
             ],
           ].map(([icon, t, d]) => (
-            <a href="/services" className="feature" key={t}>
-              <Icon name={icon} className="text-moss" />
+            <motion.a
+              href="/services"
+              variants={{
+                hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: shouldReduceMotion ? 0.2 : 0.6,
+                    ease: EASE_PREMIUM,
+                  },
+                },
+              }}
+              whileHover={shouldReduceMotion ? {} : { y: -3 }}
+              transition={{ duration: 0.3, ease: EASE_PREMIUM }}
+              className="feature group"
+              key={t}
+            >
+              <motion.div
+                variants={{
+                  hidden: { scale: shouldReduceMotion ? 1 : 0.92 },
+                  visible: {
+                    scale: 1,
+                    transition: { duration: 0.5, ease: EASE_PREMIUM },
+                  },
+                }}
+                className="transition-transform duration-300 group-hover:scale-105"
+              >
+                <Icon name={icon} className="text-moss" />
+              </motion.div>
               <div>
-                <b className="text-sm">{t}</b>
+                <b className="text-sm transition-colors duration-200 group-hover:text-moss">
+                  {t}
+                </b>
                 <p className="mt-1 max-w-48 text-sm leading-relaxed text-neutral-600">
                   {d}
                 </p>
               </div>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
       </section>
       <section className="wrap pb-12 md:pb-16">
-        <div className="rounded-2xl bg-brand-50 border border-brand-line p-8 sm:p-10 lg:p-12">
+        <motion.div
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
+          className="rounded-2xl bg-brand-50 border border-brand-line p-8 sm:p-10 lg:p-12"
+        >
           <div className="grid gap-8 lg:grid-cols-[1.4fr_auto] items-center">
             <div>
               <span className="eyebrow">DIY Repairs & Spare Parts</span>
@@ -218,7 +384,7 @@ export default function HomePage() {
               </Button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
       <Testimonials />
       <Cta />

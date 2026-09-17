@@ -3,6 +3,7 @@ import { useCart } from "../hooks/useCart.js";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
 import Img from "../components/ui/Image.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
@@ -48,13 +49,13 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <section className="wrap py-16 text-center">
-        <div className="max-w-md mx-auto card p-8 bg-white">
+        <FadeUp className="max-w-md mx-auto card p-8 bg-white border border-brand-line shadow-sm">
           <h1 className="!text-2xl font-serif text-forest">Your Cart is Empty</h1>
           <p className="mt-2 text-sm text-neutral-600">Please add items to your cart before proceeding to checkout.</p>
           <a href="/parts" className="btn btn-dark mt-6 text-xs inline-flex">
             Return to Blinds Parts Shop <Arrow />
           </a>
-        </div>
+        </FadeUp>
       </section>
     );
   }

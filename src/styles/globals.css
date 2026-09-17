@@ -106,7 +106,21 @@
     @apply mb-3 text-xs font-bold uppercase tracking-[0.16em] text-moss;
   }
   .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-forest transition duration-200 hover:-translate-y-0.5 hover:bg-[#8dca34] hover:shadow-md sm:px-7;
+    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-lime px-6 py-3 text-sm font-semibold text-forest sm:px-7;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.25s ease, box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, color 0.25s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px) scale(1.01);
+    @apply shadow-md;
+  }
+  .btn:hover.btn:not(.btn-dark):not(.btn-outline) {
+    background-color: #8dca34;
+  }
+  .btn svg {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover svg {
+    transform: translateX(4px);
   }
   .btn-dark {
     @apply bg-forest text-white hover:bg-[#5b5a60];
@@ -119,6 +133,12 @@
   }
   .text-link {
     @apply inline-flex min-h-11 items-center gap-3 text-sm font-semibold text-moss hover:underline;
+  }
+  .text-link svg {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .text-link:hover svg {
+    transform: translateX(4px);
   }
   .card {
     @apply overflow-hidden rounded-xl border border-brand-line bg-white shadow-[0_4px_18px_rgba(70,69,74,0.06)];
@@ -154,10 +174,10 @@ details[open] .plus {
   }
 }
 .product-photo {
-  transition: transform 0.45s ease;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 a:hover .product-photo {
-  transform: scale(1.035);
+  transform: scale(1.05);
 }
 .page-enter {
   animation: appear 0.3s ease;

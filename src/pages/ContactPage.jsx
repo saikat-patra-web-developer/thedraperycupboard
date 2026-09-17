@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import { contact } from "../data/contact.js";
 import Icon from "../components/ui/Icon.jsx";
 import Hero from "../components/sections/Hero.jsx";
@@ -5,6 +6,8 @@ import Cta from "../components/sections/CallToAction.jsx";
 import Faq from "../components/ui/FaqAccordion.jsx";
 import Coverage from "../components/sections/ServiceCoverage.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { staggerContainer, staggerItem, VIEWPORT_ONCE, EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 export default function ContactPage() {
   return (
@@ -24,7 +27,13 @@ export default function ContactPage() {
       />
       <section className="wrap section">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,.8fr)_minmax(0,1.65fr)]">
-          <aside className="min-w-0">
+          <motion.aside
+            className="min-w-0"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEWPORT_ONCE}
+          >
             <h3 className="mb-6">Get in Touch</h3>
             {[
               [
@@ -49,9 +58,11 @@ export default function ContactPage() {
                 "#service-areas",
               ],
             ].map(([ic, t, v, d, u]) => (
-              <a
+              <motion.a
                 href={u}
-                className="card mb-4 flex gap-4 p-5 shadow-sm sm:mb-5 sm:gap-6 sm:p-6"
+                variants={staggerItem}
+                whileHover={{ y: -4, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
+                className="card mb-4 flex gap-4 p-5 shadow-sm transition-shadow duration-300 hover:shadow-md sm:mb-5 sm:gap-6 sm:p-6"
                 key={t}
               >
                 <Icon name={ic} size={35} className="text-moss" />
@@ -60,65 +71,71 @@ export default function ContactPage() {
                   <p className="my-2 break-all text-lg font-semibold sm:break-words">{v}</p>
                   <p className="muted !text-sm">{d}</p>
                 </div>
-              </a>
+              </motion.a>
             ))}
-            <div className="rounded-lg bg-forest p-6 text-white">
+            <motion.div
+              variants={staggerItem}
+              className="rounded-lg bg-forest p-6 text-white shadow-sm"
+            >
               <h3 className="mb-5 !text-lg">Free Consultation</h3>
               <p className="text-sm">We bring the showroom to you.</p>
               <p className="mt-3 text-sm text-white/75">{contact.consultation}</p>
-            </div>
-          </aside>
-          <section className="card min-w-0 overflow-hidden" aria-labelledby="request-quote-title">
-            <div className="bg-forest p-6 text-white sm:p-8 lg:p-10">
-              <p className="eyebrow !text-lime">Made for your space</p>
-              <h2 id="request-quote-title" className="mt-2 !text-3xl">Request a Quote</h2>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/75">
-                Start with an instant estimate online, or talk with our team for tailored advice on products, measurements, installation and more complex projects.
-              </p>
-            </div>
-            <div className="p-6 sm:p-8 lg:p-10">
-              <h3 className="!text-xl">The quickest way to get started</h3>
-              <p className="muted mt-3 max-w-2xl">
-                Choose your window furnishing, enter your approximate width and drop, and see an estimated price in NZD. You can then send the complete quote directly to our team for review.
-              </p>
-              <a href="/online-quote" className="btn btn-dark mt-6">
-                Get an Online Quote <Arrow />
-              </a>
+            </motion.div>
+          </motion.aside>
 
-              <div className="my-8 border-t border-neutral-200" />
+          <FadeUp delay={0.15}>
+            <section className="card min-w-0 overflow-hidden shadow-sm transition-shadow duration-300 hover:shadow-md" aria-labelledby="request-quote-title">
+              <div className="bg-forest p-6 text-white sm:p-8 lg:p-10">
+                <p className="eyebrow !text-lime">Made for your space</p>
+                <h2 id="request-quote-title" className="mt-2 !text-3xl">Request a Quote</h2>
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/75">
+                  Start with an instant estimate online, or talk with our team for tailored advice on products, measurements, installation and more complex projects.
+                </p>
+              </div>
+              <div className="p-6 sm:p-8 lg:p-10">
+                <h3 className="!text-xl">The quickest way to get started</h3>
+                <p className="muted mt-3 max-w-2xl">
+                  Choose your window furnishing, enter your approximate width and drop, and see an estimated price in NZD. You can then send the complete quote directly to our team for review.
+                </p>
+                <a href="/online-quote" className="btn btn-dark mt-6">
+                  Get an Online Quote <Arrow />
+                </a>
 
-              <h3 className="!text-xl">Need a tailored recommendation?</h3>
-              <p className="muted mt-3">
-                Call or email us if you need help choosing a product, want to arrange a consultation, or have an installation, repair, cleaning, motorisation or outdoor-shading enquiry.
-              </p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                {[
-                  "Approximate window widths and drops",
-                  "Photos of the windows or outdoor area",
-                  "Your preferred styles, colours or light control",
-                  "Your location and ideal timeframe",
-                ].map((item) => (
-                  <div className="flex items-start gap-3 rounded-lg bg-brand-50 p-4 text-sm" key={item}>
-                    <Icon name="check" size={18} className="mt-0.5 text-moss" />
-                    <span>{item}</span>
-                  </div>
-                ))}
+                <div className="my-8 border-t border-neutral-200" />
+
+                <h3 className="!text-xl">Need a tailored recommendation?</h3>
+                <p className="muted mt-3">
+                  Call or email us if you need help choosing a product, want to arrange a consultation, or have an installation, repair, cleaning, motorisation or outdoor-shading enquiry.
+                </p>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {[
+                    "Approximate window widths and drops",
+                    "Photos of the windows or outdoor area",
+                    "Your preferred styles, colours or light control",
+                    "Your location and ideal timeframe",
+                  ].map((item) => (
+                    <div className="flex items-start gap-3 rounded-lg bg-brand-50 p-4 text-sm" key={item}>
+                      <Icon name="check" size={18} className="mt-0.5 text-moss" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <a href={contact.phones[0].href} className="btn btn-dark !px-5 !text-xs">
+                    Call {contact.phones[0].label} (Toll Free) <Arrow />
+                  </a>
+                  <a href={contact.emailHref} className="btn btn-outline !px-5 !text-xs">
+                    Email Our Team <Arrow />
+                  </a>
+                </div>
               </div>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <a href={contact.phones[0].href} className="btn btn-dark !px-5 !text-xs">
-                  Call {contact.phones[0].label} (Toll Free) <Arrow />
-                </a>
-                <a href={contact.emailHref} className="btn btn-outline !px-5 !text-xs">
-                  Email Our Team <Arrow />
-                </a>
-              </div>
-            </div>
-          </section>
+            </section>
+          </FadeUp>
         </div>
         <div id="service-areas" className="mt-8">
           <Coverage />
         </div>
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
+        <FadeUp className="mt-12 grid gap-10 lg:grid-cols-2">
           <div>
             <h3 className="mb-3">Need Help? We’ve Got Answers.</h3>
             <Faq
@@ -170,7 +187,7 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-        </div>
+        </FadeUp>
       </section>
       <Cta />
     </>

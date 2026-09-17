@@ -1,3 +1,4 @@
+import { motion } from "motion/react";
 import Icon from "../components/ui/Icon.jsx";
 import Img from "../components/ui/Image.jsx";
 import Button from "../components/ui/Button.jsx";
@@ -6,6 +7,8 @@ import Faq from "../components/ui/FaqAccordion.jsx";
 import Coverage from "../components/sections/ServiceCoverage.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { staggerContainer, staggerItem, VIEWPORT_ONCE, EASE_PREMIUM } from "../components/motion/motionVariants.js";
 import { findService, getAllServices } from "../data/servicesData.js";
 import { contact } from "../data/contact.js";
 
@@ -47,7 +50,7 @@ export default function ServiceDetailPage({ slug }) {
           </nav>
 
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div>
+            <FadeUp>
               <div className="inline-flex items-center gap-2 rounded-full bg-lime/25 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-moss">
                 <Icon name={service.icon} size={15} />
                 <span>{service.badge || "Professional Service"}</span>
@@ -77,19 +80,26 @@ export default function ServiceDetailPage({ slug }) {
                   <span>Call {phone.label}</span>
                 </a>
               </div>
-            </div>
+            </FadeUp>
 
             <div className="relative">
-              <div className="overflow-hidden rounded-2xl border border-brand-line shadow-lg bg-white">
-                <Img
-                  name={service.image || "hero"}
-                  alt={service.name}
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="aspect-[4/3] w-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-4 -left-4 hidden sm:flex items-center gap-3 rounded-xl border border-brand-line bg-white/95 p-4 shadow-md backdrop-blur-sm">
+              <FadeUp delay={0.15}>
+                <div className="overflow-hidden rounded-2xl border border-brand-line shadow-lg bg-white">
+                  <Img
+                    name={service.image || "hero"}
+                    alt={service.name}
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </div>
+              </FadeUp>
+              <motion.div
+                className="absolute -bottom-4 -left-4 hidden sm:flex items-center gap-3 rounded-xl border border-brand-line bg-white/95 p-4 shadow-md backdrop-blur-sm"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.35, duration: 0.6, ease: EASE_PREMIUM }}
+              >
                 <div className="flex size-10 items-center justify-center rounded-lg bg-lime/20 text-moss">
                   <Icon name="shield" size={22} />
                 </div>
@@ -101,7 +111,7 @@ export default function ServiceDetailPage({ slug }) {
                     100% Quality Workmanship
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -109,7 +119,7 @@ export default function ServiceDetailPage({ slug }) {
 
       {/* Sub-Services Offerings Grid */}
       <section className="wrap section">
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <FadeUp className="text-center max-w-2xl mx-auto mb-12">
           <Heading
             label="What we do"
             title="Comprehensive Services Tailored for You"
@@ -117,13 +127,21 @@ export default function ServiceDetailPage({ slug }) {
           <p className="muted mt-3 text-base">
             Everything you need for lasting performance, smooth operation, and perfect styling.
           </p>
-        </div>
+        </FadeUp>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+        >
           {service.subServices.map((sub, idx) => (
-            <article
+            <motion.article
               key={idx}
-              className="card relative flex flex-col justify-between p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-md"
+              variants={staggerItem}
+              whileHover={{ y: -4, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
+              className="card relative flex flex-col justify-between p-6 transition-all duration-200 hover:shadow-md"
             >
               <div>
                 <div className="mb-4 flex size-12 items-center justify-center rounded-xl bg-brand-50 text-moss">
@@ -136,16 +154,16 @@ export default function ServiceDetailPage({ slug }) {
                   {sub.description}
                 </p>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Overview & Why it Matters Deep Dive */}
       {service.overview && (
         <section className="bg-white border-y border-neutral-100">
           <div className="wrap section grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
+            <FadeUp>
               <div className="eyebrow">Professional Expertise</div>
               <h2 className="text-2xl sm:text-3xl font-serif text-forest leading-snug">
                 {service.overview.heading}
@@ -173,16 +191,18 @@ export default function ServiceDetailPage({ slug }) {
                   Ask a Question
                 </Button>
               </div>
-            </div>
+            </FadeUp>
 
-            <div className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-md">
-              <Img
-                name={service.image || "hero"}
-                alt={service.overview.heading}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="aspect-[16/10] w-full object-cover"
-              />
-            </div>
+            <FadeUp delay={0.15}>
+              <div className="relative rounded-2xl overflow-hidden border border-neutral-200 shadow-md">
+                <Img
+                  name={service.image || "hero"}
+                  alt={service.overview.heading}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="aspect-[16/10] w-full object-cover"
+                />
+              </div>
+            </FadeUp>
           </div>
         </section>
       )}
@@ -190,7 +210,7 @@ export default function ServiceDetailPage({ slug }) {
       {/* Step-by-Step Workflow */}
       {service.process && service.process.length > 0 && (
         <section className="wrap section">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <FadeUp className="text-center max-w-2xl mx-auto mb-12">
             <Heading
               label="Our step-by-step approach"
               title="How Our Service Works"
@@ -198,12 +218,20 @@ export default function ServiceDetailPage({ slug }) {
             <p className="muted mt-3 text-base">
               Simple, transparent, and hassle-free from your first contact to final inspection.
             </p>
-          </div>
+          </FadeUp>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEWPORT_ONCE}
+          >
             {service.process.map((step, idx) => (
-              <div
+              <motion.div
                 key={idx}
+                variants={staggerItem}
+                whileHover={{ y: -4, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
                 className="relative rounded-2xl border border-brand-line/70 bg-brand-50/60 p-6 sm:p-7 shadow-xs"
               >
                 <div className="mb-4 inline-block font-serif text-3xl font-bold text-moss/70">
@@ -215,9 +243,9 @@ export default function ServiceDetailPage({ slug }) {
                 <p className="muted mt-3 text-sm leading-relaxed">
                   {step.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </section>
       )}
 
@@ -225,7 +253,7 @@ export default function ServiceDetailPage({ slug }) {
       {service.whyChooseUs && (
         <section className="bg-forest text-white py-16 sm:py-20">
           <div className="wrap">
-            <div className="text-center max-w-2xl mx-auto mb-12">
+            <FadeUp className="text-center max-w-2xl mx-auto mb-12">
               <p className="text-xs font-bold uppercase tracking-widest text-lime">
                 The TDC Advantage
               </p>
@@ -235,12 +263,20 @@ export default function ServiceDetailPage({ slug }) {
               <p className="mt-3 text-white/70 text-base">
                 Proudly New Zealand owned with a commitment to uncompromised quality and customer satisfaction.
               </p>
-            </div>
+            </FadeUp>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <motion.div
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEWPORT_ONCE}
+            >
               {service.whyChooseUs.map((adv, idx) => (
-                <div
+                <motion.div
                   key={idx}
+                  variants={staggerItem}
+                  whileHover={{ y: -4, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
                   className="rounded-xl border border-white/15 bg-white/5 p-6 backdrop-blur-xs transition hover:bg-white/10"
                 >
                   <div className="mb-4 flex size-10 items-center justify-center rounded-lg bg-lime/20 text-lime">
@@ -252,9 +288,9 @@ export default function ServiceDetailPage({ slug }) {
                   <p className="mt-2 text-sm leading-relaxed text-white/70">
                     {adv.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </section>
       )}
@@ -263,7 +299,7 @@ export default function ServiceDetailPage({ slug }) {
       {service.faqs && service.faqs.length > 0 && (
         <section className="wrap section">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:items-start">
-            <div>
+            <FadeUp>
               <Heading
                 label="Frequently asked questions"
                 title="Got Questions? We Have Answers."
@@ -296,11 +332,11 @@ export default function ServiceDetailPage({ slug }) {
                   </a>
                 </div>
               </div>
-            </div>
+            </FadeUp>
 
-            <div>
+            <FadeUp delay={0.15}>
               <Faq items={service.faqs} />
-            </div>
+            </FadeUp>
           </div>
         </section>
       )}
@@ -308,7 +344,7 @@ export default function ServiceDetailPage({ slug }) {
       {/* Related Services Navigation */}
       <section className="bg-neutral-50 border-t border-neutral-200 py-12 sm:py-16">
         <div className="wrap">
-          <div className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+          <FadeUp className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-moss">
                 Explore More
@@ -324,16 +360,24 @@ export default function ServiceDetailPage({ slug }) {
               <span>View all 7 services</span>
               <span aria-hidden="true">→</span>
             </a>
-          </div>
+          </FadeUp>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEWPORT_ONCE}
+          >
             {(relatedServices.length > 0
               ? relatedServices
               : allServices.filter((s) => s.slug !== service.slug).slice(0, 3)
             ).map((rel) => (
-              <a
+              <motion.a
                 key={rel.slug}
                 href={rel.canonicalUrl || `/${rel.slug}`}
+                variants={staggerItem}
+                whileHover={{ y: -4, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
                 className="group flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs transition hover:border-moss/50 hover:shadow-md"
               >
                 <div>
@@ -353,9 +397,9 @@ export default function ServiceDetailPage({ slug }) {
                     →
                   </span>
                 </div>
-              </a>
+              </motion.a>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 

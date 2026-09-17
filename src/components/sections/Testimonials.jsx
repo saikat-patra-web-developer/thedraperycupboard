@@ -1,9 +1,33 @@
+import { motion, useReducedMotion } from "motion/react";
+import { EASE_PREMIUM } from "../motion/motionVariants.js";
+
 function Testimonials() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <section className="wrap pb-12 md:pb-16">
-      <div className="rounded-2xl bg-brand-50 p-5 sm:p-7 lg:p-8">
+      <motion.div
+        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+        className="rounded-2xl bg-brand-50 p-5 sm:p-7 lg:p-8"
+      >
         <div className="eyebrow text-center">What our customers say</div>
-        <div className="grid gap-5 md:grid-cols-3">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
+          className="grid gap-5 md:grid-cols-3"
+        >
           {[
             [
               "The Drapery Cupboard are our go-to supplier. Quality products, great pricing and always delivered on time.",
@@ -21,8 +45,21 @@ function Testimonials() {
               "Project Manager, Wellington",
             ],
           ].map(([quote, name, role]) => (
-            <article
-              className="relative rounded-xl border border-black/5 bg-white/70 p-6"
+            <motion.article
+              variants={{
+                hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+                visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: shouldReduceMotion ? 0.2 : 0.6,
+                    ease: EASE_PREMIUM,
+                  },
+                },
+              }}
+              whileHover={shouldReduceMotion ? {} : { y: -3 }}
+              transition={{ duration: 0.3, ease: EASE_PREMIUM }}
+              className="relative rounded-xl border border-black/5 bg-white/70 p-6 transition-shadow duration-300 hover:shadow-md"
               key={name}
             >
               <span className="absolute right-5 top-2 font-serif text-5xl text-lime">
@@ -44,10 +81,10 @@ function Testimonials() {
                   ★★★★★
                 </span>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

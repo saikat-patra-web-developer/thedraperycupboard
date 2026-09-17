@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { motion } from "motion/react";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
 import Img from "../components/ui/Image.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 import { contact } from "../data/contact.js";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
@@ -69,10 +72,15 @@ export default function OrderConfirmationPage() {
       </div>
 
       {/* Success Badge */}
-      <div className="card bg-white p-8 sm:p-12 border border-brand-line shadow-sm text-center">
-        <div className="size-20 rounded-full bg-lime/20 border-2 border-lime flex items-center justify-center text-moss mx-auto">
+      <FadeUp className="card bg-white p-8 sm:p-12 border border-brand-line shadow-sm text-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+          className="size-20 rounded-full bg-lime/20 border-2 border-lime flex items-center justify-center text-moss mx-auto shadow-sm"
+        >
           <Icon name="check" size={40} />
-        </div>
+        </motion.div>
 
         <span className="eyebrow mt-5 text-moss">Thank You for Your Order</span>
         <h1 className="!text-3xl sm:!text-4xl font-serif text-forest mt-1">
@@ -86,7 +94,7 @@ export default function OrderConfirmationPage() {
           <span className="text-neutral-500 font-medium">Order Reference:</span>
           <span className="font-mono font-bold text-forest text-base">{order?.orderRef || orderRef}</span>
         </div>
-      </div>
+      </FadeUp>
 
       {/* Payment Confirmation Banner if Card */}
       {order?.paymentMethod === "card" && (

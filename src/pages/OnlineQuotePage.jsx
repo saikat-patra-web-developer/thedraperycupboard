@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { findProduct } from "../data/products.js";
 import Img from "../components/ui/Image.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
 import { contact } from "../data/contact.js";
+import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 const money = amount => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(amount);
 const newWindow = id => ({ id, product: "roller-blinds", width: "", drop: "" });
@@ -265,84 +267,108 @@ export default function OnlineQuotePage() {
         </aside>
       </div>
     </section>
-    {showEnquiry && ready && <div className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 p-4 backdrop-blur-sm" role="presentation" onMouseDown={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>
-      <div className="max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="enquiry-title" onMouseDown={event => event.stopPropagation()}>
-        <div className="flex items-center justify-between gap-4 border-b border-brand-line bg-brand-50 px-5 py-4 sm:px-6">
-          <h2 id="enquiry-title" className="!text-2xl">{submitted ? "Enquiry Sent" : "Confirm your enquiry"}</h2>
-          <button type="button" className="flex size-11 shrink-0 items-center justify-center rounded-full text-2xl text-neutral-500 hover:bg-neutral-100" aria-label="Close enquiry form" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>×</button>
-        </div>
-        {submitted ? (
-          <div className="p-6 sm:p-8 text-center space-y-4">
-            <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-brand-100 text-moss text-2xl font-bold">
-              ✓
+    <AnimatePresence>
+      {showEnquiry && ready && (
+        <motion.div
+          key="enquiry-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: EASE_PREMIUM }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-forest/70 p-4 backdrop-blur-sm"
+          role="presentation"
+          onMouseDown={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}
+        >
+          <motion.div
+            key="enquiry-card"
+            initial={{ opacity: 0, scale: 0.96, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 16 }}
+            transition={{ duration: 0.3, ease: EASE_PREMIUM }}
+            className="max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="enquiry-title"
+            onMouseDown={event => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-4 border-b border-brand-line bg-brand-50 px-5 py-4 sm:px-6">
+              <h2 id="enquiry-title" className="!text-2xl">{submitted ? "Enquiry Sent" : "Confirm your enquiry"}</h2>
+              <button type="button" className="flex size-11 shrink-0 items-center justify-center rounded-full text-2xl text-neutral-500 hover:bg-neutral-100" aria-label="Close enquiry form" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>×</button>
             </div>
-            <h3 className="!text-2xl font-bold text-forest">Thank you, {customer.name || "there"}!</h3>
-            <p className="text-sm leading-relaxed text-neutral-600">
-              Your quote enquiry for <strong>{money(total)} NZD</strong> has been sent directly to our team. We’ll review your window details and contact you at <strong>{customer.email}</strong> shortly.
-            </p>
-            <div className="pt-4">
-              <button
-                type="button"
-                className="btn w-full sm:w-auto min-w-40"
-                onClick={() => {
-                  setShowEnquiry(false);
-                  setSubmitted(false);
-                  setSubmitError("");
-                }}
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        ) : (
-          <form className="p-5 sm:p-6" onSubmit={handleEnquirySubmit}>
-            {/* Anti-bot honeypot field - invisible to human visitors */}
-            <div
-              style={{
-                position: "absolute",
-                left: "-9999px",
-                width: "1px",
-                height: "1px",
-                opacity: 0,
-                pointerEvents: "none",
-                overflow: "hidden",
-              }}
-              aria-hidden="true"
-            >
-              <label htmlFor="website_hp_key">Leave empty</label>
-              <input
-                type="text"
-                id="website_hp_key"
-                name="website_hp_key"
-                value={honeypot}
-                onChange={event => setHoneypot(event.target.value)}
-                tabIndex={-1}
-                autoComplete="off"
-              />
-            </div>
-
-            {submitError && (
-              <div role="alert" className="mb-5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-800">
-                <p className="font-semibold">{submitError}</p>
+            {submitted ? (
+              <div className="p-6 sm:p-8 text-center space-y-4">
+                <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-brand-100 text-moss text-2xl font-bold">
+                  ✓
+                </div>
+                <h3 className="!text-2xl font-bold text-forest">Thank you, {customer.name || "there"}!</h3>
+                <p className="text-sm leading-relaxed text-neutral-600">
+                  Your quote enquiry for <strong>{money(total)} NZD</strong> has been sent directly to our team. We’ll review your window details and contact you at <strong>{customer.email}</strong> shortly.
+                </p>
+                <div className="pt-4">
+                  <button
+                    type="button"
+                    className="btn w-full sm:w-auto min-w-40"
+                    onClick={() => {
+                      setShowEnquiry(false);
+                      setSubmitted(false);
+                      setSubmitError("");
+                    }}
+                  >
+                    Done
+                  </button>
+                </div>
               </div>
+            ) : (
+              <form className="p-5 sm:p-6" onSubmit={handleEnquirySubmit}>
+                {/* Anti-bot honeypot field - invisible to human visitors */}
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "-9999px",
+                    width: "1px",
+                    height: "1px",
+                    opacity: 0,
+                    pointerEvents: "none",
+                    overflow: "hidden",
+                  }}
+                  aria-hidden="true"
+                >
+                  <label htmlFor="website_hp_key">Leave empty</label>
+                  <input
+                    type="text"
+                    id="website_hp_key"
+                    name="website_hp_key"
+                    value={honeypot}
+                    onChange={event => setHoneypot(event.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {submitError && (
+                  <div role="alert" className="mb-5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-800">
+                    <p className="font-semibold">{submitError}</p>
+                  </div>
+                )}
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <label className="font-semibold text-forest">Name <span aria-hidden="true" className="text-moss">*</span><input autoFocus required autoComplete="name" placeholder="Your full name" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.name} onChange={event => updateCustomer('name', event.target.value)} /></label>
+                  <label className="font-semibold text-forest">Email <span aria-hidden="true" className="text-moss">*</span><input required type="email" autoComplete="email" placeholder="you@example.com" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.email} onChange={event => updateCustomer('email', event.target.value)} /></label>
+                  <label className="font-semibold text-forest">Phone <span aria-hidden="true" className="text-moss">*</span><input required type="tel" autoComplete="tel" placeholder="e.g. 021 123 4567" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.phone} onChange={event => updateCustomer('phone', event.target.value)} /></label>
+                  <label className="font-semibold text-forest">Address <span aria-hidden="true" className="text-moss">*</span><input required autoComplete="street-address" placeholder="Installation address" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.address} onChange={event => updateCustomer('address', event.target.value)} /></label>
+                  <label className="font-semibold text-forest sm:col-span-2"><span className="flex items-center justify-between gap-3"><span>Note</span><span className="text-[10px] font-normal uppercase tracking-wider text-neutral-400">Optional</span></span><textarea rows={3} placeholder="Add access details, preferences, or questions for our team" className="!mt-2 resize-y font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.note} onChange={event => updateCustomer('note', event.target.value)} /></label>
+                </div>
+                <div className="mt-6 rounded-xl bg-brand-50 p-4 text-xs leading-relaxed text-neutral-600"><strong className="text-forest">Estimated total: {money(total)} NZD</strong><br />We’ll review your measurements and confirm the final price with you.</div>
+                <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
+                  <button type="button" className="min-h-11 px-5 text-xs font-semibold text-neutral-500 hover:text-forest" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>Cancel</button>
+                  <button className="btn sm:min-w-48 disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={submitting}>
+                    {submitting ? "Submitting..." : <>Confirm Enquiry <Arrow /></>}
+                  </button>
+                </div>
+              </form>
             )}
-            <div className="grid gap-5 sm:grid-cols-2">
-              <label className="font-semibold text-forest">Name <span aria-hidden="true" className="text-moss">*</span><input autoFocus required autoComplete="name" placeholder="Your full name" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.name} onChange={event => updateCustomer('name', event.target.value)} /></label>
-              <label className="font-semibold text-forest">Email <span aria-hidden="true" className="text-moss">*</span><input required type="email" autoComplete="email" placeholder="you@example.com" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.email} onChange={event => updateCustomer('email', event.target.value)} /></label>
-              <label className="font-semibold text-forest">Phone <span aria-hidden="true" className="text-moss">*</span><input required type="tel" autoComplete="tel" placeholder="e.g. 021 123 4567" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.phone} onChange={event => updateCustomer('phone', event.target.value)} /></label>
-              <label className="font-semibold text-forest">Address <span aria-hidden="true" className="text-moss">*</span><input required autoComplete="street-address" placeholder="Installation address" className="!mt-2 min-h-12 font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.address} onChange={event => updateCustomer('address', event.target.value)} /></label>
-              <label className="font-semibold text-forest sm:col-span-2"><span className="flex items-center justify-between gap-3"><span>Note</span><span className="text-[10px] font-normal uppercase tracking-wider text-neutral-400">Optional</span></span><textarea rows={3} placeholder="Add access details, preferences, or questions for our team" className="!mt-2 resize-y font-normal focus:border-moss focus:outline-none focus:ring-2 focus:ring-lime/30" value={customer.note} onChange={event => updateCustomer('note', event.target.value)} /></label>
-            </div>
-            <div className="mt-6 rounded-xl bg-brand-50 p-4 text-xs leading-relaxed text-neutral-600"><strong className="text-forest">Estimated total: {money(total)} NZD</strong><br />We’ll review your measurements and confirm the final price with you.</div>
-            <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
-              <button type="button" className="min-h-11 px-5 text-xs font-semibold text-neutral-500 hover:text-forest" onClick={() => { setShowEnquiry(false); setSubmitted(false); setSubmitError(""); }}>Cancel</button>
-              <button className="btn sm:min-w-48 disabled:cursor-not-allowed disabled:opacity-60" type="submit" disabled={submitting}>
-                {submitting ? "Submitting..." : <>Confirm Enquiry <Arrow /></>}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   </>;
 }

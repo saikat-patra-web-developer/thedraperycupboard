@@ -1,12 +1,15 @@
 import { useEffect } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useCart } from "../../hooks/useCart.js";
 import Arrow from "../ui/Arrow.jsx";
 import Icon from "../ui/Icon.jsx";
 import Img from "../ui/Image.jsx";
+import { EASE_PREMIUM } from "../motion/motionVariants.js";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
 export default function CartDrawer() {
+  const shouldReduceMotion = useReducedMotion();
   const {
     items,
     removeItem,
@@ -38,21 +41,31 @@ export default function CartDrawer() {
     };
   }, [isDrawerOpen, closeDrawer]);
 
-  if (!isDrawerOpen) return null;
-
   const progressPercent = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true" aria-label="Shopping Cart">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
-        onClick={closeDrawer}
-        aria-hidden="true"
-      />
+    <AnimatePresence>
+      {isDrawerOpen && (
+        <div className="fixed inset-0 z-50 overflow-hidden" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs"
+            onClick={closeDrawer}
+            aria-hidden="true"
+          />
 
-      <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
-        <aside className="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+          <div className="fixed inset-y-0 right-0 flex max-w-full pl-10 pointer-events-none">
+            <motion.aside
+              initial={{ x: shouldReduceMotion ? 0 : "100%", opacity: shouldReduceMotion ? 0 : 1 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: shouldReduceMotion ? 0 : "100%", opacity: shouldReduceMotion ? 0 : 1 }}
+              transition={{ duration: shouldReduceMotion ? 0.2 : 0.4, ease: EASE_PREMIUM }}
+              className="w-screen max-w-md bg-white shadow-2xl flex flex-col pointer-events-auto"
+            >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-neutral-200 px-6 py-4 bg-brand-50">
             <div className="flex items-center gap-2.5">
@@ -270,8 +283,10 @@ export default function CartDrawer() {
               </div>
             </div>
           )}
-        </aside>
+        </motion.aside>
       </div>
     </div>
+  )}
+</AnimatePresence>
   );
 }

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { motion } from "motion/react";
 import Icon from "../components/ui/Icon.jsx";
 import Img from "../components/ui/Image.jsx";
 import Button from "../components/ui/Button.jsx";
@@ -8,6 +9,8 @@ import Testimonials from "../components/sections/Testimonials.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
 import Process from "../components/sections/Process.jsx";
 import Coverage from "../components/sections/ServiceCoverage.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { staggerContainer, staggerItem, VIEWPORT_ONCE, EASE_PREMIUM } from "../components/motion/motionVariants.js";
 import { services } from "../data/services.js";
 import { features } from "../data/features.js";
 import { findService } from "../data/servicesData.js";
@@ -47,17 +50,29 @@ export default function ServicesPage() {
         </div>
       </Hero>
       <section className="wrap section">
-        <div className="mb-7 text-center">
+        <FadeUp className="mb-7 text-center">
           <Heading label="Our services" title="Solutions for Every Space" />
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        </FadeUp>
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+        >
           {services.map(([t, id, d, ic, img]) => {
             const sData = findService(id);
             const targetUrl = sData?.canonicalUrl || `/services/${id}`;
             const imageToUse = sData?.image || img || id;
 
             return (
-              <article className="card scroll-mt-28 flex flex-col justify-between" key={id} id={id}>
+              <motion.article
+                className="card scroll-mt-28 flex flex-col justify-between"
+                key={id}
+                id={id}
+                variants={staggerItem}
+                whileHover={{ y: -5, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
+              >
                 <div>
                   <a href={targetUrl} className="block overflow-hidden">
                     <Img name={imageToUse} alt={t} className="h-44 w-full transition-transform duration-300 hover:scale-105" />
@@ -83,26 +98,34 @@ export default function ServicesPage() {
                     <span aria-hidden="true">→</span>
                   </a>
                 </div>
-              </article>
+              </motion.article>
             );
           })}
-        </div>
+        </motion.div>
       </section>
       <Process />
       <section className="bg-white">
         <div className="wrap grid items-stretch md:grid-cols-2">
         <div className="py-10 pr-7 sm:py-12 sm:pr-10 lg:py-16 lg:pr-14 2xl:py-20 2xl:pr-20">
-          <Heading
-            label="Why choose The Drapery Cupboard"
-            title={
-              <>
-                Quality You Can See.
-                <br />
-                Service You Can Trust.
-              </>
-            }
-          />
-          <div className="mt-7 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <FadeUp>
+            <Heading
+              label="Why choose The Drapery Cupboard"
+              title={
+                <>
+                  Quality You Can See.
+                  <br />
+                  Service You Can Trust.
+                </>
+              }
+            />
+          </FadeUp>
+          <motion.div
+            className="mt-7 grid grid-cols-1 gap-6 sm:grid-cols-2"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEWPORT_ONCE}
+          >
             {[
               ...features.slice(0, 4),
               [
@@ -112,21 +135,23 @@ export default function ServicesPage() {
               ],
               ["shield", "Warranty Backed", "For total peace of mind"],
             ].map(([ic, t, d]) => (
-              <div className="feature" key={t}>
+              <motion.div className="feature" key={t} variants={staggerItem}>
                 <Icon name={ic} className="text-moss" />
                 <div>
                   <b className="text-sm">{t}</b>
                   <p className="muted mt-2 !text-sm">{d}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-        <Img
-          name="hero"
-          alt="Premium blinds overlooking the coast"
-          className="h-full min-h-80 w-full md:min-h-[460px] 2xl:min-h-[540px]"
-        />
+        <FadeUp className="h-full">
+          <Img
+            name="hero"
+            alt="Premium blinds overlooking the coast"
+            className="h-full min-h-80 w-full md:min-h-[460px] 2xl:min-h-[540px]"
+          />
+        </FadeUp>
         </div>
       </section>
       <Coverage />

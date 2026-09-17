@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { findPart, parts } from "../data/parts.js";
 import { useCart } from "../hooks/useCart.js";
 import Icon from "../components/ui/Icon.jsx";
@@ -8,10 +9,12 @@ import NotFoundPage from "./NotFoundPage.jsx";
 import PartCard from "../components/parts/PartCard.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
 import { contact } from "../data/contact.js";
+import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 const money = (val) => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(val);
 
 export default function ProductViewPage({ id }) {
+  const shouldReduceMotion = useReducedMotion();
   // Resolve part by ID or slug prop, or from query params as fallback
   const resolvedId =
     id ||
@@ -119,7 +122,12 @@ export default function ProductViewPage({ id }) {
         {/* Product View Hero Layout */}
         <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14 items-start">
           {/* Left Column: Interactive Product Showcase & Visuals */}
-          <div className="space-y-4">
+          <motion.div
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+            className="space-y-4"
+          >
             {/* Primary Visual Stage */}
             <div className="relative overflow-hidden rounded-2xl border border-brand-line bg-gradient-to-br from-neutral-50 via-white to-brand-50/60 p-8 sm:p-12 flex flex-col items-center justify-center min-h-[380px] sm:min-h-[440px] shadow-xs">
               {/* Badges */}
@@ -242,10 +250,15 @@ export default function ProductViewPage({ id }) {
                 <div className="text-[10px] text-neutral-500">Fast NZ Dispatch</div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Column: Buying Box & Configurator */}
-          <div className="card bg-white p-6 sm:p-8 border border-brand-line shadow-sm flex flex-col">
+          <motion.div
+            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: shouldReduceMotion ? 0 : 0.1, ease: EASE_PREMIUM }}
+            className="card bg-white p-6 sm:p-8 border border-brand-line shadow-sm flex flex-col"
+          >
             {/* Rating & In-Stock Status */}
             <div className="flex items-center justify-between gap-3 text-xs text-neutral-500 pb-3 border-b border-neutral-100">
               <div className="flex items-center gap-1.5">
@@ -444,7 +457,7 @@ export default function ProductViewPage({ id }) {
                 Tracked courier tracking link sent immediately upon parcel scan.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Detailed Information Tabs */}
@@ -646,7 +659,13 @@ export default function ProductViewPage({ id }) {
         </div>
 
         {/* Free Photo Identification Banner */}
-        <div className="mt-12 rounded-2xl bg-forest p-8 text-white sm:p-10">
+        <motion.div
+          initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+          className="mt-12 rounded-2xl bg-forest p-8 text-white sm:p-10"
+        >
           <div className="grid items-center gap-6 lg:grid-cols-[1.3fr_auto]">
             <div>
               <span className="eyebrow !text-lime">Free Expert Identification</span>
@@ -661,12 +680,18 @@ export default function ProductViewPage({ id }) {
               Email Photo for Sizing Check <Arrow />
             </a>
           </div>
-        </div>
+        </motion.div>
 
         {/* Frequently Bought Together / Related Parts */}
         {relatedParts.length > 0 && (
           <div className="mt-16 pt-12 border-t border-neutral-200">
-            <div className="mb-6 flex items-center justify-between">
+            <motion.div
+              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+              className="mb-6 flex items-center justify-between"
+            >
               <div>
                 <span className="eyebrow">Frequently Bought Together</span>
                 <h2 className="!text-2xl font-serif text-forest">Complementary Blinds Parts & Hardware</h2>
@@ -674,12 +699,21 @@ export default function ProductViewPage({ id }) {
               <a href="/parts" className="text-link text-xs shrink-0">
                 View all parts <Arrow />
               </a>
-            </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            </motion.div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.08 } },
+              }}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            >
               {relatedParts.map((p) => (
                 <PartCard key={p.id} part={p} />
               ))}
-            </div>
+            </motion.div>
           </div>
         )}
       </section>

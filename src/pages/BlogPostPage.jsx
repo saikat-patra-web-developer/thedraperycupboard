@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
 import { findBlogPost, getRelatedBlogPosts, blogPosts } from "../data/blogPosts.js";
 import Arrow from "../components/ui/Arrow.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { staggerContainer, staggerItem, VIEWPORT_ONCE, EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 export default function BlogPostPage({ slug }) {
   const post = findBlogPost(slug);
@@ -228,7 +231,7 @@ export default function BlogPostPage({ slug }) {
           {/* 2-Column Integrated Magazine Hero Grid */}
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left 7 Cols: Typography, Deck, Byline, and Value Badges */}
-            <div className="lg:col-span-7">
+            <FadeUp className="lg:col-span-7">
               <div className="flex items-center gap-2 text-[11px] font-bold tracking-[0.16em] uppercase text-moss">
                 <span className="inline-block h-2 w-2 rounded-full bg-lime"></span>
                 <span>TDC Editorial • New Zealand Living</span>
@@ -286,11 +289,11 @@ export default function BlogPostPage({ slug }) {
                   <span className="text-lime font-bold">✓</span> Free In-Home Measure & Quote
                 </span>
               </div>
-            </div>
+            </FadeUp>
 
             {/* Right 5 Cols: Proportioned Featured Image Card */}
             {post.image && (
-              <div className="lg:col-span-5">
+              <FadeUp delay={0.15} className="lg:col-span-5">
                 <div className="group relative overflow-hidden rounded-2xl border border-brand-line/90 bg-white p-2.5 shadow-md shadow-forest/5 transition hover:shadow-xl">
                   <div className="relative overflow-hidden rounded-xl aspect-[4/3] bg-neutral-100">
                     <img
@@ -307,7 +310,7 @@ export default function BlogPostPage({ slug }) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </FadeUp>
             )}
           </div>
         </div>
@@ -781,11 +784,19 @@ export default function BlogPostPage({ slug }) {
               </a>
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <motion.div
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEWPORT_ONCE}
+            >
               {related.map((item) => (
-                <article
+                <motion.article
                   key={item.id}
-                  className="card group flex flex-col overflow-hidden border border-brand-line bg-white shadow-2xs transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  variants={staggerItem}
+                  whileHover={{ y: -5, transition: { duration: 0.3, ease: EASE_PREMIUM } }}
+                  className="card group flex flex-col overflow-hidden border border-brand-line bg-white shadow-2xs transition-shadow duration-300 hover:shadow-lg"
                 >
                   <a
                     href={`/blog/${item.slug}`}
@@ -826,9 +837,9 @@ export default function BlogPostPage({ slug }) {
                       </a>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
-            </div>
+            </motion.div>
 
             <div className="mt-8 text-center sm:hidden">
               <a href="/blog" className="btn btn-outline !px-6 !text-xs">

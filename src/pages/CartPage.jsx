@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { useCart } from "../hooks/useCart.js";
 import Icon from "../components/ui/Icon.jsx";
 import Arrow from "../components/ui/Arrow.jsx";
 import Img from "../components/ui/Image.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 import { parts } from "../data/parts.js";
 import { contact } from "../data/contact.js";
 
@@ -63,7 +66,7 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <section className="wrap py-16 md:py-24 text-center">
-        <div className="max-w-lg mx-auto card p-8 sm:p-12 bg-white border border-brand-line shadow-sm">
+        <FadeUp className="max-w-lg mx-auto card p-8 sm:p-12 bg-white border border-brand-line shadow-sm">
           <div className="size-24 rounded-full bg-brand-50 border-2 border-brand-line/60 mx-auto flex items-center justify-center text-moss shadow-2xs">
             <Icon name="tools" size={42} />
           </div>
@@ -104,7 +107,7 @@ export default function CartPage() {
               </a>
             </div>
           </div>
-        </div>
+        </FadeUp>
       </section>
     );
   }
@@ -203,124 +206,131 @@ export default function CartPage() {
 
               {/* Items Rows */}
               <div className="divide-y divide-neutral-100">
-                {items.map((item) => {
-                  const lineTotal = Math.round(item.unitPrice * item.quantity * 100) / 100;
-                  return (
-                    <div
-                      key={item.cartItemId}
-                      className="p-5 sm:p-6 flex flex-col md:grid md:grid-cols-[1fr_110px_130px_110px_44px] md:items-center gap-4 transition hover:bg-neutral-50/50"
-                    >
-                      {/* Product Thumbnail & Details */}
-                      <div className="flex items-start gap-4 min-w-0">
-                        {/* Thumbnail Box with Real WebP Image */}
-                        <a
-                          href={`/product/${item.slug}`}
-                          className="size-20 shrink-0 rounded-xl bg-white border border-neutral-200 flex items-center justify-center p-1.5 shadow-2xs overflow-hidden hover:border-moss transition"
-                          title={`View ${item.name}`}
-                        >
-                          {item.image || item.id ? (
-                            <Img
-                              name={item.image || item.id}
-                              alt={item.name}
-                              sizes="80px"
-                              className="size-full object-contain"
-                            />
-                          ) : (
-                            <Icon name="tools" size={28} className="text-moss" />
-                          )}
-                        </a>
-
-                        {/* Title, SKU & Variant Information */}
-                        <div className="min-w-0 flex-1">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-moss bg-brand-50 px-2 py-0.5 rounded border border-brand-line">
-                            {item.blindType || "Blinds Hardware"}
-                          </span>
-
-                          <h3 className="!text-base font-bold text-forest mt-1 hover:text-moss transition">
-                            <a href={`/product/${item.slug}`}>{item.name}</a>
-                          </h3>
-
-                          <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
-                            <span className="font-mono text-[11px] bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-700">
-                              SKU: {item.sku}
-                            </span>
-                            {item.variantLabel && item.variantLabel !== "Standard" && (
-                              <span className="text-neutral-700 font-medium">
-                                Option: <strong>{item.variantLabel}</strong>
-                              </span>
+                <AnimatePresence initial={false}>
+                  {items.map((item) => {
+                    const lineTotal = Math.round(item.unitPrice * item.quantity * 100) / 100;
+                    return (
+                      <motion.div
+                        key={item.cartItemId}
+                        layout
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, height: 0, overflow: "hidden", transition: { duration: 0.25, ease: EASE_PREMIUM } }}
+                        transition={{ duration: 0.25, ease: EASE_PREMIUM }}
+                        className="p-5 sm:p-6 flex flex-col md:grid md:grid-cols-[1fr_110px_130px_110px_44px] md:items-center gap-4 transition hover:bg-neutral-50/50"
+                      >
+                        {/* Product Thumbnail & Details */}
+                        <div className="flex items-start gap-4 min-w-0">
+                          {/* Thumbnail Box with Real WebP Image */}
+                          <a
+                            href={`/product/${item.slug}`}
+                            className="size-20 shrink-0 rounded-xl bg-white border border-neutral-200 flex items-center justify-center p-1.5 shadow-2xs overflow-hidden hover:border-moss transition"
+                            title={`View ${item.name}`}
+                          >
+                            {item.image || item.id ? (
+                              <Img
+                                name={item.image || item.id}
+                                alt={item.name}
+                                sizes="80px"
+                                className="size-full object-contain"
+                              />
+                            ) : (
+                              <Icon name="tools" size={28} className="text-moss" />
                             )}
-                            <a
-                              href={`/product/${item.slug}`}
-                              className="text-[11px] font-semibold text-moss hover:text-forest inline-flex items-center gap-1 transition underline"
-                            >
-                              View Product <Arrow />
-                            </a>
-                          </div>
+                          </a>
 
-                          <div className="mt-2 flex items-center gap-1.5 text-[11px] font-semibold text-moss">
-                            <span className="size-1.5 rounded-full bg-lime animate-pulse" />
-                            <span>In Stock — Dispatches Next Business Day</span>
+                          {/* Title, SKU & Variant Information */}
+                          <div className="min-w-0 flex-1">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-moss bg-brand-50 px-2 py-0.5 rounded border border-brand-line">
+                              {item.blindType || "Blinds Hardware"}
+                            </span>
+
+                            <h3 className="!text-base font-bold text-forest mt-1 hover:text-moss transition">
+                              <a href={`/product/${item.slug}`}>{item.name}</a>
+                            </h3>
+
+                            <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
+                              <span className="font-mono text-[11px] bg-neutral-100 px-1.5 py-0.5 rounded text-neutral-700">
+                                SKU: {item.sku}
+                              </span>
+                              {item.variantLabel && item.variantLabel !== "Standard" && (
+                                <span className="text-neutral-700 font-medium">
+                                  Option: <strong>{item.variantLabel}</strong>
+                                </span>
+                              )}
+                              <a
+                                href={`/product/${item.slug}`}
+                                className="text-[11px] font-semibold text-moss hover:text-forest inline-flex items-center gap-1 transition underline"
+                              >
+                                View Product <Arrow />
+                              </a>
+                            </div>
+
+                            <div className="mt-2 flex items-center gap-1.5 text-[11px] font-semibold text-moss">
+                              <span className="size-1.5 rounded-full bg-lime animate-pulse" />
+                              <span>In Stock — Dispatches Next Business Day</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Unit Price */}
-                      <div className="md:text-center text-xs text-neutral-600 font-medium">
-                        <span className="md:hidden font-bold text-neutral-700 mr-1">Unit Price:</span>
-                        <span className="font-bold md:font-medium text-forest md:text-neutral-700">
-                          {money(item.unitPrice)}
-                        </span>
-                      </div>
-
-                      {/* Quantity Stepper ("Increase Items System") */}
-                      <div className="flex md:justify-center items-center gap-2">
-                        <span className="md:hidden font-bold text-xs text-neutral-700 mr-1">Quantity:</span>
-                        <div className="flex items-center rounded-xl border border-neutral-300 bg-white shadow-2xs">
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                            className="px-3 py-1.5 text-sm font-bold text-forest hover:bg-neutral-100 active:scale-90 transition rounded-l-xl"
-                            aria-label={`Decrease quantity of ${item.name}`}
-                            title="Decrease quantity"
-                          >
-                            −
-                          </button>
-                          <span className="w-10 text-center text-xs font-bold text-forest">
-                            {item.quantity}
+                        {/* Unit Price */}
+                        <div className="md:text-center text-xs text-neutral-600 font-medium">
+                          <span className="md:hidden font-bold text-neutral-700 mr-1">Unit Price:</span>
+                          <span className="font-bold md:font-medium text-forest md:text-neutral-700">
+                            {money(item.unitPrice)}
                           </span>
+                        </div>
+
+                        {/* Quantity Stepper ("Increase Items System") */}
+                        <div className="flex md:justify-center items-center gap-2">
+                          <span className="md:hidden font-bold text-xs text-neutral-700 mr-1">Quantity:</span>
+                          <div className="flex items-center rounded-xl border border-neutral-300 bg-white shadow-2xs">
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
+                              className="px-3 py-1.5 text-sm font-bold text-forest hover:bg-neutral-100 active:scale-90 transition rounded-l-xl"
+                              aria-label={`Decrease quantity of ${item.name}`}
+                              title="Decrease quantity"
+                            >
+                              −
+                            </button>
+                            <span className="w-10 text-center text-xs font-bold text-forest">
+                              {item.quantity}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                              className="px-3 py-1.5 text-sm font-bold text-forest hover:bg-neutral-100 active:scale-90 transition rounded-r-xl"
+                              aria-label={`Increase quantity of ${item.name}`}
+                              title="Increase quantity"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Line Item Total */}
+                        <div className="md:text-right text-base font-bold text-forest">
+                          <span className="md:hidden text-xs text-neutral-500 font-normal mr-1">Item Total: </span>
+                          {money(lineTotal)}
+                        </div>
+
+                        {/* Remove Button */}
+                        <div className="flex md:justify-center">
                           <button
                             type="button"
-                            onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                            className="px-3 py-1.5 text-sm font-bold text-forest hover:bg-neutral-100 active:scale-90 transition rounded-r-xl"
-                            aria-label={`Increase quantity of ${item.name}`}
-                            title="Increase quantity"
+                            onClick={() => removeItem(item.cartItemId)}
+                            className="size-8 rounded-lg text-neutral-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition"
+                            aria-label={`Remove ${item.name} from cart`}
+                            title="Remove item"
                           >
-                            +
+                            ✕
                           </button>
                         </div>
-                      </div>
-
-                      {/* Line Item Total */}
-                      <div className="md:text-right text-base font-bold text-forest">
-                        <span className="md:hidden text-xs text-neutral-500 font-normal mr-1">Item Total: </span>
-                        {money(lineTotal)}
-                      </div>
-
-                      {/* Remove Button */}
-                      <div className="flex md:justify-center">
-                        <button
-                          type="button"
-                          onClick={() => removeItem(item.cartItemId)}
-                          className="size-8 rounded-lg text-neutral-400 hover:text-red-600 hover:bg-red-50 flex items-center justify-center transition"
-                          aria-label={`Remove ${item.name} from cart`}
-                          title="Remove item"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
               </div>
 
               {/* Bottom Actions of Table */}

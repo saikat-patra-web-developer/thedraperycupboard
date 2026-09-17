@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import Brand from "./Brand.jsx";
 import Button from "../ui/Button.jsx";
 import Img from "../ui/Image.jsx";
@@ -6,21 +7,23 @@ import Icon from "../ui/Icon.jsx";
 import { products } from "../../data/products.js";
 import { findService, getAllServices } from "../../data/servicesData.js";
 import { useCart } from "../../hooks/useCart.js";
+import { EASE_PREMIUM } from "../motion/motionVariants.js";
 
 function Header({ path }) {
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const { cartCount } = useCart();
+  const shouldReduceMotion = useReducedMotion();
   const isHome = path === "/";
   const [isScrolled, setIsScrolled] = useState(
-    () => typeof window !== "undefined" && window.scrollY > 20
+    () => typeof window !== "undefined" && window.scrollY > 80
   );
 
   useEffect(() => {
     if (!isHome) return;
     const handleScroll = () => {
-      const nextScrolled = window.scrollY > 20;
+      const nextScrolled = window.scrollY > 80;
       setIsScrolled((prev) => (prev !== nextScrolled ? nextScrolled : prev));
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -45,7 +48,10 @@ function Header({ path }) {
     ["Contact", "/contact"],
   ];
   return (
-    <header
+    <motion.header
+      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : -15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: EASE_PREMIUM }}
       className={
         "top-0 z-40 w-full transition-all duration-300 " +
         (isHome ? "fixed " : "sticky ") +
@@ -54,7 +60,12 @@ function Header({ path }) {
           : "border-b border-black/10 bg-white/95 text-forest shadow-xs backdrop-blur-md")
       }
     >
-      <div className="wrap flex items-center justify-between gap-4 py-4 md:py-5">
+      <div
+        className={
+          "wrap flex items-center justify-between gap-4 transition-all duration-300 " +
+          (isScrolled ? "py-3 md:py-3.5" : "py-4 md:py-5")
+        }
+      >
         <Brand footer={overlaysHero} compact={overlaysHero} />
         <nav aria-label="Main" className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-7 text-xs font-semibold uppercase tracking-[0.14em]">
           {nav.map(([name, url]) => {
@@ -341,7 +352,7 @@ function Header({ path }) {
           </div>
         </nav>
       )}
-    </header>
+    </motion.header>
   );
 }
 export default Header;

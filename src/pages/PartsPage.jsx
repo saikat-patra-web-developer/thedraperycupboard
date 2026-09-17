@@ -1,10 +1,13 @@
 import { useState, useMemo } from "react";
+import { motion } from "motion/react";
 import Hero from "../components/sections/Hero.jsx";
 import Cta from "../components/sections/CallToAction.jsx";
 import Faq from "../components/ui/FaqAccordion.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import PartCard from "../components/parts/PartCard.jsx";
 import PartFilters from "../components/parts/PartFilters.jsx";
+import FadeUp from "../components/motion/FadeUp.jsx";
+import { staggerContainer, staggerItem } from "../components/motion/motionVariants.js";
 import { getPartsByCategory } from "../data/parts.js";
 import { contact } from "../data/contact.js";
 
@@ -199,16 +202,24 @@ export default function PartsPage() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <motion.div
+              key={`${activeCategory}-${sortBy}-${searchQuery}`}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+            >
               {filteredParts.map((part) => (
-                <PartCard key={part.id} part={part} />
+                <motion.div key={part.id} variants={staggerItem}>
+                  <PartCard part={part} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           )}
         </div>
 
         {/* Part Identification Support Banner */}
-        <div className="mt-16 rounded-2xl bg-forest p-8 text-white sm:p-10 lg:p-12">
+        <FadeUp className="mt-16 rounded-2xl bg-forest p-8 text-white sm:p-10 lg:p-12 shadow-md">
           <div className="grid items-center gap-8 lg:grid-cols-[1.3fr_auto]">
             <div>
               <span className="eyebrow !text-lime">Free Identification Support</span>
@@ -239,16 +250,16 @@ export default function PartsPage() {
               </a>
             </div>
           </div>
-        </div>
+        </FadeUp>
 
         {/* FAQs Section */}
-        <div className="mt-16 pt-12 border-t border-neutral-200">
+        <FadeUp className="mt-16 pt-12 border-t border-neutral-200">
           <div className="mb-6">
             <span className="eyebrow">Help & Advice</span>
             <h2>Frequently Asked Questions About Blinds Repair</h2>
           </div>
           <Faq items={PARTS_FAQS} />
-        </div>
+        </FadeUp>
       </section>
 
       <Cta />

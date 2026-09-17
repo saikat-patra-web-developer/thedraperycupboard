@@ -1,5 +1,8 @@
+import { motion } from "motion/react";
 import { contact } from "../../data/contact.js";
 import Heading from "../ui/SectionHeading.jsx";
+import FadeUp from "../motion/FadeUp.jsx";
+import { staggerContainer, staggerItem, VIEWPORT_ONCE } from "../motion/motionVariants.js";
 
 const terms = [
   ["Payment Terms", ["All invoices are due upon presentation.", "Ownership of goods remains with The Drapery Cupboard (TDC) until full payment is received.", "A 50% deposit is required at the time of order, with the remaining 50% due on the installation date."]],
@@ -30,25 +33,37 @@ export default function PolicyContent({ type }) {
   return (
     <section className="wrap pt-14 md:pt-18 lg:pt-20">
       <div className="mx-auto max-w-5xl">
-        <header className="border-b border-brand-line pt-4 pb-8 md:pt-5 md:pb-10">
-          <Heading label="The Drapery Cupboard" title={isPrivacy ? "Privacy Policy" : "Terms & Conditions"} />
-          <p className="muted mt-5 max-w-3xl">{isPrivacy ? "This policy explains how The Drapery Cupboard (TDC) handles personal information provided through this website and in your communications with us." : "Please read these terms carefully, as they form the contract between you and The Drapery Cupboard (TDC)."}</p>
-        </header>
-        <div className="mt-8 space-y-5 md:mt-10 md:space-y-6">
+        <FadeUp>
+          <header className="border-b border-brand-line pt-4 pb-8 md:pt-5 md:pb-10">
+            <Heading label="The Drapery Cupboard" title={isPrivacy ? "Privacy Policy" : "Terms & Conditions"} />
+            <p className="muted mt-5 max-w-3xl">{isPrivacy ? "This policy explains how The Drapery Cupboard (TDC) handles personal information provided through this website and in your communications with us." : "Please read these terms carefully, as they form the contract between you and The Drapery Cupboard (TDC)."}</p>
+          </header>
+        </FadeUp>
+        <motion.div
+          className="mt-8 space-y-5 md:mt-10 md:space-y-6"
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+        >
           {sections.map(([title, items], index) => (
-            <article className="rounded-xl border border-brand-line bg-white p-5 shadow-[0_5px_20px_rgba(70,69,74,0.06)] sm:p-7 md:p-8" key={title}>
+            <motion.article
+              variants={staggerItem}
+              className="rounded-xl border border-brand-line bg-white p-5 shadow-[0_5px_20px_rgba(70,69,74,0.06)] sm:p-7 md:p-8"
+              key={title}
+            >
               <h2 className="!text-2xl text-forest">{index + 1}. {title}</h2>
               <ul className="mt-4 space-y-3 pl-5 text-[15px] leading-7 text-brand-grey marker:text-moss">
                 {items.map((item) => <li className="list-disc pl-1" key={item}>{item}</li>)}
               </ul>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
-      <div className="mt-8 rounded-t-2xl bg-forest px-6 py-10 text-white sm:px-8 lg:px-10 lg:py-11">
+      <FadeUp className="mt-8 rounded-t-2xl bg-forest px-6 py-10 text-white sm:px-8 lg:px-10 lg:py-11">
         <h2 className="!text-2xl">Contact The Drapery Cupboard</h2>
         <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/75">Questions about these {isPrivacy ? "privacy practices" : "terms"} can be sent to <a href={contact.emailHref} className="text-lime underline underline-offset-4">{contact.email}</a> or discussed by calling <a href={contact.phones[0].href} className="text-lime underline underline-offset-4">Toll Free {contact.phones[0].label}</a>.</p>
-      </div>
+      </FadeUp>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import Arrow from "../components/ui/Arrow.jsx";
 import Hero from "../components/sections/Hero.jsx";
 
@@ -1379,58 +1380,72 @@ export default function LivePreviewPage() {
       {/* ========================================================================= */}
       {/* CAMERA MODAL */}
       {/* ========================================================================= */}
-      {cameraOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
-        >
-          <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-neutral-900 shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 text-white">
-              <span className="text-sm font-bold">Take Window Photo</span>
-              <button
-                type="button"
-                onClick={stopCamera}
-                aria-label="Close camera"
-                className="rounded-lg p-1.5 text-neutral-400 hover:bg-white/10 hover:text-white"
-              >
-                ✕
-              </button>
-            </div>
+      <AnimatePresence>
+        {cameraOpen && (
+          <motion.div
+            key="camera-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          >
+            <motion.div
+              key="camera-modal"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.3 }}
+              className="w-full max-w-2xl overflow-hidden rounded-2xl bg-neutral-900 shadow-2xl"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 text-white">
+                <span className="text-sm font-bold">Take Window Photo</span>
+                <button
+                  type="button"
+                  onClick={stopCamera}
+                  aria-label="Close camera"
+                  className="rounded-lg p-1.5 text-neutral-400 hover:bg-white/10 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
 
-            <div className="relative flex min-h-[340px] items-center justify-center bg-black sm:min-h-[460px]">
-              <video ref={videoRef} playsInline muted className="max-h-[65vh] w-full object-contain" />
-              {cameraError && (
-                <div className="absolute max-w-sm px-4 text-center text-xs leading-relaxed text-red-300">
-                  {cameraError}
-                </div>
-              )}
-            </div>
+              <div className="relative flex min-h-[340px] items-center justify-center bg-black sm:min-h-[460px]">
+                <video ref={videoRef} playsInline muted className="max-h-[65vh] w-full object-contain" />
+                {cameraError && (
+                  <div className="absolute max-w-sm px-4 text-center text-xs leading-relaxed text-red-300">
+                    {cameraError}
+                  </div>
+                )}
+              </div>
 
-            <div className="flex items-center justify-between border-t border-white/10 p-4">
-              <button
-                type="button"
-                onClick={stopCamera}
-                className="rounded-xl px-4 py-2 text-xs font-semibold text-neutral-300 hover:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={captureCameraPhoto}
-                disabled={Boolean(cameraError)}
-                className="inline-flex items-center gap-2 rounded-xl bg-lime px-5 py-2.5 text-xs font-bold text-forest shadow-md transition hover:bg-[#8dca34] disabled:opacity-40"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
-                  <circle cx="12" cy="13" r="3" />
-                </svg>
-                Capture Photo
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              <div className="flex items-center justify-between border-t border-white/10 p-4">
+                <button
+                  type="button"
+                  onClick={stopCamera}
+                  className="rounded-xl px-4 py-2 text-xs font-semibold text-neutral-300 hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={captureCameraPhoto}
+                  disabled={Boolean(cameraError)}
+                  className="inline-flex items-center gap-2 rounded-xl bg-lime px-5 py-2.5 text-xs font-bold text-forest shadow-md transition hover:bg-[#8dca34] disabled:opacity-40"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                    <circle cx="12" cy="13" r="3" />
+                  </svg>
+                  Capture Photo
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
