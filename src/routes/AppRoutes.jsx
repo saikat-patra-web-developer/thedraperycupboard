@@ -18,7 +18,9 @@ import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 import BlogPage from "../pages/BlogPage";
 import BlogPostPage from "../pages/BlogPostPage";
+import ServiceDetailPage from "../pages/ServiceDetailPage";
 import { findPart } from "../data/parts.js";
+import { findService } from "../data/servicesData.js";
 
 const pages = {
   "/": HomePage,
@@ -43,6 +45,14 @@ const pages = {
 };
 
 export default function AppRoutes({ path }) {
+  const serviceDetail = path.match(/^\/services\/([^/]+)$/);
+  if (serviceDetail) return <ServiceDetailPage key={serviceDetail[1]} slug={serviceDetail[1]} />;
+
+  const directService = findService(path);
+  if (directService && path !== "/services") {
+    return <ServiceDetailPage key={directService.slug} slug={directService.slug} />;
+  }
+
   const blogPost = path.match(/^\/blog\/([^/]+)$/);
   if (blogPost) return <BlogPostPage key={blogPost[1]} slug={blogPost[1]} />;
 

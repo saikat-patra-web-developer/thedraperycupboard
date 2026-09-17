@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { findProduct } from "../data/products.js";
 import { findPart } from "../data/parts.js";
 import { findBlogPost } from "../data/blogPosts.js";
+import { findService } from "../data/servicesData.js";
 
 const titles = {
   "/": "Blinds, Curtains & Outdoor Living",
@@ -27,6 +28,9 @@ const titles = {
 
 export default function usePageTitle(path) {
   useEffect(() => {
+    const serviceSlug = path.match(/^\/services\/([^/]+)$/)?.[1];
+    const service = serviceSlug ? findService(serviceSlug) : (path !== "/services" ? findService(path) : null);
+
     const blogSlug = path.match(/^\/blog\/([^/]+)$/)?.[1];
     const blogPost = blogSlug ? findBlogPost(blogSlug) : null;
 
@@ -36,8 +40,8 @@ export default function usePageTitle(path) {
     const productId = path.match(/^\/products\/([^/]+)$/)?.[1];
     const product = productId ? (findProduct(productId) || findPart(productId)) : null;
 
-    const title = titles[path] || blogPost?.title || part?.name || product?.name || "Page Not Found";
-    document.title = title + " | The Drapery Cupboard";
+    const title = titles[path] || service?.metaTitle || blogPost?.title || part?.name || product?.name || "Page Not Found";
+    document.title = title.includes("The Drapery Cupboard") ? title : `${title} | The Drapery Cupboard`;
   }, [path]);
 }
 

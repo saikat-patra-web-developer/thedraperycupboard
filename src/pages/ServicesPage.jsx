@@ -51,14 +51,31 @@ export default function ServicesPage() {
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {services.map(([t, id, d, ic, img]) => (
-            <article className="card scroll-mt-28" key={id} id={id}>
-              <Img name={img || id} alt={t} className="h-44 w-full" />
-              <div className="relative p-6 pt-9">
-                <div className="absolute -top-6 flex size-12 items-center justify-center rounded-full bg-forest text-lime">
-                  <Icon name={ic} />
+            <article className="card scroll-mt-28 flex flex-col justify-between" key={id} id={id}>
+              <div>
+                <a href={`/services/${id}`} className="block overflow-hidden">
+                  <Img name={img || id} alt={t} className="h-44 w-full transition-transform duration-300 hover:scale-105" />
+                </a>
+                <div className="relative p-6 pt-9">
+                  <div className="absolute -top-6 flex size-12 items-center justify-center rounded-full bg-forest text-lime shadow-sm">
+                    <Icon name={ic} />
+                  </div>
+                  <h3>
+                    <a href={`/services/${id}`} className="hover:text-moss transition-colors">
+                      {t}
+                    </a>
+                  </h3>
+                  <p className="muted mt-3 text-sm leading-relaxed">{d}</p>
                 </div>
-                <h3>{t}</h3>
-                <p className="muted mt-4">{d}</p>
+              </div>
+              <div className="p-6 pt-0">
+                <a
+                  href={`/services/${id}`}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-moss hover:underline"
+                >
+                  <span>Explore Service</span>
+                  <span aria-hidden="true">→</span>
+                </a>
               </div>
             </article>
           ))}

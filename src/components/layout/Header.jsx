@@ -82,10 +82,17 @@ function Header({ path }) {
                   <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     <div className="rounded-2xl border border-black/10 bg-white p-2 text-forest shadow-2xl [text-shadow:none]">
                       <div className="flex flex-col gap-0.5">
+                        <a
+                          href="/services"
+                          className="flex items-center justify-between rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider text-moss hover:bg-brand-50 transition-colors border-b border-black/5 mb-1"
+                        >
+                          <span>All Services</span>
+                          <span aria-hidden="true">→</span>
+                        </a>
                         {services.map(([title, id, , ic]) => (
                           <a
                             key={id}
-                            href={`/services#${id}`}
+                            href={`/services/${id}`}
                             className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium normal-case tracking-normal text-forest hover:bg-brand-50 hover:text-forest transition-colors"
                           >
                             <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-moss">
@@ -247,7 +254,7 @@ function Header({ path }) {
                       key={id}
                       onClick={() => setOpen(false)}
                       className="flex items-center gap-2.5 rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest"
-                      href={`/services#${id}`}
+                      href={`/services/${id}`}
                     >
                       <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand-50 text-moss">
                         <Icon name={ic} size={14} />
