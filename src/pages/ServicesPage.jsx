@@ -10,6 +10,7 @@ import Process from "../components/sections/Process.jsx";
 import Coverage from "../components/sections/ServiceCoverage.jsx";
 import { services } from "../data/services.js";
 import { features } from "../data/features.js";
+import { findService } from "../data/servicesData.js";
 
 export default function ServicesPage() {
   useEffect(() => {
@@ -50,35 +51,41 @@ export default function ServicesPage() {
           <Heading label="Our services" title="Solutions for Every Space" />
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {services.map(([t, id, d, ic, img]) => (
-            <article className="card scroll-mt-28 flex flex-col justify-between" key={id} id={id}>
-              <div>
-                <a href={`/services/${id}`} className="block overflow-hidden">
-                  <Img name={img || id} alt={t} className="h-44 w-full transition-transform duration-300 hover:scale-105" />
-                </a>
-                <div className="relative p-6 pt-9">
-                  <div className="absolute -top-6 flex size-12 items-center justify-center rounded-full bg-forest text-lime shadow-sm">
-                    <Icon name={ic} />
+          {services.map(([t, id, d, ic, img]) => {
+            const sData = findService(id);
+            const targetUrl = sData?.canonicalUrl || `/services/${id}`;
+            const imageToUse = sData?.image || img || id;
+
+            return (
+              <article className="card scroll-mt-28 flex flex-col justify-between" key={id} id={id}>
+                <div>
+                  <a href={targetUrl} className="block overflow-hidden">
+                    <Img name={imageToUse} alt={t} className="h-44 w-full transition-transform duration-300 hover:scale-105" />
+                  </a>
+                  <div className="relative p-6 pt-9">
+                    <div className="absolute -top-6 flex size-12 items-center justify-center rounded-full bg-forest text-lime shadow-sm">
+                      <Icon name={ic} />
+                    </div>
+                    <h3>
+                      <a href={targetUrl} className="hover:text-moss transition-colors">
+                        {t}
+                      </a>
+                    </h3>
+                    <p className="muted mt-3 text-sm leading-relaxed">{d}</p>
                   </div>
-                  <h3>
-                    <a href={`/services/${id}`} className="hover:text-moss transition-colors">
-                      {t}
-                    </a>
-                  </h3>
-                  <p className="muted mt-3 text-sm leading-relaxed">{d}</p>
                 </div>
-              </div>
-              <div className="p-6 pt-0">
-                <a
-                  href={`/services/${id}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-moss hover:underline"
-                >
-                  <span>Explore Service</span>
-                  <span aria-hidden="true">→</span>
-                </a>
-              </div>
-            </article>
-          ))}
+                <div className="p-6 pt-0">
+                  <a
+                    href={targetUrl}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-moss hover:underline"
+                  >
+                    <span>Explore Service</span>
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
       <Process />

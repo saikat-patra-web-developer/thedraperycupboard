@@ -4,7 +4,7 @@ import Button from "../ui/Button.jsx";
 import Img from "../ui/Image.jsx";
 import Icon from "../ui/Icon.jsx";
 import { products } from "../../data/products.js";
-import { services } from "../../data/services.js";
+import { findService, getAllServices } from "../../data/servicesData.js";
 import { useCart } from "../../hooks/useCart.js";
 
 function Header({ path }) {
@@ -26,6 +26,13 @@ function Header({ path }) {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome]);
+
+  const currentService = findService(path);
+  const isServicesActive =
+    path === "/services" ||
+    path === "/services/" ||
+    path.startsWith("/services/") ||
+    Boolean(currentService);
 
   const overlaysHero = isHome && !isScrolled && !open;
   const nav = [
@@ -51,7 +58,11 @@ function Header({ path }) {
         <Brand footer={overlaysHero} compact={overlaysHero} />
         <nav aria-label="Main" className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-7 text-xs font-semibold uppercase tracking-[0.14em]">
           {nav.map(([name, url]) => {
-            const isActive = path === url || (url !== "/" && path.startsWith(url));
+            const isActive =
+              url === "/services"
+                ? isServicesActive
+                : path === url || (url !== "/" && path.startsWith(url));
+
             const link = (
               <a
                 href={url}
@@ -76,10 +87,11 @@ function Header({ path }) {
             );
 
             if (url === "/services") {
+              const allServiceItems = getAllServices();
               return (
                 <div key={url} className="group relative">
                   {link}
-                  <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <div className="invisible absolute left-1/2 top-full z-50 w-80 -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     <div className="rounded-2xl border border-black/10 bg-white p-2 text-forest shadow-2xl [text-shadow:none]">
                       <div className="flex flex-col gap-0.5">
                         <a
@@ -89,18 +101,31 @@ function Header({ path }) {
                           <span>All Services</span>
                           <span aria-hidden="true">→</span>
                         </a>
-                        {services.map(([title, id, , ic]) => (
-                          <a
-                            key={id}
-                            href={`/services/${id}`}
-                            className="flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium normal-case tracking-normal text-forest hover:bg-brand-50 hover:text-forest transition-colors"
-                          >
-                            <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-moss">
-                              <Icon name={ic} size={15} />
-                            </span>
-                            <span>{title}</span>
-                          </a>
-                        ))}
+                        {allServiceItems.map((s) => {
+                          const isItemActive = currentService && (currentService.id === s.id || currentService.slug === s.slug);
+                          return (
+                            <a
+                              key={s.slug}
+                              href={s.canonicalUrl}
+                              className={
+                                "flex items-center justify-between rounded-xl px-4 py-2.5 text-sm transition-colors " +
+                                (isItemActive
+                                  ? "bg-brand-50 text-moss font-semibold"
+                                  : "font-medium normal-case tracking-normal text-forest hover:bg-brand-50 hover:text-forest")
+                              }
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className={"flex size-7 shrink-0 items-center justify-center rounded-lg " + (isItemActive ? "bg-lime/25 text-moss" : "bg-brand-50 text-moss")}>
+                                  <Icon name={s.icon} size={15} />
+                                </span>
+                                <span>{s.name}</span>
+                              </div>
+                              {isItemActive && (
+                                <span className="size-2 rounded-full bg-lime"></span>
+                              )}
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -249,19 +274,32 @@ function Header({ path }) {
                   <a onClick={() => setOpen(false)} className="flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-forest hover:bg-brand-50" href="/services">
                     View all services <span aria-hidden="true">→</span>
                   </a>
-                  {services.map(([title, id, , ic]) => (
-                    <a
-                      key={id}
-                      onClick={() => setOpen(false)}
-                      className="flex items-center gap-2.5 rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest"
-                      href={`/services/${id}`}
-                    >
-                      <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand-50 text-moss">
-                        <Icon name={ic} size={14} />
-                      </span>
-                      <span>{title}</span>
-                    </a>
-                  ))}
+                  {getAllServices().map((s) => {
+                    const isItemActive = currentService && (currentService.id === s.id || currentService.slug === s.slug);
+                    return (
+                      <a
+                        key={s.slug}
+                        onClick={() => setOpen(false)}
+                        className={
+                          "flex items-center justify-between rounded-lg p-2 text-sm transition-colors " +
+                          (isItemActive
+                            ? "bg-brand-50 text-moss font-semibold"
+                            : "text-neutral-600 hover:bg-neutral-50 hover:text-forest")
+                        }
+                        href={s.canonicalUrl}
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <span className={"flex size-6 shrink-0 items-center justify-center rounded-md " + (isItemActive ? "bg-lime/30 text-forest" : "bg-brand-50 text-moss")}>
+                            <Icon name={s.icon} size={14} />
+                          </span>
+                          <span>{s.name}</span>
+                        </div>
+                        {isItemActive && (
+                          <span className="size-1.5 rounded-full bg-lime mr-1"></span>
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
               {url === "/products" && productsOpen && (

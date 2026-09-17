@@ -333,7 +333,7 @@ export default function ServiceDetailPage({ slug }) {
             ).map((rel) => (
               <a
                 key={rel.slug}
-                href={`/services/${rel.slug}`}
+                href={rel.canonicalUrl || `/${rel.slug}`}
                 className="group flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-6 shadow-xs transition hover:border-moss/50 hover:shadow-md"
               >
                 <div>

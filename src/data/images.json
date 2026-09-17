@@ -227,6 +227,36 @@
     "src": "/images/roman-1536.webp",
     "srcSet": "/images/roman-480.webp 480w, /images/roman-800.webp 800w, /images/roman-1200.webp 1200w, /images/roman-1536.webp 1536w"
   },
+  "service-cleaning": {
+    "width": 1000,
+    "height": 667,
+    "src": "/images/service-cleaning-1000.webp",
+    "srcSet": "/images/service-cleaning-480.webp 480w, /images/service-cleaning-800.webp 800w, /images/service-cleaning-1000.webp 1000w"
+  },
+  "service-curtains": {
+    "width": 1000,
+    "height": 667,
+    "src": "/images/service-curtains-1000.webp",
+    "srcSet": "/images/service-curtains-480.webp 480w, /images/service-curtains-800.webp 800w, /images/service-curtains-1000.webp 1000w"
+  },
+  "service-installation": {
+    "width": 1000,
+    "height": 667,
+    "src": "/images/service-installation-1000.webp",
+    "srcSet": "/images/service-installation-480.webp 480w, /images/service-installation-800.webp 800w, /images/service-installation-1000.webp 1000w"
+  },
+  "service-repairs": {
+    "width": 1000,
+    "height": 667,
+    "src": "/images/service-repairs-1000.webp",
+    "srcSet": "/images/service-repairs-480.webp 480w, /images/service-repairs-800.webp 800w, /images/service-repairs-1000.webp 1000w"
+  },
+  "service-shutters": {
+    "width": 1000,
+    "height": 667,
+    "src": "/images/service-shutters-1000.webp",
+    "srcSet": "/images/service-shutters-480.webp 480w, /images/service-shutters-800.webp 800w, /images/service-shutters-1000.webp 1000w"
+  },
   "shutters": {
     "width": 1536,
     "height": 1024,

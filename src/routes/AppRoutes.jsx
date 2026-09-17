@@ -45,21 +45,24 @@ const pages = {
 };
 
 export default function AppRoutes({ path }) {
-  const serviceDetail = path.match(/^\/services\/([^/]+)$/);
+  const normalizedPath =
+    path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
+
+  const serviceDetail = normalizedPath.match(/^\/services\/([^/]+)$/);
   if (serviceDetail) return <ServiceDetailPage key={serviceDetail[1]} slug={serviceDetail[1]} />;
 
-  const directService = findService(path);
-  if (directService && path !== "/services") {
+  const directService = findService(normalizedPath);
+  if (directService && normalizedPath !== "/services") {
     return <ServiceDetailPage key={directService.slug} slug={directService.slug} />;
   }
 
-  const blogPost = path.match(/^\/blog\/([^/]+)$/);
+  const blogPost = normalizedPath.match(/^\/blog\/([^/]+)$/);
   if (blogPost) return <BlogPostPage key={blogPost[1]} slug={blogPost[1]} />;
 
-  const productView = path.match(/^\/(?:parts|product)\/([^/]+)$/);
+  const productView = normalizedPath.match(/^\/(?:parts|product)\/([^/]+)$/);
   if (productView) return <ProductViewPage key={productView[1]} id={productView[1]} />;
 
-  const product = path.match(/^\/products\/([^/]+)$/);
+  const product = normalizedPath.match(/^\/products\/([^/]+)$/);
   if (product) {
     if (findPart(product[1])) {
       return <ProductViewPage key={product[1]} id={product[1]} />;
@@ -67,7 +70,7 @@ export default function AppRoutes({ path }) {
     return <ProductDetailPage key={product[1]} id={product[1]} />;
   }
 
-  const Page = pages[path] || NotFoundPage;
+  const Page = pages[normalizedPath] || NotFoundPage;
   return <Page />;
 }
 

@@ -28,19 +28,21 @@ const titles = {
 
 export default function usePageTitle(path) {
   useEffect(() => {
-    const serviceSlug = path.match(/^\/services\/([^/]+)$/)?.[1];
-    const service = serviceSlug ? findService(serviceSlug) : (path !== "/services" ? findService(path) : null);
+    const normalizedPath = path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
 
-    const blogSlug = path.match(/^\/blog\/([^/]+)$/)?.[1];
+    const serviceSlug = normalizedPath.match(/^\/services\/([^/]+)$/)?.[1];
+    const service = serviceSlug ? findService(serviceSlug) : (normalizedPath !== "/services" ? findService(normalizedPath) : null);
+
+    const blogSlug = normalizedPath.match(/^\/blog\/([^/]+)$/)?.[1];
     const blogPost = blogSlug ? findBlogPost(blogSlug) : null;
 
-    const partId = path.match(/^\/(?:parts|product)\/([^/]+)$/)?.[1];
+    const partId = normalizedPath.match(/^\/(?:parts|product)\/([^/]+)$/)?.[1];
     const part = partId ? findPart(partId) : null;
 
-    const productId = path.match(/^\/products\/([^/]+)$/)?.[1];
+    const productId = normalizedPath.match(/^\/products\/([^/]+)$/)?.[1];
     const product = productId ? (findProduct(productId) || findPart(productId)) : null;
 
-    const title = titles[path] || service?.metaTitle || blogPost?.title || part?.name || product?.name || "Page Not Found";
+    const title = titles[normalizedPath] || service?.metaTitle || blogPost?.title || part?.name || product?.name || "Page Not Found";
     document.title = title.includes("The Drapery Cupboard") ? title : `${title} | The Drapery Cupboard`;
   }, [path]);
 }
