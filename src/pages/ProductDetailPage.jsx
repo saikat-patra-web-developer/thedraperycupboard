@@ -8,6 +8,7 @@ import Faq from "../components/ui/FaqAccordion.jsx";
 import ProductGrid from "../components/products/ProductGrid.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
 import { findProduct, products } from "../data/products.js";
+import { contact } from "../data/contact.js";
 import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 export default function ProductDetailPage({ id }) {
@@ -127,10 +128,60 @@ export default function ProductDetailPage({ id }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.6, ease: EASE_PREMIUM }}
-        className="grid gap-9 border-t border-neutral-200 py-12 lg:grid-cols-[1.6fr_1fr]"
+        className="grid items-start gap-9 border-t border-neutral-200 py-12 lg:grid-cols-[1.6fr_1fr]"
       >
-        <div><h2 className="mb-4 !text-3xl">Your Questions, Answered</h2><Faq items={product.faqs} /></div>
-        <div className="rounded-xl bg-brand-100 p-7"><h3>Let’s Find the Right Fit</h3><p className="muted my-4">Tell us about your space and what you want to achieve. We’ll help you choose the right product and finish.</p><Button to={quoteUrl}>Enquire About {product.name}</Button></div>
+        <div>
+          <h2 className="mb-4 !text-3xl">Your Questions, Answered</h2>
+          <Faq items={product.faqs} />
+        </div>
+        <div className="self-start rounded-2xl bg-brand-100 p-6 md:p-7 border border-brand-line/70 shadow-xs lg:sticky lg:top-24">
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-moss mb-2">
+            <Icon name="spark" size={14} className="text-moss shrink-0" />
+            <span>Custom Consultation</span>
+          </div>
+          <h3 className="!text-xl font-bold text-forest">Let’s Find the Right Fit</h3>
+          <p className="muted mt-2 mb-5 !text-sm">
+            Tell us about your space and what you want to achieve. We’ll help you choose the right fabric, mounting, and finish tailored to your budget.
+          </p>
+
+          <ul className="space-y-3 mb-6 border-y border-brand-line/60 py-4 text-xs font-medium text-forest">
+            <li className="flex items-center gap-2.5">
+              <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white text-moss shadow-2xs">
+                <Icon name="check" size={11} />
+              </span>
+              <span>Free on-site laser measure & quote in Auckland</span>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white text-moss shadow-2xs">
+                <Icon name="tools" size={11} />
+              </span>
+              <span>Expert installation by experienced specialists</span>
+            </li>
+            <li className="flex items-center gap-2.5">
+              <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white text-moss shadow-2xs">
+                <Icon name="shield" size={11} />
+              </span>
+              <span>Backed by 5-year warranty on mechanics & fabric</span>
+            </li>
+          </ul>
+
+          <div className="flex flex-col gap-2.5">
+            <Button to={quoteUrl} dark className="w-full justify-center">
+              Enquire About {product.name}
+            </Button>
+            <a
+              href={contact.phones[0].href}
+              className="flex items-center justify-center gap-2 rounded-xl border border-brand-line bg-white/80 py-2.5 text-xs font-bold text-forest hover:bg-white hover:text-moss transition-colors shadow-2xs"
+            >
+              <Icon name="phone" size={13} className="text-moss" />
+              <span>Call {contact.phone} for Quick Advice</span>
+            </a>
+          </div>
+
+          <p className="mt-3.5 text-center text-[11px] text-neutral-500">
+            No obligation • Auckland-wide service & NZ delivery
+          </p>
+        </div>
       </motion.div>
       <section className="pb-10">
         <motion.div
