@@ -9,7 +9,7 @@ import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 const money = amount => new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(amount);
 const newWindow = id => ({ id, product: "roller-blinds", width: "", drop: "" });
-const apiBaseUrl = (import.meta.env.VITE_QMB_API_URL || "https://quotemyblinds.com/api/api/p").replace(/\/+$/, "");
+const apiBaseUrl = (import.meta.env.VITE_QMB_API_URL || "https://quotemyblinds.com/api/p").replace(/\/+$/, "");
 const priceApiUrl = `${apiBaseUrl}/price`;
 const enquiryApiUrl = `${apiBaseUrl}/enquiry`;
 const webApiKey = (import.meta.env.VITE_QMB_WEB_API_KEY || "pmfQCWPkw1q").trim();
