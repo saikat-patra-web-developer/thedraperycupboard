@@ -4,8 +4,12 @@ import Arrow from "../ui/Arrow.jsx";
 import { products } from "../../data/products.js";
 import { EASE_PREMIUM } from "../motion/motionVariants.js";
 
-export default function ProductGrid({ full = false, items = products }) {
+export default function ProductGrid({ full = false, items = products, columns = null }) {
   const shouldReduceMotion = useReducedMotion();
+
+  const gridClass = columns === 5
+    ? "grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+    : "grid gap-5 md:gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 2xl:gap-7 " + (full ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2");
 
   return (
     <motion.div
@@ -20,7 +24,7 @@ export default function ProductGrid({ full = false, items = products }) {
           },
         },
       }}
-      className={"grid gap-5 md:gap-6 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 2xl:gap-7 " + (full ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-2")}
+      className={gridClass}
     >
       {items.map(product => (
         <motion.a
@@ -45,15 +49,15 @@ export default function ProductGrid({ full = false, items = products }) {
             <Img
               name={product.image}
               alt={product.name}
-              sizes="(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
+              sizes={columns === 5 ? "(max-width: 639px) 100vw, (max-width: 1023px) 33vw, 20vw" : "(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"}
               className={"product-photo w-full " + (full ? "aspect-[1.35]" : "aspect-[1.65]")}
             />
           </div>
-          <div className={full ? "flex flex-1 flex-col px-5 pb-6 pt-5" : "px-1 pt-3"}>
-            {full ? <h3 className="!text-2xl">{product.name}</h3> : <b className="text-sm">{product.name}</b>}
+          <div className={full ? "flex flex-1 flex-col px-4 pb-5 pt-4 sm:px-5 sm:pb-6 sm:pt-5" : "px-1 pt-3"}>
+            {full ? <h3 className={columns === 5 ? "!text-xl" : "!text-2xl"}>{product.name}</h3> : <b className="text-sm">{product.name}</b>}
             {full ? (
               <>
-                <p className="muted mb-6 mt-3 !text-sm">{product.description}</p>
+                <p className={"muted mb-5 mt-2.5 !text-xs leading-relaxed " + (columns === 5 ? "line-clamp-2" : "!text-sm")}>{product.description}</p>
                 <span className="btn btn-outline text-xs mt-auto inline-flex items-center gap-1.5 self-start group-hover:border-forest group-hover:text-forest transition">
                   View Product <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1"><Arrow /></span>
                 </span>

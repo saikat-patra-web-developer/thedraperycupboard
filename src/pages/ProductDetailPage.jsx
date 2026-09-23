@@ -7,7 +7,7 @@ import Cta from "../components/sections/CallToAction.jsx";
 import Faq from "../components/ui/FaqAccordion.jsx";
 import ProductGrid from "../components/products/ProductGrid.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
-import { findProduct } from "../data/products.js";
+import { findProduct, products } from "../data/products.js";
 import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 
 export default function ProductDetailPage({ id }) {
@@ -18,7 +18,10 @@ export default function ProductDetailPage({ id }) {
   const quoteUrl = "/contact?product=" + encodeURIComponent(product.name);
   const photos = product.gallery;
   const image = photos[selectedPhoto] || photos[0];
-  const related = product.related.map(findProduct).filter(Boolean);
+  const rawRelated = (product.related || []).map(findProduct).filter(Boolean);
+  const existingSlugs = new Set([product.slug, ...rawRelated.map((p) => p.slug)]);
+  const fallbackCandidates = products.filter((p) => !existingSlugs.has(p.slug));
+  const related = [...rawRelated, ...fallbackCandidates].slice(0, 5);
 
   return <>
     <section className="wrap py-7 md:py-10">
@@ -36,12 +39,29 @@ export default function ProductDetailPage({ id }) {
             <Img name={image} priority sizes="(max-width: 767px) 100vw, 60vw" alt={product.name + " in a styled space"} className="aspect-[1.5] w-full object-cover transition-transform duration-500 hover:scale-102" />
             <span className="absolute left-4 top-4 rounded-lg bg-white/95 px-4 py-2 text-xs font-bold uppercase tracking-wider text-moss">{product.category}</span>
           </div>
-          {photos.length > 1 && <div className="mt-4 flex gap-3 overflow-x-auto" aria-label={product.name + " gallery"}>
-            {photos.map((photo,index) => <button key={photo} onClick={() => setSelectedPhoto(index)} aria-label={"View " + product.name + " image " + (index + 1)} aria-pressed={selectedPhoto === index}
-              className={"shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 " + (selectedPhoto === index ? "border-moss scale-102" : "border-transparent opacity-75 hover:opacity-100")}>
-              <Img name={photo} alt="" sizes="96px" className="h-16 w-24" />
-            </button>)}
-          </div>}
+          {photos.length > 1 && (
+            <div
+              className="mt-4 flex gap-3 overflow-x-auto overflow-y-hidden py-1 px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              aria-label={product.name + " gallery"}
+            >
+              {photos.map((photo, index) => (
+                <button
+                  key={photo}
+                  onClick={() => setSelectedPhoto(index)}
+                  aria-label={"View " + product.name + " image " + (index + 1)}
+                  aria-pressed={selectedPhoto === index}
+                  className={
+                    "shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 " +
+                    (selectedPhoto === index
+                      ? "border-moss ring-2 ring-moss/30 shadow-xs"
+                      : "border-transparent opacity-75 hover:opacity-100")
+                  }
+                >
+                  <Img name={photo} alt="" sizes="96px" className="h-16 w-24" />
+                </button>
+              ))}
+            </div>
+          )}
           <p className="mt-3 text-xs text-neutral-500">Illustrative setting. Fabrics, finishes and configurations are selected with your quote.</p>
         </motion.div>
         <motion.div
@@ -122,7 +142,7 @@ export default function ProductDetailPage({ id }) {
           <div className="eyebrow">Explore more</div>
           <h2 className="mb-6">You May Also Like</h2>
         </motion.div>
-        <ProductGrid full items={related} />
+        <ProductGrid full items={related} columns={5} />
       </section>
     </section>
     <Cta />

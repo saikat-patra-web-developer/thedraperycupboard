@@ -13,7 +13,7 @@ export const products = [
     options: [["Fabric", "Discuss light-filtering or room-darkening fabrics."], ["Mounting", "Inside or outside the window recess, subject to clearance."], ["Control", "Ask about manual and motorised systems for your window."]],
     care: "Remove dust gently with a soft brush. Follow the selected fabric’s care instructions before spot cleaning.",
     faqs: [["Will Roller Blinds make a room completely dark?", "Room-darkening fabric reduces light through the fabric, but light can still enter around the edges. Mounting and window shape affect the result."], ["Can I add motorisation?", "Ask our team to confirm a compatible motor and control system for your size and fabric choice."]],
-    related: ["sunfilter-blinds", "zebra-blinds", "honeycomb-blinds"],
+    related: ["sunfilter-blinds", "zebra-blinds", "honeycomb-blinds", "home-automation", "venetian-blinds"],
     gallery: ["roller", "hero", "dining"],
   },
   {
@@ -25,7 +25,7 @@ export const products = [
     options: [["Fabric openness", "Compare samples for the right balance of view and shade."], ["Colour", "Consider how light and dark fabrics affect the outlook."], ["Privacy layer", "Pair with curtains or an opaque blind where needed."]],
     care: "Dust the fabric gently and avoid abrasive cleaners. Use the fabric-specific cleaning guidance supplied with your order.",
     faqs: [["Do Sunfilter Blinds provide privacy at night?", "Do not rely on sunfilter fabric for night-time privacy. When the room is brighter than outdoors, people may be able to see in. Add an opaque layer where privacy matters."], ["How do I choose the fabric openness?", "Compare samples in your room. Openness and colour affect visibility, light and screening, so the best choice depends on your window’s orientation."]],
-    related: ["roller-blinds", "curtains", "outdoor-shades"], gallery: ["sunfilter"],
+    related: ["roller-blinds", "curtains", "outdoor-shades", "zebra-blinds", "home-automation"], gallery: ["sunfilter"],
   },
   {
     name: "Vertical Blinds", slug: "vertical-blinds", image: "vertical", category: "Indoor blinds",
@@ -36,7 +36,7 @@ export const products = [
     options: [["Vane fabric", "Choose a fabric suited to light and privacy needs."], ["Opening direction", "Plan the stack around door access and furniture."], ["Track position", "Allow space for the vanes to rotate freely."]],
     care: "Dust vanes regularly and keep the track clear. Confirm whether the chosen fabric can be spot cleaned.",
     faqs: [["Which way can Vertical Blinds open?", "The opening and stacking arrangement depends on the track and window layout. Tell us where the door opens so we can advise on a suitable arrangement."], ["Are they suitable for large windows?", "They are commonly used for wide openings. Our team will confirm a suitable track and configuration for your measurements."]],
-    related: ["verishade", "curtains", "venetian-blinds"], gallery: ["vertical"],
+    related: ["verishade", "curtains", "venetian-blinds", "roller-blinds", "shutters"], gallery: ["vertical"],
   },
   {
     name: "Venetian Blinds", slug: "venetian-blinds", image: "venetian", category: "Indoor blinds",
@@ -47,7 +47,7 @@ export const products = [
     options: [["Slat material", "Ask about the materials available for your room."], ["Slat width", "Compare proportions against your window size."], ["Finish", "Coordinate the slats and fittings with your interior."]],
     care: "Use a soft duster along the slats. Avoid soaking or harsh cleaning products, particularly on timber finishes.",
     faqs: [["Can Venetian Blinds be used in a bathroom?", "Suitability depends on the slat material and the room’s moisture exposure. Let our team know before selecting a finish."], ["Can I control light without raising them?", "Yes. Tilting the slats changes the light entering the room while the blind remains lowered."]],
-    related: ["shutters", "vertical-blinds", "roller-blinds"], gallery: ["venetian"],
+    related: ["shutters", "vertical-blinds", "roller-blinds", "honeycomb-blinds", "curtains"], gallery: ["venetian"],
   },
   {
     name: "Curtains", slug: "curtains", image: "curtains", category: "Curtains & soft furnishings",
@@ -58,7 +58,7 @@ export const products = [
     options: [["Fabric & lining", "Compare sheer and heavier fabrics, with suitable lining."], ["Heading", "Discuss the fold and fullness you prefer."], ["Track & drop", "Plan the track position, opening and finished length."]],
     care: "Follow the care label for the selected fabric and lining. Some fabrics require professional cleaning; avoid assuming they are machine washable.",
     faqs: [["Can I combine sheer and heavier curtains?", "A layered arrangement can balance daytime softness with greater privacy. We can advise on fabric and track space."], ["How long should my curtains be?", "The finished drop depends on your preferred look, flooring and how the opening is used. Confirm the measurement from the planned track position."]],
-    related: ["verishade", "roman-curtains", "sunfilter-blinds"], gallery: ["curtains"],
+    related: ["verishade", "roman-curtains", "sunfilter-blinds", "roman-shades", "home-automation"], gallery: ["curtains"],
   },
   {
     name: "Roman Curtains", slug: "roman-curtains", image: "roman-curtains", category: "Curtains & soft furnishings",
@@ -69,7 +69,7 @@ export const products = [
     options: [["Fabric", "Choose a texture and colour to complement the room."], ["Fold style", "Share a reference for the Roman finish you prefer."], ["Lining & operation", "Confirm the complete arrangement before ordering."]],
     care: "Care depends on the fabric, lining and construction. Follow the instructions supplied with the finished product.",
     faqs: [["How do I choose the right Roman Curtain style?", "Bring a reference photo or discuss your preferred folds with our team. We will confirm the design and construction in your quote."], ["How do Roman Curtains compare with Roman Shades?", "Both are listed in our range. Ask our team to show you the specific construction and finish of each so you can choose the one that suits your window."]],
-    related: ["roman-shades", "curtains", "honeycomb-blinds"], gallery: ["roman-curtains"],
+    related: ["roman-shades", "curtains", "honeycomb-blinds", "roller-blinds", "verishade"], gallery: ["roman-curtains"],
   },
   {
     name: "Zebra Blinds", slug: "zebra-blinds", image: "zebra", category: "Indoor blinds",
@@ -80,7 +80,7 @@ export const products = [
     options: [["Fabric colour", "Choose bands that work with your room palette."], ["Privacy needs", "Discuss screening and any additional bedroom layer."], ["Controls", "Confirm the operating system for your window."]],
     care: "Dust gently without pulling the fabric layers out of alignment. Avoid scrubbing or soaking the sheer sections.",
     faqs: [["Are Zebra Blinds the same as blackout blinds?", "No. Overlapping opaque bands provide screening, but they do not guarantee a completely dark room. Discuss a separate room-darkening solution if needed."], ["How do the bands adjust the light?", "The fabric layers move relative to each other so the sheer and opaque bands either align or overlap."]],
-    related: ["roller-blinds", "sunfilter-blinds", "venetian-blinds"], gallery: ["zebra"],
+    related: ["roller-blinds", "sunfilter-blinds", "venetian-blinds", "honeycomb-blinds", "home-automation"], gallery: ["zebra"],
   },
   {
     name: "Honeycomb Blinds", slug: "honeycomb-blinds", image: "honeycomb", category: "Indoor blinds",
@@ -91,7 +91,7 @@ export const products = [
     options: [["Fabric opacity", "Discuss light-filtering and room-darkening choices."], ["Cell construction", "Confirm the available profiles for your window."], ["Mounting", "A considered fit helps the finished result."]],
     care: "Use a gentle dusting method and avoid crushing the cells. Follow fabric-specific instructions for marks or spills.",
     faqs: [["Do Honeycomb Blinds help with insulation?", "Their cellular structure traps air and can help reduce heat transfer. The result depends on the fabric, fit, glazing and room conditions."], ["Are all Honeycomb Blinds blackout?", "No. Light control depends on the selected fabric. Ask for samples that suit your room’s needs."]],
-    related: ["roller-blinds", "roman-shades", "curtains"], gallery: ["honeycomb"],
+    related: ["roller-blinds", "roman-shades", "curtains", "zebra-blinds", "home-automation"], gallery: ["honeycomb"],
   },
   {
     name: "Verishade", slug: "verishade", image: "verishade", category: "Curtains & soft furnishings",
@@ -102,7 +102,7 @@ export const products = [
     options: [["Fabric", "View the available fabric samples with our team."], ["Opening", "Plan the stacking side around access and furniture."], ["Track & control", "Confirm the track layout and wand position."]],
     care: "Follow the care guidance for the specific fabric. Ask our team about removing individual folds for cleaning.",
     faqs: [["How is Verishade different from Vertical Blinds?", "Verishade uses soft curved fabric folds with sheer and opaque sections rather than conventional flat vanes, giving a curtain-like appearance."], ["Can I adjust the light without drawing it aside?", "Yes. Rotating the fabric folds changes the balance of sheer and opaque sections across the opening."]],
-    related: ["curtains", "vertical-blinds", "sunfilter-blinds"], gallery: ["verishade"],
+    related: ["curtains", "vertical-blinds", "sunfilter-blinds", "roman-curtains", "shutters"], gallery: ["verishade"],
     source: "https://verishades.com/blog/what-is-veri-shades/",
   },
   {
@@ -114,7 +114,7 @@ export const products = [
     options: [["Fabric", "Consider how texture and pattern will look across the folds."], ["Lining", "Discuss privacy and light requirements."], ["Stack & mounting", "Allow room for the folded fabric above the view."]],
     care: "Dust carefully along the folds. Confirm the cleaning method before treating fabric or removing the shade.",
     faqs: [["Do Roman Shades need space above the window?", "The fabric forms a stack when raised. The required space depends on the drop and construction, so check the mounting position with our team."], ["Can Roman Shades suit a bedroom?", "Yes, with an appropriate fabric and lining choice. Discuss light around the edges and your room-darkening expectations."]],
-    related: ["roman-curtains", "curtains", "roller-blinds"], gallery: ["roman-shades"],
+    related: ["roman-curtains", "curtains", "roller-blinds", "honeycomb-blinds", "sunfilter-blinds"], gallery: ["roman-shades"],
   },
   {
     name: "Shutters", slug: "shutters", image: "shutters", category: "Shutters",
@@ -125,7 +125,7 @@ export const products = [
     options: [["Material", "Confirm a material appropriate for the room."], ["Panel layout", "Plan access, hinges and opening clearances."], ["Louvre & finish", "Discuss proportions and finish samples."]],
     care: "Wipe dust with a soft cloth and avoid soaking the frame or hinges. Use cleaning guidance appropriate to the chosen material.",
     faqs: [["Can shutters fit different window shapes?", "Suitability depends on the shape, frame and mounting space. Send photographs and measurements for advice."], ["Are shutters suitable for wet areas?", "Some materials are more suitable than others. Confirm the location and exposure with our team before choosing."]],
-    related: ["venetian-blinds", "roller-blinds", "curtains"], gallery: ["shutters"],
+    related: ["venetian-blinds", "roller-blinds", "curtains", "pergola", "alarm-cctv"], gallery: ["shutters"],
   },
   {
     name: "Pergola", slug: "pergola", image: "pergola", category: "Outdoor living",
@@ -136,7 +136,7 @@ export const products = [
     options: [["Site & footprint", "Consider access, supports and the area to cover."], ["Roof arrangement", "Discuss the available roof and shade options."], ["Finish & installation", "Confirm finishes, foundations and installation scope."]],
     care: "Keep the structure and any drainage channels clear of debris. Follow the supplied maintenance and operating instructions.",
     faqs: [["What information is needed for a pergola quote?", "Send site photographs, approximate dimensions and any plans. We will discuss the position, support points, roof options and installation scope."], ["Does a pergola need consent or engineering?", "Requirements vary by site and proposed structure. Confirm applicable local requirements and any engineering needs before installation."]],
-    related: ["outdoor-shades", "shutters", "sunfilter-blinds"], gallery: ["pergola"],
+    related: ["outdoor-shades", "shutters", "sunfilter-blinds", "alarm-cctv", "home-automation"], gallery: ["pergola"],
   },
   {
     name: "Outdoor Shades", slug: "outdoor-shades", image: "outdoor-shades", category: "Outdoor living",
@@ -147,7 +147,7 @@ export const products = [
     options: [["Screen fabric", "Balance shade, screening and the outward view."], ["Guides & fixing", "Confirm the system appropriate to the opening."], ["Operation & exposure", "Discuss controls and site conditions with our team."]],
     care: "Keep fabric clean and retract or secure the shade as directed for weather conditions. Observe the selected system’s operating limits.",
     faqs: [["Can Outdoor Shades stay down in strong wind?", "Do not assume they can. Follow the operating limits and weather instructions for the specified system, and retract or secure it when required."], ["Can I use them with a pergola?", "They may be suitable where the structure and fixing positions allow. Confirm compatibility as part of the project quote."]],
-    related: ["pergola", "sunfilter-blinds", "roller-blinds"], gallery: ["outdoor-shades"],
+    related: ["pergola", "sunfilter-blinds", "roller-blinds", "alarm-cctv", "home-automation"], gallery: ["outdoor-shades"],
   },
   {
     name: "Home Automation", slug: "home-automation", image: "home-automation", category: "Smart home & security",
@@ -158,7 +158,7 @@ export const products = [
     options: [["Ecosystem & Hubs", "Compatible with Apple HomeKit, Google Home, Alexa, Somfy and Zigbee."], ["Control Options", "Multi-channel wireless wall switches, handheld remotes, and intuitive mobile apps."], ["Sensors & Timers", "Sun, wind, and temperature sensors for automated daylight management."]],
     care: "Ensure smart hubs and motorized battery packs are charged or wired properly. Keep device mobile apps updated for security and performance.",
     faqs: [["Can I retrofit smart automation to my existing blinds?", "Yes. We offer smart retrofitting options for many existing roller blinds and curtain tracks, or complete new motorized window systems tailored to your home."], ["Does home automation require a central bridge?", "Most systems use a compact smart hub (such as Somfy TaHoma or Automate Pulse) connected to your home Wi-Fi, allowing encrypted control from home or away."]],
-    related: ["roller-blinds", "curtains", "alarm-cctv"], gallery: ["home-automation", "motorisation", "hero"],
+    related: ["roller-blinds", "curtains", "alarm-cctv", "honeycomb-blinds", "outdoor-shades"], gallery: ["home-automation", "motorisation", "hero"],
   },
   {
     name: "Alarm & CCTV", slug: "alarm-cctv", image: "alarm-cctv", category: "Smart home & security",
@@ -169,7 +169,7 @@ export const products = [
     options: [["Camera Hardware", "Discreet architectural dome, turret and outdoor bullet camera designs."], ["Sensors & Alarms", "Wireless PIR motion detectors, glass-break sensors, and smart sirens."], ["Storage & Viewing", "Dedicated Network Video Recorders (NVR) with encrypted local hard drives."]],
     care: "Gently wipe camera lenses with a soft microfiber cloth. Check sensor battery levels annually via the mobile management app.",
     faqs: [["Can I view live CCTV footage while away from home?", "Yes. Our systems securely connect to your smartphone or tablet, giving you crystal-clear live video feeds, event playback, and two-way audio from anywhere."], ["Do the alarms still work during a power or Wi-Fi outage?", "Yes. Our systems feature battery backups and optional 4G cellular backup to ensure uninterrupted protection even during power cuts."]],
-    related: ["home-automation", "outdoor-shades", "shutters"], gallery: ["alarm-cctv", "home-automation", "hero"],
+    related: ["home-automation", "outdoor-shades", "shutters", "pergola", "roller-blinds"], gallery: ["alarm-cctv", "home-automation", "hero"],
   },
 ];
 
