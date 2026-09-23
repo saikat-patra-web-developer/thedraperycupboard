@@ -100,9 +100,9 @@ export default function ProductViewPage({ id }) {
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
             <a href="/" className="hover:text-forest transition">Home</a>
             <span>›</span>
-            <a href="/parts" className="hover:text-forest transition">Blinds Parts & Hardware</a>
+            <a href="/online-shop" className="hover:text-forest transition">Online Shop</a>
             <span>›</span>
-            <a href={`/parts?category=${part.category}`} className="hover:text-forest capitalize transition">
+            <a href={`/online-shop?category=${part.category}`} className="hover:text-forest capitalize transition">
               {part.blindType}
             </a>
             <span>›</span>
@@ -112,10 +112,10 @@ export default function ProductViewPage({ id }) {
           </nav>
 
           <a
-            href="/parts"
+            href="/online-shop"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-moss hover:text-forest transition"
           >
-            ← Back to Blinds Parts Shop
+            ← Back to Online Shop
           </a>
         </div>
 
@@ -696,7 +696,7 @@ export default function ProductViewPage({ id }) {
                 <span className="eyebrow">Frequently Bought Together</span>
                 <h2 className="!text-2xl font-serif text-forest">Complementary Blinds Parts & Hardware</h2>
               </div>
-              <a href="/parts" className="text-link text-xs shrink-0">
+              <a href="/online-shop" className="text-link text-xs shrink-0">
                 View all parts <Arrow />
               </a>
             </motion.div>

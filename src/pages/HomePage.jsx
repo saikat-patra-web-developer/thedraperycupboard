@@ -379,7 +379,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
-              <Button to="/parts" dark>
+              <Button to="/online-shop" dark>
                 Shop Blinds Parts
               </Button>
             </div>

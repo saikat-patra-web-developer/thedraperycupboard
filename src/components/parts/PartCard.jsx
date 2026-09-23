@@ -73,7 +73,7 @@ export default function PartCard({ part }) {
 
         {/* Real Product WebP Image Display */}
         <a
-          href={`/product/${part.slug}`}
+          href={`/online-shop/${part.slug}`}
           className="my-auto flex items-center justify-center p-2 transition-transform duration-300 group-hover:scale-105"
           title={`View ${part.name}`}
         >
@@ -114,7 +114,7 @@ export default function PartCard({ part }) {
 
         {/* Product Title */}
         <h3 className="!text-lg font-bold text-forest group-hover:text-moss transition">
-          <a href={`/product/${part.slug}`}>{part.name}</a>
+          <a href={`/online-shop/${part.slug}`}>{part.name}</a>
         </h3>
 
         <p className="mt-2 text-xs leading-relaxed text-brand-grey line-clamp-2">

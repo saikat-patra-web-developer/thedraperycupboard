@@ -52,8 +52,8 @@ export default function CheckoutPage() {
         <FadeUp className="max-w-md mx-auto card p-8 bg-white border border-brand-line shadow-sm">
           <h1 className="!text-2xl font-serif text-forest">Your Cart is Empty</h1>
           <p className="mt-2 text-sm text-neutral-600">Please add items to your cart before proceeding to checkout.</p>
-          <a href="/parts" className="btn btn-dark mt-6 text-xs inline-flex">
-            Return to Blinds Parts Shop <Arrow />
+          <a href="/online-shop" className="btn btn-dark mt-6 text-xs inline-flex">
+            Return to Online Shop <Arrow />
           </a>
         </FadeUp>
       </section>
@@ -155,7 +155,7 @@ export default function CheckoutPage() {
       <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs text-neutral-500">
         <a href="/" className="hover:text-forest transition">Home</a>
         <span>›</span>
-        <a href="/parts" className="hover:text-forest transition">Blinds Parts</a>
+        <a href="/online-shop" className="hover:text-forest transition">Online Shop</a>
         <span>›</span>
         <a href="/cart" className="hover:text-forest transition">Shopping Cart</a>
         <span>›</span>

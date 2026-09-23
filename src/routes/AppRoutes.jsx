@@ -25,6 +25,7 @@ import { findService } from "../data/servicesData.js";
 const pages = {
   "/": HomePage,
   "/products": ProductsPage,
+  "/online-shop": PartsPage,
   "/parts": PartsPage,
   "/shop": PartsPage,
   "/product": ProductViewPage,
@@ -59,7 +60,7 @@ export default function AppRoutes({ path }) {
   const blogPost = normalizedPath.match(/^\/blog\/([^/]+)$/);
   if (blogPost) return <BlogPostPage key={blogPost[1]} slug={blogPost[1]} />;
 
-  const productView = normalizedPath.match(/^\/(?:parts|product)\/([^/]+)$/);
+  const productView = normalizedPath.match(/^\/(?:online-shop|parts|shop|product)\/([^/]+)$/);
   if (productView) return <ProductViewPage key={productView[1]} id={productView[1]} />;
 
   const product = normalizedPath.match(/^\/products\/([^/]+)$/);

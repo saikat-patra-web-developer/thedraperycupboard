@@ -259,7 +259,7 @@ export default function OrderConfirmationPage() {
           <button onClick={handlePrint} className="btn btn-outline text-xs !py-2.5">
             Print Order Details
           </button>
-          <a href="/parts" className="btn btn-dark text-xs !py-2.5">
+          <a href="/online-shop" className="btn btn-dark text-xs !py-2.5">
             Continue Shopping <Arrow />
           </a>
         </div>

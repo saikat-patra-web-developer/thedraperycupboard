@@ -45,7 +45,7 @@ export default function Footer() {
               {[
                 ["Home", "/"],
                 ["Products", "/products"],
-                ["Blinds Parts & Hardware", "/parts"],
+                ["Online SHOP", "/online-shop"],
                 ["Online Quote", "/online-quote"],
                 ["About", "/about"],
                 ["Services", "/services"],

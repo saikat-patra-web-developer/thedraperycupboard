@@ -126,18 +126,18 @@ export default function CartDrawer() {
                   Looking for replacement clutches, chains, brackets, wands or curtain gliders?
                 </p>
                 <a
-                  href="/parts"
+                  href="/online-shop"
                   onClick={closeDrawer}
                   className="btn btn-dark mt-6 text-xs !py-2.5 !px-5"
                 >
-                  Browse Blinds Parts <Arrow />
+                  Browse Online Shop <Arrow />
                 </a>
               </div>
             ) : (
               items.map((item) => (
                 <div key={item.cartItemId} className="py-4 flex gap-4 items-start">
                   <a
-                    href={`/product/${item.slug}`}
+                    href={`/online-shop/${item.slug}`}
                     onClick={closeDrawer}
                     className="size-16 shrink-0 rounded-lg bg-white border border-neutral-200 flex items-center justify-center p-1 shadow-2xs overflow-hidden hover:border-moss transition"
                     title={`View ${item.name}`}
@@ -155,7 +155,7 @@ export default function CartDrawer() {
                   </a>
                   <div className="flex-1 min-w-0">
                     <a
-                      href={`/product/${item.slug}`}
+                      href={`/online-shop/${item.slug}`}
                       onClick={closeDrawer}
                       className="text-sm font-semibold text-forest hover:text-moss line-clamp-1 block"
                     >

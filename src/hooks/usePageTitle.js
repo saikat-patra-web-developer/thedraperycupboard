@@ -7,8 +7,9 @@ import { findService } from "../data/servicesData.js";
 const titles = {
   "/": "Blinds, Curtains & Outdoor Living",
   "/products": "Our Products",
-  "/parts": "Blinds Replacement Parts & Hardware Shop",
-  "/shop": "Blinds Replacement Parts & Hardware Shop",
+  "/online-shop": "Online Shop - Blinds Replacement Parts & Hardware",
+  "/parts": "Online Shop - Blinds Replacement Parts & Hardware",
+  "/shop": "Online Shop - Blinds Replacement Parts & Hardware",
   "/product": "View Product",
   "/cart": "Shopping Cart",
   "/checkout": "Secure Checkout",
@@ -36,7 +37,7 @@ export default function usePageTitle(path) {
     const blogSlug = normalizedPath.match(/^\/blog\/([^/]+)$/)?.[1];
     const blogPost = blogSlug ? findBlogPost(blogSlug) : null;
 
-    const partId = normalizedPath.match(/^\/(?:parts|product)\/([^/]+)$/)?.[1];
+    const partId = normalizedPath.match(/^\/(?:online-shop|parts|shop|product)\/([^/]+)$/)?.[1];
     const part = partId ? findPart(partId) : null;
 
     const productId = normalizedPath.match(/^\/products\/([^/]+)$/)?.[1];

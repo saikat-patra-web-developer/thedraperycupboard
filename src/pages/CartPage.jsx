@@ -77,9 +77,9 @@ export default function CartPage() {
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3">
-            <a href="/parts" className="btn btn-dark text-xs justify-center shadow-sm">
+            <a href="/online-shop" className="btn btn-dark text-xs justify-center shadow-sm">
               <Icon name="tools" size={14} className="text-lime" />
-              <span>Browse Blinds Parts</span>
+              <span>Browse Online Shop</span>
               <Arrow />
             </a>
             <a href="/products" className="btn btn-outline text-xs justify-center">
@@ -93,16 +93,16 @@ export default function CartPage() {
               Popular Parts Categories
             </span>
             <div className="flex flex-wrap justify-center sm:justify-start gap-2">
-              <a href="/parts?category=roller" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/online-shop?category=roller" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Roller Blinds Hardware
               </a>
-              <a href="/parts?category=venetian" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/online-shop?category=venetian" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Venetian Tilters & Locks
               </a>
-              <a href="/parts?category=vertical" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/online-shop?category=vertical" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Vertical Carriers & Chains
               </a>
-              <a href="/parts?category=curtains" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+              <a href="/online-shop?category=curtains" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Curtain Hooks & Gliders
               </a>
             </div>
@@ -119,7 +119,7 @@ export default function CartPage() {
         <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-xs text-neutral-500">
           <a href="/" className="hover:text-forest transition">Home</a>
           <span>›</span>
-          <a href="/parts" className="hover:text-forest transition">Blinds Parts & Hardware</a>
+          <a href="/online-shop" className="hover:text-forest transition">Online Shop</a>
           <span>›</span>
           <span aria-current="page" className="text-forest font-semibold">Shopping Cart</span>
         </nav>
@@ -223,7 +223,7 @@ export default function CartPage() {
                         <div className="flex items-start gap-4 min-w-0">
                           {/* Thumbnail Box with Real WebP Image */}
                           <a
-                            href={`/product/${item.slug}`}
+                            href={`/online-shop/${item.slug}`}
                             className="size-20 shrink-0 rounded-xl bg-white border border-neutral-200 flex items-center justify-center p-1.5 shadow-2xs overflow-hidden hover:border-moss transition"
                             title={`View ${item.name}`}
                           >
@@ -246,7 +246,7 @@ export default function CartPage() {
                             </span>
 
                             <h3 className="!text-base font-bold text-forest mt-1 hover:text-moss transition">
-                              <a href={`/product/${item.slug}`}>{item.name}</a>
+                              <a href={`/online-shop/${item.slug}`}>{item.name}</a>
                             </h3>
 
                             <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-neutral-500">
@@ -335,8 +335,8 @@ export default function CartPage() {
 
               {/* Bottom Actions of Table */}
               <div className="p-4 sm:p-5 bg-neutral-50/80 border-t border-neutral-200 flex flex-wrap justify-between items-center gap-3 text-xs">
-                <a href="/parts" className="btn btn-outline !min-h-9 !py-1.5 !px-3.5 text-xs font-semibold">
-                  ← Continue Shopping for Parts
+                <a href="/online-shop" className="btn btn-outline !min-h-9 !py-1.5 !px-3.5 text-xs font-semibold">
+                  ← Continue Shopping
                 </a>
 
                 {confirmClear ? (
@@ -394,7 +394,7 @@ export default function CartPage() {
                       <div>
                         <span className="text-[10px] font-bold text-moss uppercase">{rec.blindType}</span>
                         <h4 className="text-xs font-bold text-forest line-clamp-2 mt-0.5">
-                          <a href={`/parts/${rec.slug}`} className="hover:text-moss">
+                          <a href={`/online-shop/${rec.slug}`} className="hover:text-moss">
                             {rec.name}
                           </a>
                         </h4>
