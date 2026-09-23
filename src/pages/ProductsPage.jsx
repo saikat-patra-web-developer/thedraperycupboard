@@ -27,14 +27,6 @@ export default function ProductsPage() {
     return p.category === activeCategory;
   });
 
-  const getCount = (catId) => {
-    if (catId === "all") return products.length;
-    if (catId === "Outdoor & shutters") {
-      return products.filter((p) => p.category === "Outdoor living" || p.category === "Shutters").length;
-    }
-    return products.filter((p) => p.category === catId).length;
-  };
-
   return (
     <>
       <Hero
@@ -64,9 +56,6 @@ export default function ProductsPage() {
             <div className="eyebrow">Our complete collection</div>
             <h2>Possibilities for Every Space.</h2>
           </motion.div>
-          <div className="text-sm text-neutral-500 font-medium">
-            Showing <strong className="text-forest font-semibold">{filteredProducts.length}</strong> of {products.length} products
-          </div>
         </div>
 
         {/* Category Filter Tabs */}
@@ -77,29 +66,19 @@ export default function ProductsPage() {
         >
           {CATEGORY_TABS.map((tab) => {
             const isActive = activeCategory === tab.id;
-            const count = getCount(tab.id);
             return (
               <button
                 key={tab.id}
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveCategory(tab.id)}
-                className={`group flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                className={`flex items-center rounded-full px-4 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-forest text-white shadow-xs"
                     : "bg-neutral-100 text-neutral-600 hover:bg-brand-50 hover:text-forest border border-transparent"
                 }`}
               >
                 <span>{tab.label}</span>
-                <span
-                  className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
-                    isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-neutral-200 text-neutral-600 group-hover:bg-brand-100 group-hover:text-forest"
-                  }`}
-                >
-                  {count}
-                </span>
               </button>
             );
           })}

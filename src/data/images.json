@@ -95,6 +95,24 @@
     "src": "/images/part-ct-03-800.webp",
     "srcSet": "/images/part-ct-03-480.webp 480w, /images/part-ct-03-800.webp 800w"
   },
+  "part-ha-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-ha-01-800.webp",
+    "srcSet": "/images/part-ha-01-480.webp 480w, /images/part-ha-01-800.webp 800w"
+  },
+  "part-ha-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-ha-02-800.webp",
+    "srcSet": "/images/part-ha-02-480.webp 480w, /images/part-ha-02-800.webp 800w"
+  },
+  "part-ha-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-ha-03-800.webp",
+    "srcSet": "/images/part-ha-03-480.webp 480w, /images/part-ha-03-800.webp 800w"
+  },
   "part-mt-01": {
     "width": 800,
     "height": 800,
@@ -154,6 +172,30 @@
     "height": 800,
     "src": "/images/part-rb-06-800.webp",
     "srcSet": "/images/part-rb-06-480.webp 480w, /images/part-rb-06-800.webp 800w"
+  },
+  "part-sec-01": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-sec-01-800.webp",
+    "srcSet": "/images/part-sec-01-480.webp 480w, /images/part-sec-01-800.webp 800w"
+  },
+  "part-sec-02": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-sec-02-800.webp",
+    "srcSet": "/images/part-sec-02-480.webp 480w, /images/part-sec-02-800.webp 800w"
+  },
+  "part-sec-03": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-sec-03-800.webp",
+    "srcSet": "/images/part-sec-03-480.webp 480w, /images/part-sec-03-800.webp 800w"
+  },
+  "part-sec-04": {
+    "width": 800,
+    "height": 800,
+    "src": "/images/part-sec-04-800.webp",
+    "srcSet": "/images/part-sec-04-480.webp 480w, /images/part-sec-04-800.webp 800w"
   },
   "part-vn-01": {
     "width": 800,

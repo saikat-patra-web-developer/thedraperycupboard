@@ -43,6 +43,8 @@ const normalizeCategory = (cat) => {
   if (c.startsWith("curtain")) return "curtains";
   if (c.startsWith("motor")) return "motors";
   if (c.startsWith("safe") || c.startsWith("chain")) return "safety";
+  if (c.startsWith("home") || c.startsWith("auto")) return "home-automation";
+  if (c.startsWith("alarm") || c.startsWith("arlam") || c.startsWith("cctv") || c.startsWith("sec")) return "alarm-cctv";
   return c;
 };
 

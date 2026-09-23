@@ -4,9 +4,9 @@ import Brand from "./Brand.jsx";
 import Button from "../ui/Button.jsx";
 import Img from "../ui/Image.jsx";
 import Icon from "../ui/Icon.jsx";
-import { products } from "../../data/products.js";
+import { products, findProduct } from "../../data/products.js";
 import { findService, getAllServices } from "../../data/servicesData.js";
-import { PART_CATEGORIES, parts } from "../../data/parts.js";
+import { PART_CATEGORIES, findPart } from "../../data/parts.js";
 import { useCart } from "../../hooks/useCart.js";
 import { EASE_PREMIUM } from "../motion/motionVariants.js";
 
@@ -32,12 +32,69 @@ function Header({ path }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome]);
 
+  const [searchQuery, setSearchQuery] = useState(
+    () => (typeof window !== "undefined" ? window.location.search : "")
+  );
+
+  useEffect(() => {
+    const onLocationChange = () => {
+      setSearchQuery(window.location.search);
+    };
+    window.addEventListener("popstate", onLocationChange);
+    return () => window.removeEventListener("popstate", onLocationChange);
+  }, []);
+
   const currentService = findService(path);
   const isServicesActive =
     path === "/services" ||
     path === "/services/" ||
     path.startsWith("/services/") ||
     Boolean(currentService);
+
+  const currentProduct = (() => {
+    const match = path.match(/^\/products\/([^/]+)$/) || path.match(/^\/product\/([^/]+)$/);
+    if (match) {
+      if (findPart(match[1])) return null;
+      return findProduct(match[1]);
+    }
+    if (typeof window !== "undefined" && path === "/product") {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get("slug") || params.get("id");
+      if (slug && !findPart(slug)) return findProduct(slug);
+    }
+    return null;
+  })();
+
+  const currentShopCategory = (() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(searchQuery || window.location.search);
+      const cat = params.get("category");
+      if (cat) {
+        const c = cat.toLowerCase().trim();
+        if (c !== "all") {
+          if (c.startsWith("roller")) return "roller";
+          if (c.startsWith("venetian")) return "venetian";
+          if (c.startsWith("vertical")) return "vertical";
+          if (c.startsWith("curtain")) return "curtains";
+          if (c.startsWith("motor")) return "motors";
+          if (c.startsWith("safe") || c.startsWith("chain")) return "safety";
+          if (c.startsWith("home") || c.startsWith("auto")) return "home-automation";
+          if (c.startsWith("alarm") || c.startsWith("arlam") || c.startsWith("cctv") || c.startsWith("sec")) return "alarm-cctv";
+          return c;
+        }
+      }
+    }
+
+    const partMatch =
+      path.match(/^\/(?:online-shop|parts|shop|product)\/([^/]+)$/) ||
+      path.match(/^\/products\/([^/]+)$/);
+    if (partMatch) {
+      const part = findPart(partMatch[1]);
+      if (part) return part.category;
+    }
+
+    return null;
+  })();
 
   const overlaysHero = isHome && !isScrolled && !open;
   const nav = [
@@ -169,35 +226,29 @@ function Header({ path }) {
                           href="/online-shop"
                           className="flex items-center gap-1 text-xs font-bold text-moss hover:text-forest transition-colors rounded-lg px-2.5 py-1 hover:bg-brand-50"
                         >
-                          <span>View all ({parts.length})</span>
+                          <span>View all</span>
                           <span aria-hidden="true">→</span>
                         </a>
                       </div>
 
                       {/* 2-Column Category Grid */}
                       <div className="grid grid-cols-2 gap-1.5 py-2.5">
-                        {shopCategories.map((cat) => {
-                          const count = parts.filter((p) => p.category === cat.id).length;
-                          return (
-                            <a
-                              key={cat.id}
-                              href={`/online-shop?category=${cat.id}`}
-                              className="group/cat flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-brand-50"
-                            >
-                              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-moss transition-colors group-hover/cat:bg-lime/25 group-hover/cat:text-forest">
-                                <Icon name={cat.icon || "tools"} size={18} />
-                              </span>
-                              <div className="min-w-0">
-                                <p className="truncate text-xs font-semibold text-forest group-hover/cat:text-moss transition-colors">
-                                  {cat.name}
-                                </p>
-                                <p className="text-[11px] text-neutral-400 font-normal normal-case">
-                                  {count} replacement {count === 1 ? "part" : "parts"}
-                                </p>
-                              </div>
-                            </a>
-                          );
-                        })}
+                        {shopCategories.map((cat) => (
+                          <a
+                            key={cat.id}
+                            href={`/online-shop?category=${cat.id}`}
+                            className="group/cat flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-brand-50"
+                          >
+                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-moss transition-colors group-hover/cat:bg-lime/25 group-hover/cat:text-forest">
+                              <Icon name={cat.icon || "tools"} size={18} />
+                            </span>
+                            <div className="min-w-0">
+                              <p className="truncate text-xs font-semibold text-forest group-hover/cat:text-moss transition-colors">
+                                {cat.name}
+                              </p>
+                            </div>
+                          </a>
+                        ))}
                       </div>
 
                       {/* Bottom Perks & Cart Bar */}
@@ -228,7 +279,7 @@ function Header({ path }) {
                 <div className="invisible absolute left-1/2 top-full z-50 w-[48rem] max-w-[calc(100vw-2rem)] xl:w-[52rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                   <div className="rounded-2xl border border-black/10 bg-white p-3.5 text-forest shadow-2xl [text-shadow:none]">
                     <a href="/products" className="mb-1 flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-forest hover:bg-brand-50">
-                      View all products ({products.length}) <span aria-hidden="true">→</span>
+                      View all products <span aria-hidden="true">→</span>
                     </a>
                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-1 border-t border-black/5 pt-2">
                       {products.map((product) => (
@@ -428,30 +479,24 @@ function Header({ path }) {
                     className="flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-moss hover:bg-brand-50"
                     href="/online-shop"
                   >
-                    <span>View all shop items ({parts.length})</span>
+                    <span>View all shop items</span>
                     <span aria-hidden="true">→</span>
                   </a>
-                  {PART_CATEGORIES.filter((c) => c.id !== "all").map((cat) => {
-                    const count = parts.filter((p) => p.category === cat.id).length;
-                    return (
-                      <a
-                        key={cat.id}
-                        onClick={() => setOpen(false)}
-                        className="flex items-center justify-between rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest"
-                        href={`/online-shop?category=${cat.id}`}
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand-50 text-moss">
-                            <Icon name={cat.icon || "tools"} size={14} />
-                          </span>
-                          <span>{cat.name}</span>
-                        </div>
-                        <span className="text-xs text-neutral-400 font-medium">
-                          {count}
+                  {PART_CATEGORIES.filter((c) => c.id !== "all").map((cat) => (
+                    <a
+                      key={cat.id}
+                      onClick={() => setOpen(false)}
+                      className="flex items-center justify-between rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest"
+                      href={`/online-shop?category=${cat.id}`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand-50 text-moss">
+                          <Icon name={cat.icon || "tools"} size={14} />
                         </span>
-                      </a>
-                    );
-                  })}
+                        <span>{cat.name}</span>
+                      </div>
+                    </a>
+                  ))}
                 </div>
               )}
             </div>

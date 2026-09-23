@@ -105,6 +105,12 @@ export default function CartPage() {
               <a href="/online-shop?category=curtains" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
                 Curtain Hooks & Gliders
               </a>
+              <a href="/online-shop?category=home-automation" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+                Home Automation
+              </a>
+              <a href="/online-shop?category=alarm-cctv" className="px-3 py-1.5 rounded-lg bg-neutral-50 hover:bg-brand-50 border border-neutral-200 text-xs font-semibold text-neutral-700 transition">
+                Alarm & CCTV
+              </a>
             </div>
           </div>
         </FadeUp>
