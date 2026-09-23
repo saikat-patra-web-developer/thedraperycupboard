@@ -136,13 +136,16 @@ function Header({ path }) {
                 path === "/shop" ||
                 path.startsWith("/online-shop/") ||
                 path.startsWith("/parts/") ||
-                path.startsWith("/shop/"));
+                path.startsWith("/shop/") ||
+                Boolean(currentShopCategory && !currentProduct));
             const isActive =
               url === "/services"
                 ? isServicesActive
                 : isShop
                   ? isShopActive
-                  : path === url || (url !== "/" && path.startsWith(url));
+                  : url === "/products"
+                    ? Boolean(currentProduct || path === "/products" || path.startsWith("/products/"))
+                    : path === url || (url !== "/" && path.startsWith(url));
 
             const link = (
               <a
@@ -224,31 +227,57 @@ function Header({ path }) {
                         </div>
                         <a
                           href="/online-shop"
-                          className="flex items-center gap-1 text-xs font-bold text-moss hover:text-forest transition-colors rounded-lg px-2.5 py-1 hover:bg-brand-50"
+                          className={
+                            "flex items-center gap-1.5 text-xs font-bold transition-colors rounded-lg px-2.5 py-1 " +
+                            (isShopActive && !currentShopCategory
+                              ? "bg-brand-50 text-moss"
+                              : "text-moss hover:text-forest hover:bg-brand-50")
+                          }
                         >
                           <span>View all</span>
+                          {isShopActive && !currentShopCategory && (
+                            <span className="size-1.5 rounded-full bg-lime"></span>
+                          )}
                           <span aria-hidden="true">→</span>
                         </a>
                       </div>
 
                       {/* 2-Column Category Grid */}
                       <div className="grid grid-cols-2 gap-1.5 py-2.5">
-                        {shopCategories.map((cat) => (
-                          <a
-                            key={cat.id}
-                            href={`/online-shop?category=${cat.id}`}
-                            className="group/cat flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-brand-50"
-                          >
-                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-moss transition-colors group-hover/cat:bg-lime/25 group-hover/cat:text-forest">
-                              <Icon name={cat.icon || "tools"} size={18} />
-                            </span>
-                            <div className="min-w-0">
-                              <p className="truncate text-xs font-semibold text-forest group-hover/cat:text-moss transition-colors">
-                                {cat.name}
-                              </p>
-                            </div>
-                          </a>
-                        ))}
+                        {shopCategories.map((cat) => {
+                          const isCatActive = currentShopCategory === cat.id;
+                          return (
+                            <a
+                              key={cat.id}
+                              href={`/online-shop?category=${cat.id}`}
+                              className={
+                                "group/cat flex items-center justify-between rounded-xl p-2.5 transition-colors " +
+                                (isCatActive
+                                  ? "bg-brand-50 text-moss font-semibold"
+                                  : "font-medium normal-case tracking-normal text-forest hover:bg-brand-50 hover:text-forest")
+                              }
+                            >
+                              <div className="flex items-center gap-3 min-w-0">
+                                <span
+                                  className={
+                                    "flex size-9 shrink-0 items-center justify-center rounded-lg transition-colors " +
+                                    (isCatActive
+                                      ? "bg-lime/25 text-moss"
+                                      : "bg-brand-50 text-moss group-hover/cat:bg-lime/25 group-hover/cat:text-forest")
+                                  }
+                                >
+                                  <Icon name={cat.icon || "tools"} size={18} />
+                                </span>
+                                <span className="truncate text-xs">
+                                  {cat.name}
+                                </span>
+                              </div>
+                              {isCatActive && (
+                                <span className="size-2 rounded-full bg-lime shrink-0 mr-1"></span>
+                              )}
+                            </a>
+                          );
+                        })}
                       </div>
 
                       {/* Bottom Perks & Cart Bar */}
@@ -278,21 +307,55 @@ function Header({ path }) {
                 {link}
                 <div className="invisible absolute left-1/2 top-full z-50 w-[48rem] max-w-[calc(100vw-2rem)] xl:w-[52rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                   <div className="rounded-2xl border border-black/10 bg-white p-3.5 text-forest shadow-2xl [text-shadow:none]">
-                    <a href="/products" className="mb-1 flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-forest hover:bg-brand-50">
-                      View all products <span aria-hidden="true">→</span>
+                    <a
+                      href="/products"
+                      className={
+                        "mb-1 flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors " +
+                        (path === "/products"
+                          ? "bg-brand-50 text-moss font-bold"
+                          : "text-forest hover:bg-brand-50")
+                      }
+                    >
+                      <span>View all products</span>
+                      <div className="flex items-center gap-2">
+                        {path === "/products" && (
+                          <span className="size-2 rounded-full bg-lime"></span>
+                        )}
+                        <span aria-hidden="true">→</span>
+                      </div>
                     </a>
                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-1 border-t border-black/5 pt-2">
-                      {products.map((product) => (
-                        <a key={product.slug} href={`/products/${product.slug}`} className="group/item flex items-center gap-2.5 rounded-xl p-2 text-xs font-medium hover:bg-brand-50 hover:text-forest">
-                          <Img
-                            name={product.image}
-                            alt=""
-                            sizes="48px"
-                            className="h-10 w-12 shrink-0 rounded-lg bg-neutral-100 object-cover transition-transform duration-200 group-hover/item:scale-[1.04]"
-                          />
-                          <span className="truncate">{product.name}</span>
-                        </a>
-                      ))}
+                      {products.map((product) => {
+                        const isProductActive = currentProduct && currentProduct.slug === product.slug;
+                        return (
+                          <a
+                            key={product.slug}
+                            href={`/products/${product.slug}`}
+                            className={
+                              "group/item flex items-center justify-between gap-2.5 rounded-xl p-2 text-xs transition-colors " +
+                              (isProductActive
+                                ? "bg-brand-50 text-moss font-semibold"
+                                : "font-medium normal-case tracking-normal text-forest hover:bg-brand-50 hover:text-forest")
+                            }
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <Img
+                                name={product.image}
+                                alt=""
+                                sizes="48px"
+                                className={
+                                  "h-10 w-12 shrink-0 rounded-lg object-cover transition-transform duration-200 group-hover/item:scale-[1.04] " +
+                                  (isProductActive ? "ring-2 ring-lime/70 shadow-xs" : "bg-neutral-100")
+                                }
+                              />
+                              <span className="truncate">{product.name}</span>
+                            </div>
+                            {isProductActive && (
+                              <span className="size-2 rounded-full bg-lime shrink-0 mr-1"></span>
+                            )}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -461,42 +524,101 @@ function Header({ path }) {
               )}
               {url === "/products" && productsOpen && (
                 <div id="mobile-products" className="mb-2 grid grid-cols-2 gap-1 border-y border-black/5 py-2 pl-3">
-                  <a onClick={() => setOpen(false)} className="col-span-2 flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-forest hover:bg-brand-50" href="/products">
-                    View all products <span aria-hidden="true">→</span>
+                  <a
+                    onClick={() => setOpen(false)}
+                    className={
+                      "col-span-2 flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold transition-colors " +
+                      (path === "/products" ? "bg-brand-50 text-moss font-bold" : "text-forest hover:bg-brand-50")
+                    }
+                    href="/products"
+                  >
+                    <span>View all products</span>
+                    {path === "/products" && <span className="size-1.5 rounded-full bg-lime mr-1"></span>}
+                    <span aria-hidden="true">→</span>
                   </a>
-                  {products.map((product) => (
-                    <a onClick={() => setOpen(false)} className="flex items-center gap-2 rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest" key={product.slug} href={`/products/${product.slug}`}>
-                      <Img name={product.image} alt="" sizes="40px" className="size-10 shrink-0 rounded-md bg-neutral-100" />
-                      <span>{product.name}</span>
-                    </a>
-                  ))}
+                  {products.map((product) => {
+                    const isItemActive = currentProduct && currentProduct.slug === product.slug;
+                    return (
+                      <a
+                        key={product.slug}
+                        onClick={() => setOpen(false)}
+                        className={
+                          "flex items-center justify-between rounded-lg p-2 text-sm transition-colors " +
+                          (isItemActive
+                            ? "bg-brand-50 text-moss font-semibold"
+                            : "text-neutral-600 hover:bg-neutral-50 hover:text-forest")
+                        }
+                        href={`/products/${product.slug}`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Img
+                            name={product.image}
+                            alt=""
+                            sizes="40px"
+                            className={
+                              "size-10 shrink-0 rounded-md object-cover " +
+                              (isItemActive ? "ring-2 ring-lime/70" : "bg-neutral-100")
+                            }
+                          />
+                          <span className="truncate">{product.name}</span>
+                        </div>
+                        {isItemActive && (
+                          <span className="size-1.5 rounded-full bg-lime shrink-0 mr-1"></span>
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
               {(url === "/online-shop" || url === "/parts") && shopOpen && (
                 <div id="mobile-shop" className="mb-2 flex flex-col gap-1 border-y border-black/5 py-2 pl-3">
                   <a
                     onClick={() => setOpen(false)}
-                    className="flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold text-moss hover:bg-brand-50"
+                    className={
+                      "flex items-center justify-between rounded-lg px-2 py-2 text-sm font-semibold transition-colors " +
+                      (isShopActive && !currentShopCategory
+                        ? "bg-brand-50 text-moss font-bold"
+                        : "text-moss hover:bg-brand-50")
+                    }
                     href="/online-shop"
                   >
                     <span>View all shop items</span>
+                    {isShopActive && !currentShopCategory && (
+                      <span className="size-1.5 rounded-full bg-lime mr-1"></span>
+                    )}
                     <span aria-hidden="true">→</span>
                   </a>
-                  {PART_CATEGORIES.filter((c) => c.id !== "all").map((cat) => (
-                    <a
-                      key={cat.id}
-                      onClick={() => setOpen(false)}
-                      className="flex items-center justify-between rounded-lg p-2 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-forest"
-                      href={`/online-shop?category=${cat.id}`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand-50 text-moss">
-                          <Icon name={cat.icon || "tools"} size={14} />
-                        </span>
-                        <span>{cat.name}</span>
-                      </div>
-                    </a>
-                  ))}
+                  {PART_CATEGORIES.filter((c) => c.id !== "all").map((cat) => {
+                    const isItemActive = currentShopCategory === cat.id;
+                    return (
+                      <a
+                        key={cat.id}
+                        onClick={() => setOpen(false)}
+                        className={
+                          "flex items-center justify-between rounded-lg p-2 text-sm transition-colors " +
+                          (isItemActive
+                            ? "bg-brand-50 text-moss font-semibold"
+                            : "text-neutral-600 hover:bg-neutral-50 hover:text-forest")
+                        }
+                        href={`/online-shop?category=${cat.id}`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <span
+                            className={
+                              "flex size-6 shrink-0 items-center justify-center rounded-md transition-colors " +
+                              (isItemActive ? "bg-lime/30 text-forest" : "bg-brand-50 text-moss")
+                            }
+                          >
+                            <Icon name={cat.icon || "tools"} size={14} />
+                          </span>
+                          <span className="truncate">{cat.name}</span>
+                        </div>
+                        {isItemActive && (
+                          <span className="size-1.5 rounded-full bg-lime shrink-0 mr-1"></span>
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               )}
             </div>
