@@ -110,6 +110,18 @@ export const servicesData = [
         "Are your blinds and installations backed by a warranty?",
         "Yes, all our installation workmanship and hardware come with our comprehensive satisfaction warranty.",
       ],
+      [
+        "Do I need to do anything to prepare before the installation team arrives?",
+        "We simply ask that you clear window sills and move any large furniture roughly 1 metre away from the window openings so our fitters have safe, unobstructed ladder access. We bring drop sheets and clean up all drill dust.",
+      ],
+      [
+        "Can you remove and dispose of our old blinds and curtains?",
+        "Yes! We offer complete takedown and responsible disposal or recycling services for your existing window coverings, leaving your rooms spotless and ready to enjoy.",
+      ],
+      [
+        "Can you install blinds into concrete, brick, or steel lintels?",
+        "Absolutely. Our experienced fitters carry specialized masonry hammer drills, heavy-duty anchors, and steel taps to ensure rock-solid mounting into solid concrete tilt slabs, masonry, steel, and timber frames.",
+      ],
     ],
     related: [
       "blind-repairs-service-in-auckland",
@@ -233,6 +245,18 @@ export const servicesData = [
         "Do you use products that are safe for children and pets?",
         "Yes, we exclusively use non-toxic, eco-friendly, and biodegradable cleaning solutions that leave zero hazardous fumes or residues.",
       ],
+      [
+        "Can ultrasonic cleaning remove mould and mildew stains?",
+        "In most cases, yes! Our targeted anti-fungal treatments kill active mould spores and lift unsightly stains from synthetic fabrics, roller cloth, and vertical slats.",
+      ],
+      [
+        "Can delicate timber or cedar Venetian blinds be cleaned without warping?",
+        "Yes. Real timber and cedar blinds receive a specialized hand-detail dry-wipe and conditioning treatment with protective natural oils, avoiding water immersion that could warp the grain.",
+      ],
+      [
+        "Does professional blind cleaning help with asthma and allergies?",
+        "Significantly. Window blinds act as airborne dust collectors. Our deep ultrasonic cleaning removes trapped pollen, pet dander, and dust mites from internal cords and fabric weaves, improving indoor air quality.",
+      ],
     ],
     related: [
       "blind-repairs-service-in-auckland",
@@ -346,6 +370,22 @@ export const servicesData = [
       [
         "Can you fix the motorized blinds?",
         "Yes, we diagnose motorized blind issues, replace faulty batteries or motors, and re-program remote limits and smart hubs.",
+      ],
+      [
+        "Can you repair broken or frayed cords on Venetian and Roman blinds?",
+        "Yes. We stock high-tensile, UV-stabilised replacement cords and re-thread both horizontal Venetians and pleated Roman shades to restore smooth, level lifting.",
+      ],
+      [
+        "What if my blind is too damaged to be repaired?",
+        "If a blind has extensive fabric tearing, bent headrails, or obsolete components, our technician will provide an honest assessment and an obligation-free quote for a discounted custom replacement.",
+      ],
+      [
+        "Can you trim down or resize a blind that is too wide or too long?",
+        "Yes! We provide precision blind cut-down and resizing services for roller blinds, venetians, and verticals if you have moved homes or altered your window joinery.",
+      ],
+      [
+        "Do your repair services include a warranty on parts and labour?",
+        "Yes. All replacement parts and repair workmanship are covered by our 12-month parts-and-labour guarantee.",
       ],
     ],
     related: [
@@ -472,6 +512,22 @@ export const servicesData = [
         "Can you provide a guarantee of the curtain repairs?",
         "Yes, all our sewing and hardware repairs are backed by our workmanship guarantee.",
       ],
+      [
+        "Can you replace degraded or sun-damaged thermal linings?",
+        "Yes! Under harsh New Zealand UV, thermal and blockout linings frequently degrade before the decorative face fabric. We can strip off the decayed backing and stitch on brand-new 3-pass blockout or thermal lining.",
+      ],
+      [
+        "Can you alter the length or width of my existing curtains?",
+        "Yes. Whether you have moved to a home with different ceiling heights or purchased curtains that drag excessively, our skilled seamstresses can shorten, lengthen, or resize your drapes seamlessly.",
+      ],
+      [
+        "Can you repair stuck or bent curtain tracks and poles?",
+        "Yes. We carry a wide selection of replacement gliders, end stops, brackets, and pulleys. If your track is jammed or sagging, we can realign or replace the track while preserving your curtains.",
+      ],
+      [
+        "Can you convert manual curtain tracks to smart motorized tracks?",
+        "Yes. We can replace old manual tracks with whisper-quiet motorized curtain rails, allowing you to open and close your existing curtains via remote, smartphone app, or voice control.",
+      ],
     ],
     related: [
       "drapes-repair-auckland",
@@ -577,20 +633,36 @@ export const servicesData = [
     ],
     faqs: [
       [
-        "Is it possible for you to repair the custom-made shutters?",
-        "Yes. The Drapery Cupboard is experienced in providing high-quality repair for custom-made shutters. We ensure that your shutters will perfectly fit and operate like new.",
+        "Is it possible for you to repair custom-made plantation shutters?",
+        "Yes. We repair all types of plantation shutters including timber (Basswood, Paulownia), composite faux wood, and aluminium, regardless of who originally supplied or installed them.",
       ],
       [
-        "What are the locations that you serve?",
-        "We serve different locations to offer the quality shutter repairs that people need. The major locations we are present in are New Zealand, Auckland, Tuakau, Pukekohe, and Waikato.",
+        "What locations in Auckland do you service?",
+        "We service all regions across Greater Auckland including Central Auckland, North Shore, West Auckland, East Auckland, South Auckland, Pukekohe, Tuakau, and North Waikato.",
       ],
       [
-        "Do you guys provide the on-site repair facility?",
-        "Yes. The Drapery Cupboard is a trusted company that provides excellent on-site repair facilities. Our professionals come to your location and resolve common shutter issues on the spot.",
+        "Do you provide on-site repair services for shutters?",
+        "Yes! Most shutter issues—including broken louvre pins, dislodged tilt rods, loose tension screws, and faulty magnetic catches—can be fixed directly inside your home without removing panels.",
       ],
       [
-        "How long can it take for you to complete the shutter repair work?",
-        "Usually, shutter repair work takes the desired time to complete appropriately. Many shutter repairs get completed within two to five days. But it completely depends on the type of repair that you require.",
+        "How long does shutter repair work take?",
+        "Most on-site repairs are completed within 45 to 90 minutes. If individual louvre blades need custom milling or color-matching in our workshop, turnaround is typically 3 to 5 business days.",
+      ],
+      [
+        "Can you replace individual snapped or broken louvre blades?",
+        "Yes. We can remove a damaged louvre blade and install a matching replacement using spring-loaded shutter repair pins, avoiding the cost of replacing the entire shutter panel.",
+      ],
+      [
+        "Why do my shutter louvres flop down instead of staying open?",
+        "Over time, the internal stile tension screws naturally loosen from daily use. Our technician will re-tune and balance the tension across all panels so your louvres remain at any desired angle.",
+      ],
+      [
+        "Can you repair sticking or derailed sliding and bi-fold shutter tracks?",
+        "Yes. We repair sliding patio shutter tracks, replace worn nylon top runner wheels, realign bottom guides, and clean debris tracks to ensure smooth, quiet operation.",
+      ],
+      [
+        "What warranty do you provide on shutter repair services?",
+        "All replacement shutter hardware, pins, hinges, and repair workmanship are covered by our 12-month parts-and-labour guarantee.",
       ],
     ],
     related: [
@@ -713,20 +785,36 @@ export const servicesData = [
     ],
     faqs: [
       [
-        "Are you available to do drape cleaning and repairs?",
-        "Yes! The Drapery Cupboard is a pro in delivering the drapes and cleaning them when required by the clients. We understand different needs and provide combined cleaning and repair services.",
+        "Are you available to do drape cleaning and repairs together?",
+        "Yes! We provide an integrated restorative service where our team removes your drapes, inspects and repairs hems and linings, performs professional dry-cleaning, and returns to re-hang and dress them.",
       ],
       [
-        "Is it possible for you to replace the damaged hardware, like hooks and rings?",
-        "Our experts are surely capable of replacing the damaged hardware. The Drapery Cupboard experts can help you with missing hooks, rings, and eyelets effortlessly.",
+        "Is it possible for you to replace damaged hardware, hooks, and rings?",
+        "Yes. We supply heavy-duty metal drapery hooks, micro-flex adjustable hooks, wooden and brass pole rings, nylon gliders, and reinforced heading tape.",
       ],
       [
-        "Can you deal with any type of drape repair?",
-        "Yes! Our experts are equipped with the knowledge and experience to deal with different types of drapes for windows. We easily manage to work on all kinds of drapes.",
+        "Can you deal with all types of drape repairs and fabrics?",
+        "Yes! Our artisan seamstresses work across luxury silks, heavyweight velvets, linen blends, jacquards, sheer voiles, and commercial theater drapes.",
+      ],
+      [
+        "Can you repair tears, ripped seams, or cat claw pulls on drapes?",
+        "Yes. We invisibly mend torn seams, patch localized tears with matching interlinings, and re-weave or smooth out pulled threads across luxury drapery.",
+      ],
+      [
+        "Can heavy blockout drapes be shortened to fit new flooring?",
+        "Yes. When homeowners install new hardwood or thick carpet, curtains often drag. We measure the exact clearance needed and re-sew clean blind-stitched hems with internal corner lead weights.",
+      ],
+      [
+        "Can drapes damaged by window condensation and mildew be saved?",
+        "Yes, provided the mould has not completely rotted the fibers. We treat the fabric with specialized anti-fungal solutions and replace affected thermal backings to restore fresh curtains.",
+      ],
+      [
+        "Do you offer on-site consultation to inspect damaged drapes?",
+        "Yes. For large homes or commercial properties across Auckland, our specialists visit your property to inspect fabric condition and provide upfront repair recommendations and quotes.",
       ],
       [
         "Can I get a warranty on your drape repair services?",
-        "The answer is yes! We provide a warranty for all the drape repair services. The exceptional workmanship we own is the reason behind our confidence.",
+        "The answer is yes! All our alteration stitching, lining replacements, and hardware repairs are guaranteed against defects for 12 months.",
       ],
     ],
     related: [
@@ -845,6 +933,18 @@ export const servicesData = [
       [
         "What if my window sizes are unusual or irregular?",
         "Don't worry! The Drapery Cupboard has a complete team of professionals who know how to build custom-fit blinds. We understand that the demand for every window is different and provide custom solutions.",
+      ],
+      [
+        "Do you bring real fabric samples and colour swatches to my home?",
+        "Yes! Our mobile consultants carry complete designer swatch sample books with hundreds of fabrics, textures, and colours. You can view samples directly against your room lighting, flooring, and wall paint.",
+      ],
+      [
+        "Is the in-home measurement consultation completely free of charge?",
+        "Yes, 100%. Our in-home measuring, styling advice, and initial quote are completely free throughout Auckland and Waikato with zero purchase obligation.",
+      ],
+      [
+        "Can we discuss motorisation and smart home options during the visit?",
+        "Absolutely. Our specialist can demonstrate rechargeable wire-free motors, handheld remotes, and smart hubs compatible with Apple HomeKit, Google Home, and Alexa.",
       ],
     ],
     related: [
