@@ -149,21 +149,21 @@ function Header({ path }) {
             return (
               <div key={url} className="group relative">
                 {link}
-                <div className="invisible absolute left-1/2 top-full z-50 w-[38rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                  <div className="rounded-2xl border border-black/10 bg-white p-3 text-forest shadow-2xl [text-shadow:none]">
-                    <a href="/products" className="mb-1 flex items-center justify-between rounded-xl px-3 py-2.5 font-semibold text-forest hover:bg-brand-50">
-                      View all products <span aria-hidden="true">→</span>
+                <div className="invisible absolute left-1/2 top-full z-50 w-[48rem] max-w-[calc(100vw-2rem)] xl:w-[52rem] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <div className="rounded-2xl border border-black/10 bg-white p-3.5 text-forest shadow-2xl [text-shadow:none]">
+                    <a href="/products" className="mb-1 flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold text-forest hover:bg-brand-50">
+                      View all products ({products.length}) <span aria-hidden="true">→</span>
                     </a>
-                    <div className="grid grid-cols-2 gap-1 border-t border-black/5 pt-2">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-1 border-t border-black/5 pt-2">
                       {products.map((product) => (
-                        <a key={product.slug} href={`/products/${product.slug}`} className="group/item flex items-center gap-3 rounded-xl p-2 text-sm font-medium hover:bg-brand-50 hover:text-forest">
+                        <a key={product.slug} href={`/products/${product.slug}`} className="group/item flex items-center gap-2.5 rounded-xl p-2 text-xs font-medium hover:bg-brand-50 hover:text-forest">
                           <Img
                             name={product.image}
                             alt=""
-                            sizes="56px"
-                            className="h-11 w-14 shrink-0 rounded-lg bg-neutral-100 transition-transform duration-200 group-hover/item:scale-[1.04]"
+                            sizes="48px"
+                            className="h-10 w-12 shrink-0 rounded-lg bg-neutral-100 object-cover transition-transform duration-200 group-hover/item:scale-[1.04]"
                           />
-                          <span>{product.name}</span>
+                          <span className="truncate">{product.name}</span>
                         </a>
                       ))}
                     </div>

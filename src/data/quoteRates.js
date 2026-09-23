@@ -14,6 +14,8 @@ export const quoteRates = [
   { slug: "shutters", name: "Shutters", rate: 65 },
   { slug: "pergola", name: "Pergola", rate: 120 },
   { slug: "outdoor-shades", name: "Outdoor Shades", rate: 55 },
+  { slug: "home-automation", name: "Home Automation", rate: 85 },
+  { slug: "alarm-cctv", name: "Alarm & CCTV", rate: 95 },
 ];
 
 export function calculateWindow({ product, width, drop }) {

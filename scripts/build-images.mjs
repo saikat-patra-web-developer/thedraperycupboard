@@ -36,7 +36,11 @@ const aliases = {
   "outdoor-shades": "project4",
   story: "dining",
   installation: "hero",
-  automation: "motorisation",
+  automation: "home-automation",
+  "smart-home": "home-automation",
+  cctv: "alarm-cctv",
+  alarm: "alarm-cctv",
+  "arlam-cctv": "alarm-cctv",
   project1: "hero",
 };
 for (const [name, original] of Object.entries(aliases)) {

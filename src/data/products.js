@@ -149,12 +149,36 @@ export const products = [
     faqs: [["Can Outdoor Shades stay down in strong wind?", "Do not assume they can. Follow the operating limits and weather instructions for the specified system, and retract or secure it when required."], ["Can I use them with a pergola?", "They may be suitable where the structure and fixing positions allow. Confirm compatibility as part of the project quote."]],
     related: ["pergola", "sunfilter-blinds", "roller-blinds"], gallery: ["outdoor-shades"],
   },
+  {
+    name: "Home Automation", slug: "home-automation", image: "home-automation", category: "Smart home & security",
+    description: "Intelligent smart control for your blinds, curtains and lighting. Automate daily schedules, optimize energy use and control your home with voice or mobile.",
+    detail: "Home Automation seamlessly integrates your window furnishings and living environment. Sync motorized roller blinds, curtains and outdoor shades with smart hubs like Somfy TaHoma, Apple HomeKit, Google Home or Amazon Alexa. Create sunrise and sunset routines, react to changing sunlight with smart sensors, and control every room effortlessly from anywhere.",
+    benefits: ["One-touch smartphone and voice control", "Automated sunrise, sunset and temperature scenes", "Seamless integration with blinds, curtains and shades", "Enhances energy efficiency and thermal insulation"],
+    bestFor: "Modern homes, multi-room renovations and smart living", light: "Automated sun tracking and smart scene scheduling", movement: "Motorized smart hub, app, voice and wireless remotes",
+    options: [["Ecosystem & Hubs", "Compatible with Apple HomeKit, Google Home, Alexa, Somfy and Zigbee."], ["Control Options", "Multi-channel wireless wall switches, handheld remotes, and intuitive mobile apps."], ["Sensors & Timers", "Sun, wind, and temperature sensors for automated daylight management."]],
+    care: "Ensure smart hubs and motorized battery packs are charged or wired properly. Keep device mobile apps updated for security and performance.",
+    faqs: [["Can I retrofit smart automation to my existing blinds?", "Yes. We offer smart retrofitting options for many existing roller blinds and curtain tracks, or complete new motorized window systems tailored to your home."], ["Does home automation require a central bridge?", "Most systems use a compact smart hub (such as Somfy TaHoma or Automate Pulse) connected to your home Wi-Fi, allowing encrypted control from home or away."]],
+    related: ["roller-blinds", "curtains", "alarm-cctv"], gallery: ["home-automation", "motorisation", "hero"],
+  },
+  {
+    name: "Alarm & CCTV", slug: "alarm-cctv", image: "alarm-cctv", category: "Smart home & security",
+    description: "Discreet architectural security, 4K night-vision CCTV surveillance and smart wireless alarms designed for New Zealand homes.",
+    detail: "Our Alarm & CCTV solutions deliver comprehensive peace of mind with clean architectural installation. From weatherproof ultra-HD cameras and smart video doorbells to tamper-proof wireless window and door sensors, our security systems safeguard your property 24/7 with encrypted smartphone live view and instant intrusion alerts.",
+    benefits: ["4K Ultra HD cameras with full-colour night vision", "Tamper-proof wireless door and window perimeter sensors", "Instant smartphone push alerts and remote live video stream", "Local secure NVR recording with zero mandatory monthly fees"],
+    bestFor: "Family residences, lifestyle blocks, holiday homes and offices", light: "Infrared and full-colour low-light surveillance", movement: "Pan-tilt-zoom, wide-angle lenses, and wire-free battery/PoE",
+    options: [["Camera Hardware", "Discreet architectural dome, turret and outdoor bullet camera designs."], ["Sensors & Alarms", "Wireless PIR motion detectors, glass-break sensors, and smart sirens."], ["Storage & Viewing", "Dedicated Network Video Recorders (NVR) with encrypted local hard drives."]],
+    care: "Gently wipe camera lenses with a soft microfiber cloth. Check sensor battery levels annually via the mobile management app.",
+    faqs: [["Can I view live CCTV footage while away from home?", "Yes. Our systems securely connect to your smartphone or tablet, giving you crystal-clear live video feeds, event playback, and two-way audio from anywhere."], ["Do the alarms still work during a power or Wi-Fi outage?", "Yes. Our systems feature battery backups and optional 4G cellular backup to ensure uninterrupted protection even during power cuts."]],
+    related: ["home-automation", "outdoor-shades", "shutters"], gallery: ["alarm-cctv", "home-automation", "hero"],
+  },
 ];
 
 const productAliases = {
   roller: "roller-blinds", sunscreen: "sunfilter-blinds", "sunscreen-blinds": "sunfilter-blinds",
   vertical: "vertical-blinds", venetian: "venetian-blinds", vision: "zebra-blinds", "vision-blinds": "zebra-blinds",
   cellular: "honeycomb-blinds", "cellular-blinds": "honeycomb-blinds", roman: "roman-shades", "roman-blinds": "roman-shades",
+  "home-automation": "home-automation", automation: "home-automation", "smart-home": "home-automation",
+  "alarm-cctv": "alarm-cctv", alarm: "alarm-cctv", cctv: "alarm-cctv", security: "alarm-cctv", "arlam-cctv": "alarm-cctv",
 };
 export function findProduct(id) {
   return products.find(product => product.slug === (productAliases[id] || id));

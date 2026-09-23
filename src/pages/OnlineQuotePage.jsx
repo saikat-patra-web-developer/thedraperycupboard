@@ -27,6 +27,8 @@ const quoteProducts = [
   { slug: "shutters", name: "Shutters", apiType: "shutters", blindsType: "Shutters" },
   { slug: "pergola", name: "Pergola", apiType: "pergola", blindsType: "Pergola" },
   { slug: "outdoor-shades", name: "Outdoor Shades", apiType: "outdoor", blindsType: "Outdoor Shades" },
+  { slug: "home-automation", name: "Home Automation", apiType: "home_automation", blindsType: "Home Automation" },
+  { slug: "alarm-cctv", name: "Alarm & CCTV", apiType: "alarm_cctv", blindsType: "Alarm & CCTV" },
 ];
 
 function hasMeasurements(window) {

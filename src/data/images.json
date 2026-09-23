@@ -1,4 +1,10 @@
 {
+  "alarm-cctv": {
+    "width": 1264,
+    "height": 848,
+    "src": "/images/alarm-cctv-1264.webp",
+    "srcSet": "/images/alarm-cctv-480.webp 480w, /images/alarm-cctv-800.webp 800w, /images/alarm-cctv-1200.webp 1200w, /images/alarm-cctv-1264.webp 1264w"
+  },
   "cellular": {
     "width": 1536,
     "height": 1024,
@@ -28,6 +34,12 @@
     "height": 941,
     "src": "/images/hero-1672.webp",
     "srcSet": "/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1672.webp 1672w"
+  },
+  "home-automation": {
+    "width": 1264,
+    "height": 848,
+    "src": "/images/home-automation-1264.webp",
+    "srcSet": "/images/home-automation-480.webp 480w, /images/home-automation-800.webp 800w, /images/home-automation-1200.webp 1200w, /images/home-automation-1264.webp 1264w"
   },
   "maintenance": {
     "width": 1536,
@@ -354,10 +366,34 @@
     "srcSet": "/images/hero-480.webp 480w, /images/hero-800.webp 800w, /images/hero-1200.webp 1200w, /images/hero-1672.webp 1672w"
   },
   "automation": {
-    "width": 1536,
-    "height": 1024,
-    "src": "/images/motorisation-1536.webp",
-    "srcSet": "/images/motorisation-480.webp 480w, /images/motorisation-800.webp 800w, /images/motorisation-1200.webp 1200w, /images/motorisation-1536.webp 1536w"
+    "width": 1264,
+    "height": 848,
+    "src": "/images/home-automation-1264.webp",
+    "srcSet": "/images/home-automation-480.webp 480w, /images/home-automation-800.webp 800w, /images/home-automation-1200.webp 1200w, /images/home-automation-1264.webp 1264w"
+  },
+  "smart-home": {
+    "width": 1264,
+    "height": 848,
+    "src": "/images/home-automation-1264.webp",
+    "srcSet": "/images/home-automation-480.webp 480w, /images/home-automation-800.webp 800w, /images/home-automation-1200.webp 1200w, /images/home-automation-1264.webp 1264w"
+  },
+  "cctv": {
+    "width": 1264,
+    "height": 848,
+    "src": "/images/alarm-cctv-1264.webp",
+    "srcSet": "/images/alarm-cctv-480.webp 480w, /images/alarm-cctv-800.webp 800w, /images/alarm-cctv-1200.webp 1200w, /images/alarm-cctv-1264.webp 1264w"
+  },
+  "alarm": {
+    "width": 1264,
+    "height": 848,
+    "src": "/images/alarm-cctv-1264.webp",
+    "srcSet": "/images/alarm-cctv-480.webp 480w, /images/alarm-cctv-800.webp 800w, /images/alarm-cctv-1200.webp 1200w, /images/alarm-cctv-1264.webp 1264w"
+  },
+  "arlam-cctv": {
+    "width": 1264,
+    "height": 848,
+    "src": "/images/alarm-cctv-1264.webp",
+    "srcSet": "/images/alarm-cctv-480.webp 480w, /images/alarm-cctv-800.webp 800w, /images/alarm-cctv-1200.webp 1200w, /images/alarm-cctv-1264.webp 1264w"
   },
   "project1": {
     "width": 1672,
