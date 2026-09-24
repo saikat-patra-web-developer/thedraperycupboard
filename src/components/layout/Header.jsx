@@ -96,6 +96,15 @@ function Header({ path }) {
     return null;
   })();
 
+  const isShopActive =
+    path === "/online-shop" ||
+    path === "/parts" ||
+    path === "/shop" ||
+    path.startsWith("/online-shop/") ||
+    path.startsWith("/parts/") ||
+    path.startsWith("/shop/") ||
+    Boolean(currentShopCategory && !currentProduct);
+
   const overlaysHero = isHome && !isScrolled && !open;
   const nav = [
     ["Home", "/"],
@@ -129,15 +138,6 @@ function Header({ path }) {
         <nav aria-label="Main" className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-7 text-xs font-semibold uppercase tracking-[0.14em]">
           {nav.map(([name, url]) => {
             const isShop = url === "/online-shop" || url === "/parts";
-            const isShopActive =
-              isShop &&
-              (path === "/online-shop" ||
-                path === "/parts" ||
-                path === "/shop" ||
-                path.startsWith("/online-shop/") ||
-                path.startsWith("/parts/") ||
-                path.startsWith("/shop/") ||
-                Boolean(currentShopCategory && !currentProduct));
             const isActive =
               url === "/services"
                 ? isServicesActive
