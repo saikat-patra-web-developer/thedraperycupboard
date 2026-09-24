@@ -102,7 +102,7 @@ function Header({ path }) {
     ["About", "/about"],
     ["Services", "/services"],
     ["Products", "/products"],
-    ["Online SHOP", "/online-shop"],
+    ["Online Shop", "/online-shop"],
     ["Blog", "/blog"],
     ["Contact", "/contact"],
   ];
@@ -151,16 +151,19 @@ function Header({ path }) {
               <a
                 href={url}
                 className={
-                  "relative py-1 transition " +
-                  (isActive ? (overlaysHero ? "text-white " : "text-forest ") : overlaysHero ? "text-white/80 hover:text-white " : "text-forest/75 hover:text-forest ") +
-                  "after:absolute after:bottom-0 after:left-0 after:h-0.5 after:transition-all " +
-                  (overlaysHero ? "after:bg-lime " : "after:bg-moss ") +
-                  (isActive ? "after:w-full" : "after:w-0 hover:after:w-full")
+                  "relative py-1 transition-colors duration-150 " +
+                  (isActive
+                    ? overlaysHero
+                      ? "text-white font-bold"
+                      : "text-forest font-bold"
+                    : overlaysHero
+                      ? "text-white/80 hover:text-white"
+                      : "text-forest/75 hover:text-forest")
                 }
               >
                 {name}
-                {(url === "/products" || url === "/services" || isShop) && (
-                  <span aria-hidden="true" className="text-[10px] ml-0.5">▾</span>
+                {(url === "/products" || url === "/services") && (
+                  <span aria-hidden="true" className="text-[10px] ml-0.5 opacity-70">▾</span>
                 )}
               </a>
             );
@@ -216,7 +219,40 @@ function Header({ path }) {
               const shopCategories = PART_CATEGORIES.filter((c) => c.id !== "all");
               return (
                 <div key={url} className="group relative">
-                  {link}
+                  <a
+                    href={url}
+                    className={
+                      "relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-all duration-200 " +
+                      (overlaysHero
+                        ? isShopActive
+                          ? "bg-white/25 text-white ring-1.5 ring-lime shadow-xs"
+                          : "bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25 hover:ring-lime/70"
+                        : isShopActive
+                          ? "bg-brand-100 text-forest ring-1.5 ring-lime/80 shadow-xs"
+                          : "bg-brand-50 text-forest ring-1 ring-lime/40 hover:bg-brand-100 hover:ring-lime shadow-2xs")
+                    }
+                  >
+                    <svg
+                      className={"size-3.5 " + (overlaysHero ? "text-lime" : "text-moss")}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                      <path d="M3 6h18" />
+                      <path d="M16 10a4 4 0 0 1-8 0" />
+                    </svg>
+                    <span>{name}</span>
+                    <span className="relative flex size-1.5 shrink-0 ml-0.5" aria-hidden="true">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-75"></span>
+                      <span className="relative inline-flex size-1.5 rounded-full bg-lime"></span>
+                    </span>
+                    <span aria-hidden="true" className="text-[10px] ml-0.5 opacity-70 transition-transform duration-200 group-hover:rotate-180">▾</span>
+                  </a>
                   <div className="invisible absolute left-1/2 top-full z-50 w-[38rem] max-w-[calc(100vw-2rem)] -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
                     <div className="rounded-2xl border border-black/10 bg-white p-3.5 text-forest shadow-2xl [text-shadow:none]">
                       {/* Top Header Strip */}
@@ -472,14 +508,35 @@ function Header({ path }) {
                   aria-expanded={shopOpen}
                   aria-controls="mobile-shop"
                   onClick={() => setShopOpen(!shopOpen)}
-                  className="flex w-full items-center justify-between rounded-lg px-3 py-3.5 text-left text-base font-semibold hover:bg-neutral-50"
+                  className="my-1.5 flex w-full items-center justify-between rounded-xl bg-brand-50 border border-lime/40 px-3.5 py-3 text-left text-base font-bold text-forest transition hover:bg-brand-100 shadow-2xs"
                 >
-                  Online SHOP
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-lime/20 text-moss">
+                      <svg
+                        className="size-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                        <path d="M3 6h18" />
+                        <path d="M16 10a4 4 0 0 1-8 0" />
+                      </svg>
+                    </span>
+                    <span>Online Shop</span>
+                    <span className="rounded-full bg-lime/30 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-moss">
+                      Shop
+                    </span>
+                  </div>
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 20 20"
                     fill="none"
-                    className={`size-5 shrink-0 transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`}
+                    className={`size-5 shrink-0 text-moss transition-transform duration-200 ${shopOpen ? "rotate-180" : ""}`}
                   >
                     <path d="m5 7.5 5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

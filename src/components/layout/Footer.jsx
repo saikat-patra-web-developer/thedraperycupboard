@@ -45,7 +45,7 @@ export default function Footer() {
               {[
                 ["Home", "/"],
                 ["Products", "/products"],
-                ["Online SHOP", "/online-shop"],
+                ["Online Shop", "/online-shop"],
                 ["Online Quote", "/online-quote"],
                 ["About", "/about"],
                 ["Services", "/services"],
