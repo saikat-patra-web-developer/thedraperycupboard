@@ -12,22 +12,29 @@ import { getProductVariations } from "../data/productVariations.js";
 import { contact } from "../data/contact.js";
 import { EASE_PREMIUM } from "../components/motion/motionVariants.js";
 import ProductTypeColorSelector from "../components/products/ProductTypeColorSelector.jsx";
+import ProductLivePreview from "../components/products/ProductLivePreview.jsx";
 
 export default function ProductDetailPage({ id }) {
   const shouldReduceMotion = useReducedMotion();
   const product = findProduct(id);
-  const initialVariations = product ? getProductVariations(product.slug) : null;
+  const [selectedPhoto, setSelectedPhoto] = useState(0);
+
+  const isExcluded = product ? (product.slug === "alarm-cctv" || product.slug === "home-automation") : false;
+  const initialVariations = product && !isExcluded ? getProductVariations(product.slug) : null;
   const initialType = initialVariations?.types?.[0] || null;
   const initialColor = initialType?.colors?.[0] || null;
   const [selectedVariation, setSelectedVariation] = useState(() =>
     initialType && initialColor ? { type: initialType, color: initialColor } : null
   );
+
   if (!product) return <NotFoundPage />;
-  const quoteUrl = selectedVariation?.color
+
+  const quoteUrl = !isExcluded && selectedVariation?.color
     ? `/online-quote?product=${encodeURIComponent(product.slug)}&type=${encodeURIComponent(selectedVariation.type.id)}&color=${encodeURIComponent(selectedVariation.color.name)}`
-    : "/online-quote";
+    : `/online-quote?product=${encodeURIComponent(product.slug)}`;
+
   const photos = product.gallery;
-  const image = photos[0];
+  const image = isExcluded ? (photos[selectedPhoto] || photos[0]) : photos[0];
   const rawRelated = (product.related || []).map(findProduct).filter(Boolean);
   const existingSlugs = new Set([product.slug, ...rawRelated.map((p) => p.slug)]);
   const fallbackCandidates = products.filter((p) => !existingSlugs.has(p.slug));
@@ -48,7 +55,7 @@ export default function ProductDetailPage({ id }) {
           <div className="relative overflow-hidden rounded-xl">
             <Img name={image} priority sizes="(max-width: 767px) 100vw, 60vw" alt={product.name + " in a styled space"} className="aspect-[1.5] w-full object-cover transition-transform duration-500 hover:scale-102" />
             <span className="absolute left-4 top-4 rounded-lg bg-white/95 px-4 py-2 text-xs font-bold uppercase tracking-wider text-moss">{product.category}</span>
-            {selectedVariation?.color && (
+            {!isExcluded && selectedVariation?.color && (
               <div className="absolute right-3.5 bottom-3.5 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-forest shadow-md backdrop-blur-xs border border-black/5">
                 <span
                   className="size-3 rounded-full border border-black/10 shadow-2xs shrink-0"
@@ -60,12 +67,49 @@ export default function ProductDetailPage({ id }) {
               </div>
             )}
           </div>
-          {/* Interactive Blinds Type & Color Selector for all products */}
-          <ProductTypeColorSelector
-            key={product.slug}
-            product={product}
-            onSelectionChange={(selection) => setSelectedVariation(selection)}
-          />
+
+          {/* For alarm-cctv and home-automation, show gallery switcher if multiple images exist */}
+          {isExcluded && photos.length > 1 && (
+            <div
+              className="mt-4 flex gap-3 overflow-x-auto overflow-y-hidden py-1 px-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              aria-label={product.name + " gallery"}
+            >
+              {photos.map((photo, index) => (
+                <button
+                  key={photo}
+                  onClick={() => setSelectedPhoto(index)}
+                  aria-label={"View " + product.name + " image " + (index + 1)}
+                  aria-pressed={selectedPhoto === index}
+                  className={
+                    "shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200 " +
+                    (selectedPhoto === index
+                      ? "border-moss ring-2 ring-moss/30 shadow-xs"
+                      : "border-transparent opacity-75 hover:opacity-100")
+                  }
+                >
+                  <Img name={photo} alt="" sizes="96px" className="h-16 w-24" />
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Interactive Blinds Type & Color Selector for window furnishing products */}
+          {!isExcluded && (
+            <>
+              <ProductTypeColorSelector
+                key={product.slug}
+                product={product}
+                onSelectionChange={(selection) => setSelectedVariation(selection)}
+              />
+              {/* Mobile Preview: directly under selector */}
+              <div className="mt-5 lg:hidden">
+                <ProductLivePreview
+                  product={product}
+                  selectedVariation={selectedVariation}
+                />
+              </div>
+            </>
+          )}
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 20 }}
@@ -78,6 +122,15 @@ export default function ProductDetailPage({ id }) {
           <ul className="my-7 space-y-3">{product.benefits.map(benefit => <li key={benefit} className="flex gap-3 text-base"><Icon size={19} className="text-moss shrink-0 mt-0.5" />{benefit}</li>)}</ul>
           <div className="rounded-xl bg-brand-50 p-5"><p className="text-base font-semibold">A quote tailored to your space</p><p className="muted mt-1 !text-sm">Share your measurements and preferences for product options and pricing.</p></div>
           <div className="mt-6 flex flex-wrap gap-3"><Button to={quoteUrl} dark>Get a Free Quote</Button><Button to="/contact" outline>Talk to Our Team</Button></div>
+          {/* Desktop Preview: sits directly in the right-hand column adjacent to selector */}
+          {!isExcluded && (
+            <div className="mt-7 hidden lg:block">
+              <ProductLivePreview
+                product={product}
+                selectedVariation={selectedVariation}
+              />
+            </div>
+          )}
         </motion.div>
       </div>
       <motion.div
