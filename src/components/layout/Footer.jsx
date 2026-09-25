@@ -31,7 +31,7 @@ export default function Footer() {
               },
             },
           }}
-          className="grid grid-cols-1 items-start gap-x-10 gap-y-10 border-y border-white/20 py-10 sm:grid-cols-2 sm:py-12 lg:grid-cols-[1.05fr_.55fr_1.35fr_.9fr] lg:gap-x-6 xl:grid-cols-[minmax(260px,1.15fr)_minmax(130px,.55fr)_minmax(360px,1.45fr)_minmax(220px,1fr)] xl:gap-x-12"
+          className="grid grid-cols-1 items-start gap-x-10 gap-y-10 border-b border-white/15 pt-6 pb-10 sm:pt-8 sm:pb-12 lg:grid-cols-[1.05fr_.55fr_1.35fr_.9fr] lg:gap-x-6 xl:grid-cols-[minmax(260px,1.15fr)_minmax(130px,.55fr)_minmax(360px,1.45fr)_minmax(220px,1fr)] xl:gap-x-12"
         >
           <motion.div variants={colVariant} className="sm:col-span-1">
             <Brand footer />
