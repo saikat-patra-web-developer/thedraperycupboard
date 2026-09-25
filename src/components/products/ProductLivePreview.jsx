@@ -99,34 +99,41 @@ export default function ProductLivePreview({ product, selectedVariation }) {
       </div>
 
       {/* Realistic Window Preview Stage */}
-      <div className="relative mt-3.5 overflow-hidden rounded-xl border-4 border-neutral-200/90 bg-neutral-900 shadow-inner aspect-[1.22/1] sm:aspect-[1.28/1]">
+      <div className="relative mt-3.5 overflow-hidden rounded-xl border border-neutral-300/80 bg-neutral-950 shadow-inner aspect-[4/3]">
         {/* Background Scenic Outdoor View through Window */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 select-none overflow-hidden">
           <img
-            src="/images/dining-800.webp"
+            src="/images/window-day-800.webp"
+            srcSet="/images/window-day-480.webp 480w, /images/window-day-800.webp 800w, /images/window-day-1200.webp 1200w"
+            sizes="(max-width: 640px) 100vw, 600px"
             alt="Scenic daylight outside window"
             className={
-              "h-full w-full object-cover transition-all duration-500 " +
-              (isEvening ? "brightness-35 contrast-125 saturate-60" : "brightness-100 contrast-100")
+              "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 " +
+              (isEvening ? "opacity-0" : "opacity-100")
             }
           />
-          {/* Subtle outdoor glass reflection */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-sky-400/10 via-transparent to-white/10 pointer-events-none" />
+          <img
+            src="/images/window-night-800.webp"
+            srcSet="/images/window-night-480.webp 480w, /images/window-night-800.webp 800w, /images/window-night-1200.webp 1200w"
+            sizes="(max-width: 640px) 100vw, 600px"
+            alt="Scenic evening outside window"
+            className={
+              "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 " +
+              (isEvening ? "opacity-100" : "opacity-0")
+            }
+          />
+          {/* Subtle outdoor glass reflection sheen */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-sky-400/5 via-transparent to-white/10 pointer-events-none" />
         </div>
 
-        {/* Evening Ambient Glow Overlay */}
-        {isEvening && (
-          <div className="absolute inset-0 z-1 bg-amber-950/20 mix-blend-color-burn pointer-events-none" />
-        )}
-
         {/* Window Architecture: Top Cassette / Headrail */}
-        <div className="absolute top-0 inset-x-0 z-30 h-6 bg-gradient-to-b from-neutral-100 via-neutral-50 to-neutral-200 border-b border-black/20 shadow-xs flex items-center justify-between px-3">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-400">
+        <div className="absolute top-0 inset-x-0 z-30 h-6 bg-gradient-to-b from-neutral-800 via-neutral-900 to-black border-b border-black/40 shadow-sm flex items-center justify-between px-3">
+          <span className="text-[9px] font-bold uppercase tracking-widest text-neutral-300">
             {product.name}
           </span>
-          <div className="flex items-center gap-1 opacity-40">
-            <span className="size-1 rounded-full bg-neutral-500"></span>
-            <span className="size-1 rounded-full bg-neutral-500"></span>
+          <div className="flex items-center gap-1 opacity-50">
+            <span className="size-1 rounded-full bg-neutral-400"></span>
+            <span className="size-1 rounded-full bg-neutral-400"></span>
           </div>
         </div>
 
@@ -134,9 +141,11 @@ export default function ProductLivePreview({ product, selectedVariation }) {
         <div
           className="absolute top-6 inset-x-0 z-20 flex flex-col transition-all duration-500 ease-out overflow-hidden"
           style={{
-            height: isVerticalOrCurtain ? "calc(100% - 24px)" : `${coverage}%`,
+            height: isVerticalOrCurtain
+              ? "calc(100% - 24px - 4%)"
+              : `calc((100% - 24px - 4%) * ${coverage / 100})`,
             width: isVerticalOrCurtain ? `${coverage}%` : "100%",
-            filter: `drop-shadow(0px 8px 12px rgba(0, 0, 0, ${isEvening ? "0.6" : "0.35"}))`,
+            filter: `drop-shadow(0px 8px 14px rgba(0, 0, 0, ${isEvening ? "0.6" : "0.35"}))`,
           }}
         >
           {/* Blind Fabric / Texture Container with Multiply Tint */}
@@ -165,16 +174,18 @@ export default function ProductLivePreview({ product, selectedVariation }) {
 
             {/* Subtle Fabric Highlight Sheen */}
             <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-black/10 pointer-events-none" />
+
+            {/* Subtle warm room lighting in evening mode */}
+            {isEvening && (
+              <div className="absolute inset-0 bg-amber-500/10 mix-blend-soft-light pointer-events-none" />
+            )}
           </div>
 
           {/* Bottom Weighted Rail for Rollers/Venetians */}
           {!isVerticalOrCurtain && (
-            <div className="h-2.5 w-full bg-gradient-to-b from-neutral-200 to-neutral-300 border-t border-black/15 shadow-sm shrink-0" />
+            <div className="h-2.5 w-full bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-900 border-t border-black/30 shadow-sm shrink-0" />
           )}
         </div>
-
-        {/* Window Architecture: Bottom Window Sill */}
-        <div className="absolute bottom-0 inset-x-0 z-30 h-3.5 bg-gradient-to-b from-neutral-50 to-neutral-200 border-t border-black/15 shadow-md" />
 
         {/* Live Active Selection Overlay Badge */}
         <div className="absolute bottom-5 left-3.5 z-40 flex items-center gap-2 rounded-xl bg-forest/90 px-3 py-1.5 text-xs text-white shadow-lg backdrop-blur-sm border border-white/10 max-w-[85%]">

@@ -365,6 +365,18 @@
     "src": "/images/vision-1536.webp",
     "srcSet": "/images/vision-480.webp 480w, /images/vision-800.webp 800w, /images/vision-1200.webp 1200w, /images/vision-1536.webp 1536w"
   },
+  "window-day": {
+    "width": 1200,
+    "height": 896,
+    "src": "/images/window-day-1200.webp",
+    "srcSet": "/images/window-day-480.webp 480w, /images/window-day-800.webp 800w, /images/window-day-1200.webp 1200w"
+  },
+  "window-night": {
+    "width": 1200,
+    "height": 896,
+    "src": "/images/window-night-1200.webp",
+    "srcSet": "/images/window-night-480.webp 480w, /images/window-night-800.webp 800w, /images/window-night-1200.webp 1200w"
+  },
   "sunfilter": {
     "width": 1536,
     "height": 1024,
